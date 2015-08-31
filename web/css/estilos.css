@@ -1,0 +1,122 @@
+body{ 
+    background: url(img/car1.jpg) no-repeat center center fixed !important; 
+    -webkit-background-size: cover !important;
+    -moz-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover !important;
+}
+/*PANALES*/
+.panel-transparent {
+    background: none;
+}
+.panel-transparent .panel-heading{
+    background: rgba(122, 130, 136, 0.8)!important;
+}
+.panel-transparent .panel-body{
+    background: rgba(46, 51, 56, 0.8)!important;
+
+}
+.panel-heading {
+    color: white !important;
+}
+.panel-body{
+    color: deepskyblue !important;
+}
+/*NOTIFICACION*/
+#respuesta{
+    position: absolute;
+    color: white !important;
+    background: rgba(122, 130, 136, 0.8)!important;
+}
+/*BARRA MENU*/
+.navbar-static-top{
+    background-color: black !important; 
+}
+.navbar-brand:link,.navbar-brand:visited{
+    color: deepskyblue !important;
+}
+.navbar-brand:hover, .navbar-brand:active{
+    color: white !important;
+}
+#navbar li a:link,#navbar li a:visited{
+    color: deepskyblue !important;
+}
+#navbar li a:hover,#navbar li a:active{
+    color: white !important;
+}
+/*Estilos para la lista*/
+.tituloLista{
+    color: deepskyblue !important;
+    background-color: black !important;
+    border-top-left-radius: 5px; 
+    border-top-right-radius: 5px; 
+}
+/*Lista comun*/
+.lista1{
+    color: white !important;
+    background-color: deepskyblue !important;
+}
+.lista2{
+    color:  deepskyblue !important;
+    background-color: white!important;
+}
+/*Lista efecto al pasar por arriba*/
+.lista1:hover, .lista1:active,.lista2:hover, .lista2:active{
+    color: black !important;
+    background-color:  #BABABA !important; 
+}
+/*Lista comun y visitados*/
+.lista1:link, .lista1:visited{
+    color: white !important;
+    background-color: deepskyblue !important;
+}
+.lista2:link, .lista2:visited{
+    color:  deepskyblue !important;
+    background-color: white!important;
+}
+.lista-num{
+    text-align: right;
+}
+.lista-comun{
+    text-align: left;
+}
+.lista-ultimo{
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+/*Modales -ventanas-*/
+.modal-transparent {
+    background: none;
+    border: white 1px;
+}
+.modal-transparent .modal-header{
+    background: rgba(122, 130, 136, 0.9)!important;    
+    color:  black !important;
+    border-top-left-radius: 5px; 
+    border-top-right-radius: 5px; 
+}
+.modal-transparent .modal-body{
+    background: rgba(25,25,25, 0.9)!important;
+    color: white !important;
+}
+.modal-transparent .modal-footer{
+    background: rgba(122, 130, 136, 0.9)!important;
+    color: white !important;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+/**/
+.panel-title a:link,.panel-title a:visited{
+    color: deepskyblue !important;
+    text-decoration:none !important;  
+}
+.panel-title a:hover, .panel-title a:active{
+    color: white !important;
+}
+/*Lista restaurantes*/
+.listaRestaurante:hover, .listaRestaurante:active{
+     color: deepskyblue !important;
+}
+.listaRestaurante{
+      color: white !important;
+}
