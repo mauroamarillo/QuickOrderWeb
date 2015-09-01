@@ -39,7 +39,7 @@
         </style>
     </head>
     <%  if (error.equals("1")) {
-            out.print("<body  onload=\"mostrarRespuesta('<b>ERROR AL INICIAR  SESION  </b>',false)\" >");
+            out.print("<body  onload=\"mostrarRespuesta('<b> ERROR AL INICIAR  SESION  </b>',false)\" >");
         } else {
             if (session.getAttribute("nick") == null) {
                 out.print("<body onload=\"mostrarRespuesta('<b>Bienvenido Invitado!</b>',true)\" >");
