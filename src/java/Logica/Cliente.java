@@ -23,8 +23,8 @@ public class Cliente extends Usuario {
     private String imagen;
     private HashMap pedidos;
 
-    public Cliente(String nickname, String nombre, String email, String direccion, String apellido, Date fechaNac, String imagen, HashMap pedidos) {
-        super(nickname, nombre, email, direccion);
+    public Cliente(String nickname, String nombre, String email, String direccion, String apellido, Date fechaNac, String imagen, HashMap pedidos, String pwd) {
+        super(nickname, nombre, email, direccion, pwd);
         this.apellido = apellido;
         this.fechaNac = fechaNac;
         this.imagen = imagen;
@@ -41,7 +41,7 @@ public class Cliente extends Usuario {
                 DataPedidos.put(p.getNumero(), new DataPedido(p));
             }
         }
-        return new DataCliente(nickname, nombre, email, direccion, apellido, fechaNac, imagen, DataPedidos);
+        return new DataCliente(nickname, nombre, email, direccion, apellido, fechaNac, imagen, DataPedidos, pwd);
     }
 
     public String getApellido() {

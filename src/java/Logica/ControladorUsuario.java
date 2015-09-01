@@ -169,17 +169,17 @@ public final class ControladorUsuario {
         return consultarRestaurantesPorCategoria(categoria).size();
     }
 
-    public void insertarCliente(String nick, String email, String dir, String nombre, String apellido, String D, String M, String A, File img) throws SQLException, Exception {
+    public void insertarCliente(String nick, String email, String dir, String nombre, String apellido, String D, String M, String A, File img, String pwd) throws SQLException, Exception {
         Cliente C;
         Fecha fecha = new Fecha(D, M, A);
 
         if (img != null) {
-            C = new Cliente(nick, nombre, email, dir, apellido, fecha.getSQLDate(), img.getPath(), new HashMap());
+            C = new Cliente(nick, nombre, email, dir, apellido, fecha.getSQLDate(), img.getPath(), new HashMap(), pwd);
         } else {
-            C = new Cliente(nick, nombre, email, dir, apellido, fecha.getSQLDate(), "sin_imagen", new HashMap());
+            C = new Cliente(nick, nombre, email, dir, apellido, fecha.getSQLDate(), "sin_imagen", new HashMap(), pwd);
         }
         validarDatosC(C);
-        UsuarioDatos.agregarCliente(C.getNickname(), C.getNombre(), C.getEmail(), C.getDireccion(), C.getApellido(), C.getFechaNac(), C.getImagen());
+        UsuarioDatos.agregarCliente(C.getNickname(), C.getNombre(), C.getEmail(), C.getDireccion(), C.getApellido(), C.getFechaNac(), C.getImagen(), C.getPwd());
         if (img != null) {
             File destino = new File("C:\\imagenes\\" + nick + ".jpg");
             HerramientaArchivos.copiarArchivo(img, destino);
@@ -188,10 +188,10 @@ public final class ControladorUsuario {
         this.asignarPedidosAClientes();
     }
 
-    public void insertarRestaurante(String nick, String email, String dir, String nombre, HashMap IMGs, int cat[]) throws SQLException, Exception {
-        Restaurante R = new Restaurante(nick, nombre, email, dir, null, null, null, null);
+    public void insertarRestaurante(String nick, String email, String dir, String nombre, HashMap IMGs, int cat[], String pwd) throws SQLException, Exception {
+        Restaurante R = new Restaurante(nick, nombre, email, dir, null, null, null, null, pwd);
         validarDatosR(R, cat);
-        UsuarioDatos.agregarRestaurante(nick, nombre, email, dir);
+        UsuarioDatos.agregarRestaurante(nick, nombre, email, dir, pwd);
         for (int x = 0; x < cat.length; x++) {
             UsuarioDatos.agregarCategoriaARestaurante(nick, cat[x]);
         }
@@ -266,7 +266,7 @@ public final class ControladorUsuario {
         HashMap resultado = new HashMap();
         java.sql.ResultSet rs = UsuarioDatos.listarClientes();
         while (rs.next()) {
-            Cliente C = new Cliente(rs.getString("nickname"), rs.getString("nombre"), rs.getString("email"), rs.getString("direccion"), rs.getString("apellido"), rs.getDate("fechaN"), "sin_imagen", null);
+            Cliente C = new Cliente(rs.getString("nickname"), rs.getString("nombre"), rs.getString("email"), rs.getString("direccion"), rs.getString("apellido"), rs.getDate("fechaN"), "sin_imagen", null, rs.getString("contrasenia"));
             resultado.put(C.getNickname(), C);
         }
         Iterator it = resultado.entrySet().iterator();
@@ -286,7 +286,7 @@ public final class ControladorUsuario {
         HashMap resultado = new HashMap();
         java.sql.ResultSet rs = UsuarioDatos.listarRestaurantes();
         while (rs.next()) {
-            Restaurante R = new Restaurante(rs.getString("nickname"), rs.getString("nombre"), rs.getString("email"), rs.getString("direccion"), new HashMap(), new HashMap(), new HashMap(), new HashMap());
+            Restaurante R = new Restaurante(rs.getString("nickname"), rs.getString("nombre"), rs.getString("email"), rs.getString("direccion"), new HashMap(), new HashMap(), new HashMap(), new HashMap(), rs.getString("contrasenia"));
             resultado.put(R.getNickname(), R);
         }
         Iterator it = resultado.entrySet().iterator();

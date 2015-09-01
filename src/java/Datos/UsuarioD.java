@@ -35,16 +35,16 @@ public class UsuarioD {
         return rs.next();
     }
 
-    private void agregarUsuario(String nick, String nombre, String email, String direccion) throws SQLException, ClassNotFoundException {
+    private void agregarUsuario(String nick, String nombre, String email, String direccion, String pwd) throws SQLException, ClassNotFoundException {
         this.st = es.generarSt();
-        String Usuario = "INSERT INTO usuarios(nickname,nombre,email,direccion) "
-                + " VALUES('" + nick + "','" + nombre + "','" + email + "','" + direccion + "');";
+        String Usuario = "INSERT INTO usuarios(nickname,nombre,email,direccion, contrasenia) "
+                + " VALUES('" + nick + "','" + nombre + "','" + email + "','" + direccion + "', '" + pwd + "');";
         st.execute(Usuario);
         st.getConnection().close();
     }
 
-    public void agregarCliente(String nick, String nombre, String email, String direccion, String apellido, Date fechaN, String imagen) throws SQLException, ClassNotFoundException {
-        agregarUsuario(nick, nombre, email, direccion);
+    public void agregarCliente(String nick, String nombre, String email, String direccion, String apellido, Date fechaN, String imagen, String pwd) throws SQLException, ClassNotFoundException {
+        agregarUsuario(nick, nombre, email, direccion, pwd);
         this.st = es.generarSt();
         /*Registro al Usuario como cliente*/
         String Cliente = "INSERT INTO clientes(\"nicknameC\",\"apellido\",\"fechaN\") "
@@ -62,8 +62,8 @@ public class UsuarioD {
         st.getConnection().close();
     }
 
-    public void agregarRestaurante(String nick, String nombre, String email, String direccion) throws SQLException, ClassNotFoundException {
-        agregarUsuario(nick, nombre, email, direccion);
+    public void agregarRestaurante(String nick, String nombre, String email, String direccion, String pwd) throws SQLException, ClassNotFoundException {
+        agregarUsuario(nick, nombre, email, direccion, pwd);
         this.st = es.generarSt();
         String Restaurante = "INSERT INTO restaurantes(\"nicknameR\") "
                 + " VALUES('" + nick + "');";
