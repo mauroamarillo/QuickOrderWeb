@@ -19,6 +19,7 @@ import java.util.Map;
 public class DataCliente {
 
     private final String nickname;
+    private final String pwd;
     private final String nombre;
     private final String email;
     private final String direccion;
@@ -27,8 +28,9 @@ public class DataCliente {
     private final String imagen;
     private final HashMap pedidos;
 
-    public DataCliente(String nickname, String nombre, String email, String direccion, String apellido, Date fechaNac, String imagen, HashMap pedidos) {
+    public DataCliente(String nickname, String nombre, String email, String direccion, String apellido, Date fechaNac, String imagen, HashMap pedidos, String pwd) {
         this.nickname = nickname;
+        this.pwd = pwd;
         this.nombre = nombre;
         this.email = email;
         this.direccion = direccion;
@@ -40,6 +42,7 @@ public class DataCliente {
 
     public DataCliente(Cliente C) {
         this.nickname = C.getNickname();
+        this.pwd = C.getPwd();
         this.nombre = C.getNombre();
         this.email = C.getEmail();
         this.direccion = C.getDireccion();
@@ -60,6 +63,10 @@ public class DataCliente {
 
     public String getNickname() {
         return nickname;
+    }
+    
+    public String getPwd() {
+        return pwd;
     }
 
     public String getNombre() {

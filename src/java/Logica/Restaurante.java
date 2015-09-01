@@ -23,8 +23,8 @@ public class Restaurante extends Usuario {
     private HashMap promociones;
     private HashMap imagenes;
 
-    public Restaurante(String nickname, String nombre, String email, String direccion, HashMap categorias, HashMap individuales, HashMap promociones, HashMap imagenes) {
-        super(nickname, nombre, email, direccion);
+    public Restaurante(String nickname, String nombre, String email, String direccion, HashMap categorias, HashMap individuales, HashMap promociones, HashMap imagenes, String pwd) {
+        super(nickname, nombre, email, direccion, pwd);
         this.categorias = categorias;
         this.individuales = individuales;
         this.promociones = promociones;
@@ -63,7 +63,7 @@ public class Restaurante extends Usuario {
             imgs.put(x, I);
             x++;
         }
-        return new DataRestaurante(nickname, nombre, email, direccion, dataCategorias, dataIndividuales, dataPromociones, imgs);
+        return new DataRestaurante(nickname, nombre, email, direccion, dataCategorias, dataIndividuales, dataPromociones, imgs, pwd);
     }
 
     public HashMap getImagenes() {

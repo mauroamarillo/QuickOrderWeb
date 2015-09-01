@@ -19,6 +19,7 @@ import java.util.Map;
 public class DataRestaurante {
 
     private final String nickname;
+    private final String pwd;
     private final String nombre;
     private final String email;
     private final String direccion;
@@ -28,8 +29,9 @@ public class DataRestaurante {
     private final HashMap promociones;
     private final HashMap imagenes;
 
-    public DataRestaurante(String nickname, String nombre, String email, String direccion, HashMap categorias, HashMap individuales, HashMap promociones, HashMap imagenes) {
+    public DataRestaurante(String nickname, String nombre, String email, String direccion, HashMap categorias, HashMap individuales, HashMap promociones, HashMap imagenes, String pwd) {
         this.nickname = nickname;
+        this.pwd = pwd;
         this.nombre = nombre;
         this.email = email;
         this.direccion = direccion;
@@ -41,6 +43,7 @@ public class DataRestaurante {
 
     public DataRestaurante(Restaurante R) {
         this.nickname = R.getNickname();
+        this.pwd = R.getPwd();
         this.nombre = R.getNombre();
         this.email = R.getEmail();
         this.direccion = R.getDireccion();

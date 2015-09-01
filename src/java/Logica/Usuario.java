@@ -14,13 +14,23 @@ public abstract class Usuario{
     protected String nombre;
     protected String email;
     protected String direccion;
+    protected String pwd;
     
-    public Usuario(String nickname, String nombre, String email, String direccion){
+    public Usuario(String nickname, String nombre, String email, String direccion, String pwd){
         this.nickname = nickname;
         this.nombre = nombre;
         this.email = email;
         this.direccion = direccion;
+        this.pwd = pwd;
     } 
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
     
     public String getNickname(){
         return nickname;

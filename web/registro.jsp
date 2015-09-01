@@ -4,27 +4,30 @@
     Author     : Jean
 --%>
 
-<%@page import = "java.io.File" %>
-<%@page import = "Logica.ControladorUsuario" %>
-<%@page import = "java.lang.String" %>
+<%@page import="Logica.ControladorUsuario"%>
+<%@page import ="java.io.File" %>
+<%@page import ="java.lang.String" %>
 <%
     ControladorUsuario CU = new ControladorUsuario();
-    String user = request.getParameter("nick");
+    String nick = request.getParameter("nick");
     String pwd = request.getParameter("passwd");
     String nombre = request.getParameter("nombre");
+    String direccion = request.getParameter("direccion");
     String apellido = "apellido";
     String email = request.getParameter("email");
     String fecha = request.getParameter("fecha");
     String separador = " ";
     String[] temp;
-    temp = fecha.split(separador);
-    
-     try {
-      CU.insertarCliente(user, email, pwd, nombre, apellido, temp[0], temp[1].toLowerCase(), temp[2], null);
-     out.print("<br /> De  fiesta");
-     } catch (Exception e) {
-     out.print("ERROR! " + e.getMessage());
-     }
-    session.setAttribute("nick", user);
-    response.sendRedirect("index.jsp");
+    temp = fecha.split(separador); // reparo la fecha en 3
+
+    try {
+        CU.insertarCliente(nick, email, direccion, nombre, apellido, temp[0], temp[1].toLowerCase(), temp[2], null, pwd);
+        session.setAttribute("nick", nick);
+        response.sendRedirect("index.jsp");
+        // String nick, String email, String dir, String nombre, String apellido, String D, String M, String A, File img, String pwd
+    } catch (Exception e) {
+        out.print("<span style='font-weight:bold;color:red;'>" + e.getMessage() + "</span>");
+        out.print("</br><a href=\"index.jsp\">volver</a>");
+    }
+
 %>
