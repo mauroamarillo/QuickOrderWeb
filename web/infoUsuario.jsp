@@ -32,15 +32,8 @@
                     if (urlImg.equals("sin_imagen")) {
                         urlImg = "img/sin_img.jpg";
                     }
-<<<<<<< HEAD
                     out.print(urlImg);%> " class="img-thumbnail" style=" width:190px; height:190px;" />
-=======
-                    out.print(urlImg);%> " class="img-thumbnail 
-                    " style=" width:
-                     190px;
-                     height:
-                     190px;" />
->>>>>>> origin/master
+
             </div
             > <div 
                 class  
