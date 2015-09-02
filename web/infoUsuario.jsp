@@ -101,6 +101,8 @@
     });
     verPedido = function (x) {
         $('#ModalPedido').removeData('bs.modal');
+        $('#ModalPedido').modal({remote: 'modalCarga.html'});
+        $('#ModalPedido').removeData('bs.modal');
         $('#ModalPedido').modal({remote: 'verPedido.jsp?x=' + x});
         $('#ModalPedido').modal('show');
     };

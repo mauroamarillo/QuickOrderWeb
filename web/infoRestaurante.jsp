@@ -52,6 +52,7 @@
                         out.print("             <h3>" + DP.getNombre() + "</h3>");
                         out.print("                 <p>" + DP.getDescripcion() + "</p>");
                         out.print("                 <p>Precio: $" + DP.getPrecio() + "</p>");
+                        out.print("                 <p>Descuento: " + DP.getDescuento() + "%</p>");
                         if (DP.isActivo()) {
                             out.print("                 <p><b>Promocion Activa</b>");
                         } else {
@@ -175,7 +176,7 @@
 </div>
 <div id="ModalPromocion" class="modal fade">
     <div class="modal-dialog">
-        <div class="modal-content modal-transparent">
+        <div class="modal-content modal-transparent" id="ModalPromocionContenido">
 
         </div>
     </div>
@@ -185,6 +186,8 @@
         $('#tabs').tab();
     });
     verPromo = function (x) {
+        $('#ModalPromocion').removeData('bs.modal');
+        $('#ModalPromocion').modal({remote: 'modalCarga.html'});
         $('#ModalPromocion').removeData('bs.modal');
         $('#ModalPromocion').modal({remote: 'verPromo.jsp?x=' + x});
         $('#ModalPromocion').modal('show');

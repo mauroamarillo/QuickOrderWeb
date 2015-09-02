@@ -32,7 +32,7 @@
     <h3 class="form-signin-heading text-muted" style="color:white;"><%=DP.getNombre()%></h3>
 </div>
 <div class="modal-body"  style="color:black;">
-
+    <p>Descuento: <%=DP.getDescuento()%>%</p>
     <div class="tituloLista row "> 
         <label class="col-xs-6 lista-comun" > Producto </label>
         <label class="col-xs-2 lista-num" > Precio </label>
