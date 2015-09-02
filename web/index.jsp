@@ -39,13 +39,13 @@
         </style>
     </head>
     <%  if (error.equals("1")) {
-            out.print("<body  onload=\"mostrarRespuesta('<b> ERROR AL INICIAR  SESION  </b>',false)\" >");
+            out.print("<body  onload=\"mostrarRespuesta('<b> Usuario Invalido  </b>',false)\" >");
+        } else if (error.equals("2")) {
+            out.print("<body onload=\"mostrarRespuesta('<b>Contraseña Invalida</b>',true)\" >");
+        } else if (session.getAttribute("nick") == null) {
+            out.print("<body onload=\"mostrarRespuesta('<b>Bienvenido Invitado!</b>',true)\" >");
         } else {
-            if (session.getAttribute("nick") == null) {
-                out.print("<body onload=\"mostrarRespuesta('<b>Bienvenido Invitado!</b>',true)\" >");
-            } else {
-                out.print("<body onload=\"mostrarRespuesta('<b>Bienvenido " + session.getAttribute("nick") + "!</b>',true)\" >");
-            }
+            out.print("<body onload=\"mostrarRespuesta('<b>Bienvenido " + session.getAttribute("nick") + "!</b>',true)\" >");
         }
     %>
     <nav class="navbar navbar-inverse navbar-static-top " >
@@ -61,18 +61,20 @@
             </div>
             <div id="BARRA-QUE-SE-OCULTA" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a class="frameLink" href="#"> Buscar Productos </a></li>
+                    <li><a class="frameLink" href="verProductos.jsp"> Buscar Productos </a></li>
                         <%-- <li><a class="frameLink" href="#"> Imagenes </a></li>
                             <li><a class="frameLink" href="#"> Musica </a></li>--%>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <%
-                        if (session.getAttribute("nick") == null) {
+                        if (session.getAttribute(
+                                "nick") == null) {
                             out.print("<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#ModalLogin\">  Iniciar Sesion </a></li> "
                                     + "<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#ModalRegistro\"> Registro </a></li>");
                         } else {
-                            out.print("<li><a href=\"infoUsuario.jsp\" class=\"frameLink\">" + session.getAttribute("nick") + " </a></li> "
-                                    + "<li><a href=\"logout.jsp\"> Cerrar Sesion </a></li>");
+                            out.print("<li><a href=\"infoUsuario.jsp\" class=\"frameLink\">" + session.getAttribute("nombre") + " </a></li> "
+                                    + "<li><a href=\"#\"> Ver Carrito </a></li>"
+                                    + "<li><a href=\"logout\"> Cerrar Sesion </a></li>");
                         }
                     %>
 
@@ -80,44 +82,6 @@
             </div>
         </div>
     </nav>
-    <%-- Carrusel de Restaurantes todavia no esta bien :v--%>
-    <%-- <div id="myCarousel" class="carousel slide">
-          <div class="carousel-inner">
-              <div class="item active">
-                  <img src="img/car1.jpg" style="width: 100%; height: 246px;" alt="">
-                  <div class="container">
-                      <div class="carousel-caption">
-                          <h1>Example headline.</h1>
-                          <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                          <a class="btn btn-large btn-primary" href="#">Sign up today</a>
-                      </div>
-                  </div>
-              </div>
-              <div class="item">
-                  <img src="img/car2.jpg" style="width: 100%; height: 246px;" alt="">
-                  <div class="container">
-                      <div class="carousel-caption">
-                          <h1>Another example headline.</h1>
-                          <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                          <a class="btn btn-large btn-primary" href="#">Learn more</a>
-                      </div>
-                  </div>
-              </div>
-              <div class="item">
-                  <img src="img/car3.jpg" style="width: 100%; height: 246px;" alt="">
-                  <div class="container">
-                      <div class="carousel-caption">
-                          <h1>One more for good measure.</h1>
-                          <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                          <a class="btn btn-large btn-primary" href="#">Browse gallery</a>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-          <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
-      </div> --%>
-    <%-- Fin de carrusel --%>
     <%-- Saludo al entrar --%>
     <div id="respuesta" class="navbar navbar-left"></div>
     <div class="container">
@@ -195,7 +159,7 @@
     <div class="modal fade" id="ModalLogin" tabindex="-1" role="dialog" aria-labelledby="ModalLoginLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-transparent">
-                <form class="form-signin"  action="login.jsp" method="post">
+                <form class="form-signin"  action="login" method="post">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h3 class="form-signin-heading text-muted" style="color:white;">Iniciar Sesion</h3>

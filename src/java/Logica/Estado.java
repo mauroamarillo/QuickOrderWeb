@@ -12,5 +12,6 @@ package Logica;
 public enum Estado {
     preparacion,
     enviado,
-    recibido
+    recibido,
+    aconfirmar
 }

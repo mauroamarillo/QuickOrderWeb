@@ -45,8 +45,8 @@
                         if (urlImg.equals("sin_imagen")) {
                             urlImg = "img/sin_img.jpg";
                         }
-                        out.print("<div class=\"col-sm-6 col-md-4\">");
-                        out.print("     <div class=\"thumbnail\" >");
+                        out.print("<div class=\"col-sm-6 col-md-4 transparente\">");
+                        out.print("     <div class=\"thumbnail\">");
                         out.print("<img src=\"" + urlImg + "\" style=\"width: 100%; height: 150px;\"alt=\"" + DP.getNombre() + "\">");
                         out.print("         <div class=\"caption\">");
                         out.print("             <h3>" + DP.getNombre() + "</h3>");
@@ -188,8 +188,9 @@
     verPromo = function (x) {
         $('#ModalPromocion').removeData('bs.modal');
         $('#ModalPromocion').modal({remote: 'modalCarga.html'});
+        $('#ModalPromocion').modal('show');
         $('#ModalPromocion').removeData('bs.modal');
         $('#ModalPromocion').modal({remote: 'verPromo.jsp?x=' + x});
-        $('#ModalPromocion').modal('show');
+
     };
 </script>                   

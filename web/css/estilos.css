@@ -30,19 +30,53 @@ body{
 }
 /*BARRA MENU*/
 .navbar-static-top{
-    background-color: black !important; 
+    background-color: rgba(0,0,0, 0.0)!important;
+    border: none;
 }
-.navbar-brand:link,.navbar-brand:visited{
-    color: deepskyblue !important;
+.navbar-brand:link,.navbar-brand:visited{   /*logo por defecto*/
+    color: black !important;
+    text-shadow: 0 0 10px white,
+        0 0 5px  white,
+        0 0 5px white,
+        0 0 5px   white,
+        0 0 5px  white,
+        0 0 5px  white,
+        0 0 5px white,
+        0 0 5px white!important;
 }
-.navbar-brand:hover, .navbar-brand:active{
+.navbar-brand:hover, .navbar-brand:active{   /*logo con el raton arriba*/
     color: white !important;
+    text-shadow: 0 0 10px black,
+        0 0 5px  black,
+        0 0 5px black,
+        0 0 5px  black,
+        0 0 5px  black,
+        0 0 5px  black,
+        0 0 5px black,
+        0 0 5px black!important;
 }
-#navbar li a:link,#navbar li a:visited{
-    color: deepskyblue !important;
+#BARRA-QUE-SE-OCULTA li a:link,#BARRA-QUE-SE-OCULTA li a:visited{
+    color: black !important;
+    text-shadow: 0 0 10px white,
+        0 0 5px  white,
+        0 0 5px white,
+        0 0 5px   white,
+        0 0 5px  white,
+        0 0 5px  white,
+        0 0 5px white,
+        0 0 5px white!important;
 }
-#navbar li a:hover,#navbar li a:active{
+#BARRA-QUE-SE-OCULTA li a:hover,#BARRA-QUE-SE-OCULTAli a:active{
     color: white !important;
+    text-shadow: 0 0 10px black,
+        0 0 5px  black,
+        0 0 5px black,
+        0 0 5px  black,
+        0 0 5px  black,
+        0 0 5px  black,
+        0 0 5px black,
+        0 0 5px black!important;
+
 }
 /*Estilos para la lista*/
 .tituloLista{
@@ -115,8 +149,8 @@ body{
 }
 /*Lista restaurantes*/
 .listaRestaurante:hover, .listaRestaurante:active{
-     color: deepskyblue !important;
+    color: deepskyblue !important;
 }
 .listaRestaurante{
-      color: white !important;
+    color: white !important;
 }
