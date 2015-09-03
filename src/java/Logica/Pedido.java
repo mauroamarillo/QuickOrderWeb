@@ -104,5 +104,4 @@ public class Pedido {
     public void setProdPedidos(HashMap prodPedidos) {
         this.prodPedidos = prodPedidos;
     }
-
 }
