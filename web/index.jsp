@@ -73,7 +73,7 @@
                                     + "<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#ModalRegistro\"> Registro </a></li>");
                         } else {
                             out.print("<li><a href=\"infoUsuario.jsp\" class=\"frameLink\">" + session.getAttribute("nombre") + " </a></li> "
-                                    + "<li><a href=\"#\"> Ver Carrito </a></li>"
+                                    + "<li><a href=\"carrito.jsp\" class=\"frameLink\"> Ver Carrito </a></li>"
                                     + "<li><a href=\"logout\"> Cerrar Sesion </a></li>");
                         }
                     %>
@@ -130,7 +130,7 @@
                             <input type="text" name="direccion" id="direccion" class="form-control" placeholder="direccion*" required>
                         </div> 
                         <div class="form-group">
-                            <input type="email" name="email" id="email" class="form-control" placeholder="Email*" required>
+                            <input type="email" name="email" id="email" class="form-control " placeholder="Email*" required>
                             <div id="resultadoEmail"></div>
                         </div> 
                         <div class="form-group">

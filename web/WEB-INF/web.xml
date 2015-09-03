@@ -12,6 +12,10 @@
         <servlet-name>logout</servlet-name>
         <servlet-class>servlets.logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>agregarACarrito</servlet-name>
+        <servlet-class>servlets.agregarACarrito</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>control</servlet-name>
         <url-pattern>/control</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>logout</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>agregarACarrito</servlet-name>
+        <url-pattern>/agregarACarrito</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

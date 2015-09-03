@@ -61,8 +61,8 @@
                         out.print(" <input type=\"button\" onclick=\"verPromo('" + DP.getRestaurante() + "_" + DP.getNombre() + "');\" hidden=\"true\" id= \"Prod_" + DP.getNombre() + "\"/> <label  for=\"Prod_" + DP.getNombre() + "\"> <span class=\"glyphicon glyphicon-list-alt\" aria-hidden=\"true\"></span></label>");
                         out.print("                     <a href=\"#\" class=\"btn btn-primary\" role=\"button\" style=\"width: 100%;\">Pedidos Relacionados      </a>");
                         if (session.getAttribute("nick") != null && DP.isActivo()) {
-                            out.print("                     <a href=\"#\" class=\"btn btn-primary\" role=\"button\" style=\"width: 100%;\">Agregar A Pedido Existente</a>"
-                                    + "                     <a href=\"#\" class=\"btn btn-primary\" role=\"button\" style=\"width: 100%;\">Crear Nuevo Pedido        </a>");
+                            out.print("                     <input id=\"Cantidad_" + DP.getRestaurante() + "_" + DP.getNombre() + "\" class=\"number\" type=\"number\" min=\"1\" max=\"1000\" step=\"1\" value=\"1\">");
+                            out.print("                     <a href=\"" + DP.getRestaurante() + "_" + DP.getNombre() + "\" class=\"btn btn-primary agregarProducto\" role=\"button\" >Agregar Al Carrito</a>");
                         }
                         out.print("         </div>");
                         out.print("     </div>");
@@ -91,8 +91,8 @@
                         out.print("                 <p>Precio: $" + DI.getPrecio() + "</p>");
                         out.print("                     <a href=\"#\" class=\"btn btn-primary\" role=\"button\" style=\"width: 100%;\">Pedidos Relacionados      </a>");
                         if (session.getAttribute("nick") != null) {
-                            out.print("                     <a href=\"#\" class=\"btn btn-primary\" role=\"button\" style=\"width: 100%;\">Agregar A Pedido Existente</a>"
-                                    + "                     <a href=\"#\" class=\"btn btn-primary\" role=\"button\" style=\"width: 100%;\">Crear Nuevo Pedido        </a>");
+                            out.print("                     <input id=\"Cantidad_" + DI.getRestaurante() + "_" + DI.getNombre() + "\" class=\"number\" type=\"number\" min=\"1\" max=\"1000\" step=\"1\" value=\"1\">");
+                            out.print("                     <a href=\"" + DI.getRestaurante() + "_" + DI.getNombre() + "\" class=\"btn btn-primary agregarProducto\" role=\"button\">Agregar Al Carrito</a>");
                         }
                         out.print("         </div>");
                         out.print("     </div>");
@@ -184,13 +184,43 @@
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
         $('#tabs').tab();
-    });
+    });</script> 
+<script type="text/javascript">
     verPromo = function (x) {
         $('#ModalPromocion').removeData('bs.modal');
         $('#ModalPromocion').modal({remote: 'modalCarga.html'});
         $('#ModalPromocion').modal('show');
         $('#ModalPromocion').removeData('bs.modal');
         $('#ModalPromocion').modal({remote: 'verPromo.jsp?x=' + x});
-
-    };
+    };</script> 
+<script type="text/javascript">
+    $(".agregarProducto").each(function () {
+        var producto = $(this).attr("href");
+        if (producto !== "#") {
+            $(this).attr({href: "#"});
+            $(this).click(function () {
+                var cantidad = document.getElementById("Cantidad_" + producto).value;
+                var parametros = {
+                    P: producto,
+                    C: cantidad
+                };
+                /* Este metodo tambien sirve lo dejo por si se necesita despues
+                 *  $.ajax({
+                 type: "POST",
+                 url: "agregarACarrito",
+                 data: parametros,
+                 dataType: "html",
+                 error: function (data) {
+                 mostrarRespuesta(data, false);
+                 },
+                 success: function (data) {
+                 mostrarRespuesta(data, true);
+                 }
+                 });*/
+                $.post("agregarACarrito", parametros, function (result) {
+                    mostrarRespuesta(result, true);
+                });
+            });
+        }
+    });
 </script>                   

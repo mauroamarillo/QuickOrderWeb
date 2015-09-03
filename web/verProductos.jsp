@@ -37,6 +37,7 @@
                 out.print("<img src=\"" + urlImg + "\" style=\"width: 100%; height: 150px;\"alt=\"" + DP.getNombre() + "\">");
                 out.print("         <div class=\"caption\">");
                 out.print("             <h3>" + DP.getNombre() + "</h3>");
+                out.print("                 <p>" + DP.getRestaurante() + "</p>");
                 out.print("                 <p>" + DP.getDescripcion() + "</p>");
                 out.print("                 <p>Precio: $" + DP.getPrecio() + "</p>");
                 out.print("                 <p>Descuento: " + DP.getDescuento() + "%</p>");
@@ -48,8 +49,7 @@
                 out.print(" <input type=\"button\" onclick=\"verPromo('" + DP.getRestaurante() + "_" + DP.getNombre() + "');\" hidden=\"true\" id= \"Prod_" + DP.getNombre() + "\"/> <label  for=\"Prod_" + DP.getNombre() + "\"> <span class=\"glyphicon glyphicon-list-alt\" aria-hidden=\"true\"></span></label>");
                 out.print("                     <a href=\"#\" class=\"btn btn-primary\" role=\"button\" style=\"width: 100%;\">Pedidos Relacionados      </a>");
                 if (session.getAttribute("nick") != null && DP.isActivo()) {
-                    out.print("                     <a href=\"#\" class=\"btn btn-primary\" role=\"button\" style=\"width: 100%;\">Agregar A Pedido Existente</a>"
-                            + "                     <a href=\"#\" class=\"btn btn-primary\" role=\"button\" style=\"width: 100%;\">Crear Nuevo Pedido        </a>");
+                    out.print("                     <a href=\"#\" class=\"btn btn-primary\" role=\"button\" style=\"width: 100%;\">Agregar Al Carrito</a>");
                 }
                 out.print("         </div>");
                 out.print("     </div>");
@@ -72,12 +72,12 @@
                 out.print("<img src=\"" + urlImg + "\" style=\"width: 100%; height: 150px;\"alt=\"" + DI.getNombre() + "\">");
                 out.print("         <div class=\"caption\">");
                 out.print("             <h3>" + DI.getNombre() + "</h3>");
+                out.print("                 <p>" + DI.getRestaurante() + "</p>");
                 out.print("                 <p>" + DI.getDescripcion() + "</p>");
                 out.print("                 <p>Precio: $" + DI.getPrecio() + "</p>");
                 out.print("                     <a href=\"#\" class=\"btn btn-primary\" role=\"button\" style=\"width: 100%;\">Pedidos Relacionados      </a>");
                 if (session.getAttribute("nick") != null) {
-                    out.print("                     <a href=\"#\" class=\"btn btn-primary\" role=\"button\" style=\"width: 100%;\">Agregar A Pedido Existente</a>"
-                            + "                     <a href=\"#\" class=\"btn btn-primary\" role=\"button\" style=\"width: 100%;\">Crear Nuevo Pedido        </a>");
+                    out.print("                     <a href=\"#\" class=\"btn btn-primary\" role=\"button\" style=\"width: 100%;\">Agregar Al Carrito</a>");
                 }
                 out.print("         </div>");
                 out.print("     </div>");
