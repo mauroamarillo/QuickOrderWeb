@@ -471,11 +471,12 @@ public final class ControladorUsuario {
         
         while(it.hasNext()){
             Map.Entry entry = (Map.Entry) it.next();
-            Pedido pedido = (Pedido) entry.getValue();
+            DataPedido pedido = (DataPedido) entry.getValue();
             if(pedido.getEstado().equals(Estado.aconfirmar)){
-                result.put(pedido.getNumero(), pedido.getDataType());
+                result.put(pedido.getNumero(), pedido);
             }
         }
+        
         return result;
     }
     
@@ -485,11 +486,15 @@ public final class ControladorUsuario {
         
         while(it.hasNext()){
             Map.Entry entry = (Map.Entry) it.next();
-            Pedido pedido = (Pedido) entry.getValue();
-            if(pedido.getRestaurante().getNombre().equals(p.getProducto().getRestaurante())){
-                
-                // SI EL PRODUCTO YA ESTA EN EL PEDIDO HAY QUE SUMARLE LA CANTIDAD
-
+            DataPedido pedido = (DataPedido) entry.getValue();
+            if(pedido.getRestaurante().equals(p.getProducto().getRestaurante())){
+                Iterator itProd = pedido.getProdPedidos().entrySet().iterator();
+                while(itProd.hasNext()){
+                    ProdPedido prod = (ProdPedido) it.next();
+                    if(prod.getProducto().getNombre().equals(p.getProducto().getNombre())){
+                        PedidoDatos.modificarCantidadProducto(pedido.getNumero(), pedido.getRestaurante(), prod.getProducto().getNombre(), p.getCantidad() + prod.getCantidad());
+                    }
+                }
                 PedidoDatos.agregarLineaDePedido(pedido.getNumero(), p.getProducto().getRestaurante(), p.getProducto().getNombre(), p.getCantidad());
                 return;
             }
