@@ -199,10 +199,10 @@
         if (producto !== "#") {
             $(this).attr({href: "#"});
             $(this).click(function () {
-                var elemento = document.getElementById("Cantidad_" + producto).value;
+                var cantidad = document.getElementById("Cantidad_" + producto).value;
                 var parametros = {
                     P: producto,
-                    C: elemento
+                    C: cantidad
                 };
                 /* Este metodo tambien sirve lo dejo por si se necesita despues
                  *  $.ajax({

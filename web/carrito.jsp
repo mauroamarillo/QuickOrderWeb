@@ -28,7 +28,7 @@
         while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
             DataPedido DP = (DataPedido) entry.getValue();
-            if (DP.getEstado().equals(Estado.preparacion)) {
+            if (DP.getEstado().equals(Estado.aconfirmar)) {
     %>
     <div class="panel panel-transparent  panel-default">
         <div class="panel-heading" role="tab" id="<%=DP.getNumero()%>">

@@ -41,37 +41,30 @@ public class agregarACarrito extends HttpServlet {
             throws ServletException, IOException, SQLException, ClassNotFoundException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.print("<p>inicio proceso</p>");
             ControladorUsuario CU = new ControladorUsuario();
-            out.print("<p>inicio Controlador</p>");
             HttpSession session = request.getSession();
-            out.print("<p>obtengo session</p>");
             String prod = (String) request.getParameter("P");
-            out.print("<p>Producto: " + prod + "</p>");
             int cant = Integer.parseInt((String) request.getParameter("C"));
-            out.print("<p>Cantidad: " + cant + "</p>");
             String nick = (String) session.getAttribute("nick");
-            out.print("<p>usuario: " + nick + "</p>");
             if (CU.getCP().BuscarDataXRestaurante_Producto(prod) == null) {
-                out.print("<p>No Existe</p>");
+                out.print("<p>Error al buscar producto</p>");
             } else {
-                out.print("<p>Existe y lo busca </p>");
                 if (CU.getCP().BuscarDataXRestaurante_Producto(prod) instanceof DataIndividual) {
                     DataIndividual P = (DataIndividual) CU.getCP().BuscarDataXRestaurante_Producto(prod);
-                    out.print("<p>Individual: " + P.getNombre() + "</p>");
                     DataProdPedido DP = new DataProdPedido(cant, P);
-                    out.print("<p>ProPed: "+DP.getProducto().getNombre()+"</p>");
                     CU.agregarACarrito(DP, nick);
-                    out.print("<p>Concretado</p>");
+                    out.print("<p>Exito</p>");
+                    out.print("<p>" + cant + " " + DP.getProducto().getNombre() + "</p>");
+                    out.print("<p>Agregado al carrito</p>");
                 } else {
                     DataPromocion P = (DataPromocion) CU.getCP().BuscarDataXRestaurante_Producto(prod);
-                    out.print("<p>Promocion: " + P.getNombre() + "</p>");
                     DataProdPedido DP = new DataProdPedido(cant, P);
-                    out.print("<p>ProPed: "+DP.getProducto().getNombre()+"</p>");
                     CU.agregarACarrito(DP, nick);
-                    out.print("<p>Concretado</p>");
+                    out.print("<p>Exito</p>");
+                    out.print("<p>" + cant + " " + DP.getProducto().getNombre() + "</p>");
+                    out.print("<p>Agregado al carrito</p>");
                 }
-                out.print("<p>Exito</p>");
+
             }
 
             /* TODO output your page here. You may use following sample code. */
