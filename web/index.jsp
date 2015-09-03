@@ -239,8 +239,6 @@
                     });
                 });
             });
-    </script>
-    <script type="text/javascript">
             // $("#barraSup").load("barraSup.jsp");
             //cargo la direccion de los links frameLink en el frameContainer
             $(".frameLink").each(function () {
