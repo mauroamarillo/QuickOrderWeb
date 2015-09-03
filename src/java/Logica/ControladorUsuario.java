@@ -489,12 +489,16 @@ public final class ControladorUsuario {
             DataPedido pedido = (DataPedido) entry.getValue();
             if(pedido.getRestaurante().equals(p.getProducto().getRestaurante())){
                 Iterator itProd = pedido.getProdPedidos().entrySet().iterator();
+                
                 while(itProd.hasNext()){
-                    ProdPedido prod = (ProdPedido) it.next();
+                    Map.Entry entryProd =(Map.Entry) itProd.next();
+                    DataProdPedido prod = (DataProdPedido) entryProd.getValue();
                     if(prod.getProducto().getNombre().equals(p.getProducto().getNombre())){
                         PedidoDatos.modificarCantidadProducto(pedido.getNumero(), pedido.getRestaurante(), prod.getProducto().getNombre(), p.getCantidad() + prod.getCantidad());
+                        return;
                     }
                 }
+                
                 PedidoDatos.agregarLineaDePedido(pedido.getNumero(), p.getProducto().getRestaurante(), p.getProducto().getNombre(), p.getCantidad());
                 return;
             }

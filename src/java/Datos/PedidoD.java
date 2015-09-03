@@ -99,7 +99,7 @@ public class PedidoD {
     public void modificarCantidadProducto(int numero, String restaurante, String producto, int cantidad) throws SQLException, ClassNotFoundException{
         this.st = es.generarSt();
         String query = "UPDATE pedidos_producto SET cantidad = " + cantidad
-                + "WHERE pedido=" + numero + " AND restaurante=" + restaurante + " AND producto=" + producto + ";";
+                + "WHERE pedido=" + numero + " AND restaurante='" + restaurante + "' AND producto='" + producto + "';";
         st.execute(query);
         st.getConnection().close();
     }

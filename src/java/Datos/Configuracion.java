@@ -22,7 +22,7 @@ public class Configuracion {
     }
 
     public void conectarBD() throws ClassNotFoundException, SQLException {
-        String url = "jdbc:postgresql://localhost:5432/quickorderDB";
+        String url = "jdbc:postgresql://localhost:5433/quickorderDB";
         String usuario = "postgres";
         String contrasenia = "1234";
         if (conexion != null) {
