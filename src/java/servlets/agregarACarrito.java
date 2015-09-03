@@ -48,8 +48,8 @@ public class agregarACarrito extends HttpServlet {
             out.print("<p>obtengo session</p>");
             String prod = (String) request.getParameter("P");
             out.print("<p>Producto: " + prod + "</p>");
-            int cant = 1; //= (int) request.getAttribute("Cantidad");
-            out.print("<p>Cantidad " + (String) request.getParameter("C") + "</p>");
+            int cant = Integer.parseInt((String) request.getParameter("C"));
+            out.print("<p>Cantidad: " + cant + "</p>");
             String nick = (String) session.getAttribute("nick");
             out.print("<p>usuario: " + nick + "</p>");
             if (CU.getCP().BuscarDataXRestaurante_Producto(prod) == null) {
@@ -58,13 +58,17 @@ public class agregarACarrito extends HttpServlet {
                 out.print("<p>Existe y lo busca </p>");
                 if (CU.getCP().BuscarDataXRestaurante_Producto(prod) instanceof DataIndividual) {
                     DataIndividual P = (DataIndividual) CU.getCP().BuscarDataXRestaurante_Producto(prod);
-                    out.print("<p>Producto: " + P.getNombre() + "</p>");
-                    CU.agregarACarrito(new DataProdPedido(cant, P), nick);
+                    out.print("<p>Individual: " + P.getNombre() + "</p>");
+                    DataProdPedido DP = new DataProdPedido(cant, P);
+                    out.print("<p>ProPed: "+DP.getProducto().getNombre()+"</p>");
+                    CU.agregarACarrito(DP, nick);
                     out.print("<p>Concretado</p>");
                 } else {
                     DataPromocion P = (DataPromocion) CU.getCP().BuscarDataXRestaurante_Producto(prod);
-                    out.print("<p>Producto: " + P.getNombre() + "</p>");
-                    CU.agregarACarrito(new DataProdPedido(cant, P), nick);
+                    out.print("<p>Promocion: " + P.getNombre() + "</p>");
+                    DataProdPedido DP = new DataProdPedido(cant, P);
+                    out.print("<p>ProPed: "+DP.getProducto().getNombre()+"</p>");
+                    CU.agregarACarrito(DP, nick);
                     out.print("<p>Concretado</p>");
                 }
                 out.print("<p>Exito</p>");
