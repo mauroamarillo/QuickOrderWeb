@@ -195,8 +195,12 @@
                 url: "infoRestaurante.jsp",
                 data: "r=" + r,
                 dataType: "html",
+                beforeSend: function () {
+                    $("#frameContainer").load("cargando.html");
+                    $("#frameTitulo").html(" CARGANDO");
+                },
                 error: function () {
-                    $("#frameContainer").html("Error al cargar restaurante");
+                    $("#frameContainer").html(" Error al cargar restaurante");
                     $("#frameTitulo").html(" ERROR");
                     n();
                 },
@@ -236,16 +240,33 @@
                     });
                 });
             });
-
+    </script>
+    <script type="text/javascript">
             // $("#barraSup").load("barraSup.jsp");
             //cargo la direccion de los links frameLink en el frameContainer
             $(".frameLink").each(function () {
                 var href = $(this).attr("href");
+                var titulo = $(this).html();
                 if (href !== "#") {
                     $(this).attr({href: "#"});
                     $(this).click(function () {
-                        $("#frameContainer").load(href);
-                        $("#frameTitulo").html(" " + $(this).html());
+                        $.ajax({
+                            url: "infoRestaurante.jsp",
+                            beforeSend: function () {
+                                $("#frameContainer").load("cargando.html");
+                                $("#frameTitulo").html(" CARGANDO");
+                            },
+                            error: function () {
+                                $("#frameContainer").html(" Error al cargar restaurante");
+                                $("#frameTitulo").html(" ERROR");
+                                n();
+                            },
+                            success: function () {
+                                $("#frameContainer").load(href);
+                                $("#frameTitulo").html(" " + titulo);
+                                n();
+                            }
+                        });
                     });
                 }
             });
