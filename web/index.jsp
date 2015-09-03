@@ -19,7 +19,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Quick天Order</title>
+        <title>Quick　Order</title><%-- 天 --%>
         <link href ="css/bootstrap.min.css" rel="stylesheet" />
         <link href ="css/estilos.css" rel="stylesheet" />
         <link href="js/fancybox/jquery.fancybox-1.3.4.css" rel="stylesheet" type="text/css" media="screen" />
@@ -57,7 +57,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Quick天Order</a>
+                <a class="navbar-brand" href="#">Quick Order</a><%-- 天 --%>
             </div>
             <div id="BARRA-QUE-SE-OCULTA" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -67,8 +67,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <%
-                        if (session.getAttribute(
-                                "nick") == null) {
+                        if (session.getAttribute("nick") == null) {
                             out.print("<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#ModalLogin\">  Iniciar Sesion </a></li> "
                                     + "<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#ModalRegistro\"> Registro </a></li>");
                         } else {
@@ -98,7 +97,7 @@
             <div class="col-md-9">
                 <div class="panel panel-default panel-transparent">
                     <div class="panel-heading">
-                        <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span><span id="frameTitulo" > Quick天Order</span>
+                        <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span><span id="frameTitulo" > Quick<%-- 天 --%> Order</span>
                     </div>
                     <div class="panel-body" id ="frameContainer" >
                         Bienvenido
@@ -195,8 +194,12 @@
                 url: "infoRestaurante.jsp",
                 data: "r=" + r,
                 dataType: "html",
+                beforeSend: function () {
+                    $("#frameContainer").load("cargando.html");
+                    $("#frameTitulo").html(" CARGANDO");
+                },
                 error: function () {
-                    $("#frameContainer").html("Error al cargar restaurante");
+                    $("#frameContainer").html(" Error al cargar restaurante");
                     $("#frameTitulo").html(" ERROR");
                     n();
                 },
@@ -236,16 +239,33 @@
                     });
                 });
             });
-
+    </script>
+    <script type="text/javascript">
             // $("#barraSup").load("barraSup.jsp");
             //cargo la direccion de los links frameLink en el frameContainer
             $(".frameLink").each(function () {
                 var href = $(this).attr("href");
+                var titulo = $(this).html();
                 if (href !== "#") {
                     $(this).attr({href: "#"});
                     $(this).click(function () {
-                        $("#frameContainer").load(href);
-                        $("#frameTitulo").html(" " + $(this).html());
+                        $.ajax({
+                            url: "infoRestaurante.jsp",
+                            beforeSend: function () {
+                                $("#frameContainer").load("cargando.html");
+                                $("#frameTitulo").html(" CARGANDO");
+                            },
+                            error: function () {
+                                $("#frameContainer").html(" Error al cargar restaurante");
+                                $("#frameTitulo").html(" ERROR");
+                                n();
+                            },
+                            success: function () {
+                                $("#frameContainer").load(href);
+                                $("#frameTitulo").html(" " + titulo);
+                                n();
+                            }
+                        });
                     });
                 }
             });
