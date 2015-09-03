@@ -130,7 +130,7 @@
                             <input type="text" name="direccion" id="direccion" class="form-control" placeholder="direccion*" required>
                         </div> 
                         <div class="form-group">
-                            <input type="email" name="email" id="email" class="form-control" placeholder="Email*" required>
+                            <input type="email" name="email" id="email" class="form-control " placeholder="Email*" required>
                             <div id="resultadoEmail"></div>
                         </div> 
                         <div class="form-group">
