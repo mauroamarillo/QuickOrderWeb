@@ -8,7 +8,9 @@ import Logica.DataTypes.DataPedido;
 import Logica.DataTypes.DataProdPedido;
 import Logica.DataTypes.DataRestaurante;
 import java.io.File;
+import java.util.Calendar;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -460,6 +462,42 @@ public final class ControladorUsuario {
             }
         }
 
+    }
+    
+    public HashMap getPedidosCarrito(String nick) throws SQLException, ClassNotFoundException{
+        HashMap pedidos = getDataPedidos(nick);
+        HashMap result = new HashMap();
+        Iterator it = pedidos.entrySet().iterator();
+        
+        while(it.hasNext()){
+            Map.Entry entry = (Map.Entry) it.next();
+            Pedido pedido = (Pedido) entry.getValue();
+            if(pedido.getEstado().equals(Estado.aconfirmar)){
+                result.put(pedido.getNumero(), pedido.getDataType());
+            }
+        }
+        return result;
+    }
+    
+    public void agregarACarrito(DataProdPedido p, String nick) throws SQLException, ClassNotFoundException, Exception{
+        HashMap carrito = getPedidosCarrito(nick);
+        Iterator it = carrito.entrySet().iterator();
+        
+        while(it.hasNext()){
+            Map.Entry entry = (Map.Entry) it.next();
+            Pedido pedido = (Pedido) entry.getValue();
+            if(pedido.getRestaurante().getNombre().equals(p.getProducto().getRestaurante())){
+                
+                // SI EL PRODUCTO YA ESTA EN EL PEDIDO HAY QUE SUMARLE LA CANTIDAD
+
+                PedidoDatos.agregarLineaDePedido(pedido.getNumero(), p.getProducto().getRestaurante(), p.getProducto().getNombre(), p.getCantidad());
+                return;
+            }
+        }
+        
+        int numero = PedidoDatos.agregarPedido(new Fecha(Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.YEAR)).getSQLDate(), 3, nick, p.getProducto().getRestaurante());
+        
+        PedidoDatos.agregarLineaDePedido(numero, p.getProducto().getRestaurante(), p.getProducto().getNombre(), p.getCantidad());
     }
 
     public void cancelarPedido(int numero) throws SQLException, ClassNotFoundException {
