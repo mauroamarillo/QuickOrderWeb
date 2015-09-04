@@ -26,6 +26,13 @@ public class Fecha {
     private int agno;
 
     // CONSTRUCTORES
+    
+    public Fecha(){
+        this.dia = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        this.mes = Calendar.getInstance().get(Calendar.MONTH);
+        this.agno = Calendar.getInstance().get(Calendar.YEAR);
+    }
+    
     public Fecha(int dia, int mes, int agno) throws Exception {
 
         comprobarFecha(dia, mes, agno);
@@ -35,6 +42,7 @@ public class Fecha {
         this.agno = agno;
 
     }
+    
     public Fecha(String sDia, String sNombreMes, String sAgno) throws Exception {
 
         // Convertir las cadenas del dia y el año en numeros
