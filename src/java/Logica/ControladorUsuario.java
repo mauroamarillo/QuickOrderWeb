@@ -504,9 +504,13 @@ public final class ControladorUsuario {
             }
         }
         
-        int numero = PedidoDatos.agregarPedido(new Fecha(Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.YEAR)).getSQLDate(), 3, nick, p.getProducto().getRestaurante());
+        int numero = PedidoDatos.agregarPedido(new Fecha().getSQLDate(), 3, nick, p.getProducto().getRestaurante());
         
         PedidoDatos.agregarLineaDePedido(numero, p.getProducto().getRestaurante(), p.getProducto().getNombre(), p.getCantidad());
+    }
+    
+    public void calificarPedido(int numero, int calificacion, String comentario) throws SQLException, ClassNotFoundException{
+        PedidoDatos.calificarPedido(numero, new Fecha().getSQLDate(), calificacion, comentario);
     }
 
     public void cancelarPedido(int numero) throws SQLException, ClassNotFoundException {
