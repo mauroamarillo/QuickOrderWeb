@@ -103,4 +103,12 @@ public class PedidoD {
         st.execute(query);
         st.getConnection().close();
     }
+    
+    public void calificarPedido(int numero, Date fecha, int calificacion, String comentario) throws SQLException, ClassNotFoundException{
+        this.st = es.generarSt();
+        String query = "INSERT INTO calificaciones(fecha, pedido, puntaje, comentario)"
+            + "VALUES (" + fecha + ", " + numero + ", " + calificacion + ", '" + comentario + "');";
+        st.execute(query);
+        st.getConnection().close();
+    }
 }
