@@ -18,17 +18,18 @@
         return;
     }
     String nick = (String) session.getAttribute("nick");
-    ControladorUsuario CU = new ControladorUsuario();
-    HashMap pedidos = CU.getDataPedidos(nick);
-    boolean aconfirmar = false; // en un futuro vamoa a usar una funcion que devuelva solo los pedidos a confirmar, pero por ahora lo dejamos asi
-    for (Object value : pedidos.values()) {
-        if (((DataPedido) value).getEstado().equals(Estado.aconfirmar)) {
-            aconfirmar = true;
-            break;
-        }
+    ControladorUsuario CU = null;
+    if (session.getAttribute("CU") == null) {
+        CU = new ControladorUsuario();
+    } else {
+        CU = (ControladorUsuario) session.getAttribute("CU");
     }
-    if(!aconfirmar)
+    HashMap pedidos = CU.getPedidosCarrito(nick);
+
+    if (pedidos.size() < 1) {
         out.print("<p>No hay pedidos a confirmar</p>");
+        return;
+    }
 %>
 <!DOCTYPE html>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -92,7 +93,7 @@
             $(this).removeAttr("href");
             $(this).click(function () {
                 $(this).removeClass("confirmarPedido");
-                $(this).html("OK");
+                $(this).html("Confirmando");
                 $.post("confirmarPedido",
                         {p: pedido},
                 function (result) {

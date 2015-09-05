@@ -4,9 +4,12 @@
     Author     : Jean
 --%>
 
+<%@page import="Logica.ControladorUsuario"%>
 <%@page import="java.util.Random"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    ControladorUsuario CU = new ControladorUsuario();
+    session.setAttribute("CU", CU);
     String error;
     if (request.getParameter("error") != null) {
         error = request.getParameter("error");

@@ -7,7 +7,12 @@
 <%@page import = "Logica.ControladorUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    ControladorUsuario CU = new ControladorUsuario();
+    ControladorUsuario CU = null;
+    if (session.getAttribute("CU") == null) {
+        CU = new ControladorUsuario();
+    } else {
+        CU = (ControladorUsuario) session.getAttribute("CU");
+    }
     String user = request.getParameter("nick");
     if (user == null) {
         out.print("<span style='font-weight:bold;color:white;'>Ingrese un nickname</span>");

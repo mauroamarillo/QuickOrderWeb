@@ -463,64 +463,67 @@ public final class ControladorUsuario {
         }
 
     }
-    
-    public HashMap getPedidosCarrito(String nick) throws SQLException, ClassNotFoundException{
+
+    public HashMap getPedidosCarrito(String nick) throws SQLException, ClassNotFoundException {
         HashMap pedidos = getDataPedidos(nick);
         HashMap result = new HashMap();
         Iterator it = pedidos.entrySet().iterator();
-        
-        while(it.hasNext()){
+
+        while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
             DataPedido pedido = (DataPedido) entry.getValue();
-            if(pedido.getEstado().equals(Estado.aconfirmar)){
+            if (pedido.getEstado().equals(Estado.aconfirmar)) {
                 result.put(pedido.getNumero(), pedido);
             }
         }
-        
+
         return result;
     }
-    
-    public void agregarACarrito(DataProdPedido p, String nick) throws SQLException, ClassNotFoundException, Exception{
+
+    public void agregarACarrito(DataProdPedido p, String nick) throws SQLException, ClassNotFoundException, Exception {
         HashMap carrito = getPedidosCarrito(nick);
         Iterator it = carrito.entrySet().iterator();
-        
-        while(it.hasNext()){
+
+        while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
             DataPedido pedido = (DataPedido) entry.getValue();
-            if(pedido.getRestaurante().equals(p.getProducto().getRestaurante())){
+            if (pedido.getRestaurante().equals(p.getProducto().getRestaurante())) {
                 Iterator itProd = pedido.getProdPedidos().entrySet().iterator();
-                
-                while(itProd.hasNext()){
-                    Map.Entry entryProd =(Map.Entry) itProd.next();
+
+                while (itProd.hasNext()) {
+                    Map.Entry entryProd = (Map.Entry) itProd.next();
                     DataProdPedido prod = (DataProdPedido) entryProd.getValue();
-                    if(prod.getProducto().getNombre().equals(p.getProducto().getNombre())){
+                    if (prod.getProducto().getNombre().equals(p.getProducto().getNombre())) {
                         PedidoDatos.modificarCantidadProducto(pedido.getNumero(), pedido.getRestaurante(), prod.getProducto().getNombre(), p.getCantidad() + prod.getCantidad());
+                        this.asignarPedidosAClientes();
                         return;
                     }
                 }
-                
                 PedidoDatos.agregarLineaDePedido(pedido.getNumero(), p.getProducto().getRestaurante(), p.getProducto().getNombre(), p.getCantidad());
+                this.asignarPedidosAClientes();
                 return;
             }
         }
-        
+
         int numero = PedidoDatos.agregarPedido(new Fecha().getSQLDate(), 3, nick, p.getProducto().getRestaurante());
-        
+
         PedidoDatos.agregarLineaDePedido(numero, p.getProducto().getRestaurante(), p.getProducto().getNombre(), p.getCantidad());
+        this.asignarPedidosAClientes();
     }
-    
-    public void quitarLineaPedido(int pedido, String restaurante, String producto) throws SQLException, ClassNotFoundException, Exception{
-        if(getDataPedido(pedido).getEstado().equals(Estado.aconfirmar)){
+
+    public void quitarLineaPedido(int pedido, String restaurante, String producto) throws SQLException, ClassNotFoundException, Exception {
+        if (getDataPedido(pedido).getEstado().equals(Estado.aconfirmar)) {
             PedidoDatos.removerLineaDePedido(pedido, restaurante, producto);
-        }else{
+            asignarPedidosAClientes();
+        } else {
             throw new Exception("No se pueden modificar pedidos confirmados.");
         }
     }
-    
-    public void calificarPedido(int numero, int calificacion, String comentario) throws SQLException, ClassNotFoundException, Exception{
-        if(!getDataPedido(numero).getEstado().equals(Estado.aconfirmar)){
+
+    public void calificarPedido(int numero, int calificacion, String comentario) throws SQLException, ClassNotFoundException, Exception {
+        if (!getDataPedido(numero).getEstado().equals(Estado.aconfirmar)) {
             PedidoDatos.calificarPedido(numero, new Fecha().getSQLDate(), calificacion, comentario);
-        }else{
+        } else {
             throw new Exception("No se pueden calificar pedidos sin confirmar.");
         }
     }

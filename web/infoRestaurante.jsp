@@ -16,7 +16,12 @@
         response.sendRedirect("index.jsp");
     }
     String nick = (String) request.getParameter("r");
-    ControladorUsuario CU = new ControladorUsuario();
+    ControladorUsuario CU = null;
+    if (session.getAttribute("CU") == null) {
+        CU = new ControladorUsuario();
+    } else {
+        CU = (ControladorUsuario) session.getAttribute("CU");
+    }
     DataRestaurante DR = CU.buscarRestaurante(nick);
     if (DR == null) {                                           // si no se encuentra el restaurante
         out.print("<h1>No se encontro este restaurante</h1>");  // muestro el mensaje

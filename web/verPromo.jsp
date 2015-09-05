@@ -12,7 +12,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 
-    ControladorUsuario CU = new ControladorUsuario();
+    ControladorUsuario CU = null;
+    if (session.getAttribute("CU") == null) {
+        CU = new ControladorUsuario();
+    } else {
+        CU = (ControladorUsuario) session.getAttribute("CU");
+    }
     DataPromocion DP = null;
     if (request.getParameter("x") == null) {
         out.print("ERROR AL CARGAR DETALLE DEL PEDIDO");

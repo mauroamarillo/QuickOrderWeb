@@ -8,7 +8,12 @@
 <%@page import ="java.io.File" %>
 <%@page import ="java.lang.String" %>
 <%
-    ControladorUsuario CU = new ControladorUsuario();
+    ControladorUsuario CU = null;
+    if (session.getAttribute("CU") == null) {
+        CU = new ControladorUsuario();
+    } else {
+        CU = (ControladorUsuario) session.getAttribute("CU");
+    }
     String nick = request.getParameter("nick");
     String pwd = request.getParameter("passwd");
     String nombre = request.getParameter("nombre");

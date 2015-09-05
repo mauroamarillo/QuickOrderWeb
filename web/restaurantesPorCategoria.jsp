@@ -15,7 +15,12 @@
 <!DOCTYPE html>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <%
-        ControladorUsuario CU = new ControladorUsuario();
+        ControladorUsuario CU = null;
+        if (session.getAttribute("CU") == null) {
+            CU = new ControladorUsuario();
+        } else {
+            CU = (ControladorUsuario) session.getAttribute("CU");
+        }
         HashMap categorias = CU.getCategorias();
         Iterator it = categorias.entrySet().iterator();
         while (it.hasNext()) {

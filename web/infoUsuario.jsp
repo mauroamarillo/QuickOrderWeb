@@ -16,7 +16,12 @@
         response.sendRedirect("index.jsp");
     }
     String nick = (String) session.getAttribute("nick");
-    ControladorUsuario CU = new ControladorUsuario();
+    ControladorUsuario CU = null;
+    if (session.getAttribute("CU") == null) {
+        CU = new ControladorUsuario();
+    } else {
+        CU = (ControladorUsuario) session.getAttribute("CU");
+    }
     DataCliente DC = CU.buscarCliente(nick);
 %>
 <div id="content">
@@ -66,22 +71,22 @@
                 while (IT.hasNext()) {
                     Map.Entry entry = (Map.Entry) IT.next();
                     DataPedido DP = (DataPedido) entry.getValue();
-                    if(!DP.getEstado().equals(Estado.aconfirmar)){
-                    if (!IT.hasNext()) {
-                        ultimo = "lista-ultimo";
+                    if (!DP.getEstado().equals(Estado.aconfirmar)) {
+                        if (!IT.hasNext()) {
+                            ultimo = "lista-ultimo";
+                        }
+                        out.print(" <div class=\"col-xs-12 lista" + x + " " + ultimo + "\"> <input type=\"button\" onclick=\"verPedido(" + DP.getNumero() + ");\" hidden=\"true\" id= \"checkProd" + DP.getNumero() + "\"/>");
+                        out.print(" <label class=\"col-xs-3\" for=\"checkProd" + DP.getNumero() + "\">" + DP.getNumero() + " </label>");
+                        out.print(" <label class=\"col-xs-3 lista-num\" for=\"checkProd" + DP.getNumero() + "\">$" + DP.getPrecio() + " </label>");
+                        out.print(" <label class=\"col-xs-3\" for=\"checkProd" + DP.getNumero() + "\">" + DP.getFecha() + " </label> ");
+                        out.print(" <label class=\"col-xs-3\" for=\"checkProd" + DP.getNumero() + "\">" + DP.getRestaurante() + " </label> ");
+                        out.print(" </div> ");
+                        if (x == 1) {
+                            x = 2;
+                        } else {
+                            x = 1;
+                        }
                     }
-                    out.print(" <div class=\"col-xs-12 lista" + x + " " + ultimo + "\"> <input type=\"button\" onclick=\"verPedido(" + DP.getNumero() + ");\" hidden=\"true\" id= \"checkProd" + DP.getNumero() + "\"/>");
-                    out.print(" <label class=\"col-xs-3\" for=\"checkProd" + DP.getNumero() + "\">" + DP.getNumero() + " </label>");
-                    out.print(" <label class=\"col-xs-3 lista-num\" for=\"checkProd" + DP.getNumero() + "\">$" + DP.getPrecio() + " </label>");
-                    out.print(" <label class=\"col-xs-3\" for=\"checkProd" + DP.getNumero() + "\">" + DP.getFecha() + " </label> ");
-                    out.print(" <label class=\"col-xs-3\" for=\"checkProd" + DP.getNumero() + "\">" + DP.getRestaurante() + " </label> ");
-                    out.print(" </div> ");
-                    if (x == 1) {
-                        x = 2;
-                    } else {
-                        x = 1;
-                    }
-                }
                 }
             %>
         </div>

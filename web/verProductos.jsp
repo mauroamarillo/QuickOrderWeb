@@ -12,7 +12,12 @@
 <%@page import="Logica.ControladorUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    ControladorUsuario CU = new ControladorUsuario();
+    ControladorUsuario CU = null;
+    if (session.getAttribute("CU") == null) {
+        CU = new ControladorUsuario();
+    } else {
+        CU = (ControladorUsuario) session.getAttribute("CU");
+    }
     HashMap ListaProductos = new HashMap();
     ListaProductos.putAll(CU.getCP().getDataIndividuales());
     ListaProductos.putAll(CU.getCP().getDataPromociones());

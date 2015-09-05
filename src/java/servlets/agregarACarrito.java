@@ -41,8 +41,14 @@ public class agregarACarrito extends HttpServlet {
             throws ServletException, IOException, SQLException, ClassNotFoundException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            ControladorUsuario CU = new ControladorUsuario();
             HttpSession session = request.getSession();
+            ControladorUsuario CU = null;
+            if (session.getAttribute("CU") == null) {
+                CU = new ControladorUsuario();
+            } else {
+                CU = (ControladorUsuario) session.getAttribute("CU");
+            }
+
             String prod = (String) request.getParameter("P");
             int cant = Integer.parseInt((String) request.getParameter("C"));
             String nick = (String) session.getAttribute("nick");

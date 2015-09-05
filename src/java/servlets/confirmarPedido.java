@@ -36,7 +36,13 @@ public class confirmarPedido extends HttpServlet {
             throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            ControladorUsuario CU = new ControladorUsuario();            
+            HttpSession session = request.getSession();
+            ControladorUsuario CU = null;
+            if (session.getAttribute("CU") == null) {
+                CU = new ControladorUsuario();
+            } else {
+                CU = (ControladorUsuario) session.getAttribute("CU");
+            }
             int pedido = Integer.parseInt((String) request.getParameter("p"));
             CU.cambiarEstadoPedido(pedido, 0);
             out.println("<p>Pedido Confirmado</p>");
