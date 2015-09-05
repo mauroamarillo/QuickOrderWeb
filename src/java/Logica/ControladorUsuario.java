@@ -509,8 +509,20 @@ public final class ControladorUsuario {
         PedidoDatos.agregarLineaDePedido(numero, p.getProducto().getRestaurante(), p.getProducto().getNombre(), p.getCantidad());
     }
     
-    public void calificarPedido(int numero, int calificacion, String comentario) throws SQLException, ClassNotFoundException{
-        PedidoDatos.calificarPedido(numero, new Fecha().getSQLDate(), calificacion, comentario);
+    public void quitarLineaPedido(int pedido, String restaurante, String producto) throws SQLException, ClassNotFoundException, Exception{
+        if(getDataPedido(pedido).getEstado().equals(Estado.aconfirmar)){
+            PedidoDatos.removerLineaDePedido(pedido, restaurante, producto);
+        }else{
+            throw new Exception("No se pueden modificar pedidos confirmados.");
+        }
+    }
+    
+    public void calificarPedido(int numero, int calificacion, String comentario) throws SQLException, ClassNotFoundException, Exception{
+        if(!getDataPedido(numero).getEstado().equals(Estado.aconfirmar)){
+            PedidoDatos.calificarPedido(numero, new Fecha().getSQLDate(), calificacion, comentario);
+        }else{
+            throw new Exception("No se pueden calificar pedidos sin confirmar.");
+        }
     }
 
     public void cancelarPedido(int numero) throws SQLException, ClassNotFoundException {

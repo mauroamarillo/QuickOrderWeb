@@ -111,4 +111,12 @@ public class PedidoD {
         st.execute(query);
         st.getConnection().close();
     }
+    
+    public void removerLineaDePedido(int pedido, String restaurante, String producto) throws SQLException, ClassNotFoundException{
+        this.st = es.generarSt();
+        String query = "DELETE FROM pedidos_producto"
+            + " WHERE pedido = " + pedido + " AND restaurante = '" + restaurante + "' AND producto = '" + producto + "';";
+        st.execute(query);
+        st.getConnection().close();
+    }
 }
