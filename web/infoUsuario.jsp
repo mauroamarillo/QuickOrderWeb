@@ -4,6 +4,7 @@
     Author     : Jean
 --%>
 
+<%@page import="Logica.Estado"%>
 <%@page import="Logica.DataTypes.DataPedido"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
@@ -65,6 +66,7 @@
                 while (IT.hasNext()) {
                     Map.Entry entry = (Map.Entry) IT.next();
                     DataPedido DP = (DataPedido) entry.getValue();
+                    if(!DP.getEstado().equals(Estado.aconfirmar)){
                     if (!IT.hasNext()) {
                         ultimo = "lista-ultimo";
                     }
@@ -79,6 +81,7 @@
                     } else {
                         x = 1;
                     }
+                }
                 }
             %>
         </div>

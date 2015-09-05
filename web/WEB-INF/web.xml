@@ -16,6 +16,10 @@
         <servlet-name>agregarACarrito</servlet-name>
         <servlet-class>servlets.agregarACarrito</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>confirmarPedido</servlet-name>
+        <servlet-class>servlets.confirmarPedido</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>control</servlet-name>
         <url-pattern>/control</url-pattern>
@@ -31,6 +35,10 @@
     <servlet-mapping>
         <servlet-name>agregarACarrito</servlet-name>
         <url-pattern>/agregarACarrito</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>confirmarPedido</servlet-name>
+        <url-pattern>/confirmarPedido</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

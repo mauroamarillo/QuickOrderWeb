@@ -185,7 +185,19 @@
         !window.jQuery && document.write('<script src="js/jquery.min.js"><\/script>');
     </script>
     <script type="text/javascript">
-        $("#barraRestauranes").load("restaurantesPorCategoria.jsp");
+        $.ajax({
+            beforeSend: function () {
+                $("#barraRestauranes").load("cargando.html");
+            },
+            error: function () {
+                $("#barraRestauranes").html("Error al cargar restaurante");
+                n();
+            },
+            success: function () {
+                $("#barraRestauranes").load("restaurantesPorCategoria.jsp");
+                n();
+            }
+        });
     </script>
     <script type="text/javascript">
         cargarResaurante = function (r) {

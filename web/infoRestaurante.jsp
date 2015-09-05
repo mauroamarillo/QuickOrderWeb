@@ -197,7 +197,7 @@
     $(".agregarProducto").each(function () {
         var producto = $(this).attr("href");
         if (producto !== "#") {
-            $(this).attr({href: "#"});
+            $(this).removeAttr("href");
             $(this).click(function () {
                 var cantidad = document.getElementById("Cantidad_" + producto).value;
                 var parametros = {
