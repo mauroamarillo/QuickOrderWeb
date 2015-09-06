@@ -20,6 +20,18 @@
         <servlet-name>confirmarPedido</servlet-name>
         <servlet-class>servlets.confirmarPedido</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>eliminarLineaPedido</servlet-name>
+        <servlet-class>servlets.eliminarLineaPedido</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>confirmarTodo</servlet-name>
+        <servlet-class>servlets.confirmarTodo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>calificarPedido</servlet-name>
+        <servlet-class>servlets.calificarPedido</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>control</servlet-name>
         <url-pattern>/control</url-pattern>
@@ -39,6 +51,18 @@
     <servlet-mapping>
         <servlet-name>confirmarPedido</servlet-name>
         <url-pattern>/confirmarPedido</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>eliminarLineaPedido</servlet-name>
+        <url-pattern>/eliminarLineaPedido</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>confirmarTodo</servlet-name>
+        <url-pattern>/confirmarTodo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>calificarPedido</servlet-name>
+        <url-pattern>/calificarPedido</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

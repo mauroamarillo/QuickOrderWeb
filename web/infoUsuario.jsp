@@ -4,6 +4,10 @@
     Author     : Jean
 --%>
 
+<%@page import="Logica.DataTypes.DataIndividual"%>
+<%@page import="Logica.DataTypes.DataPromocion"%>
+<%@page import="Logica.DataTypes.DataProdPedido"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="Logica.Estado"%>
 <%@page import="Logica.DataTypes.DataPedido"%>
 <%@page import="java.util.Map"%>
@@ -57,7 +61,7 @@
         </div>
         </br>
         <div class="tab-pane" id="Pedidos">
-            <div class="col-xs-12 tituloLista"> 
+            <%--<div class="col-xs-12 tituloLista"> 
                 <label class="col-xs-3" > Numero </label>
                 <label class="col-xs-3 lista-num" > Precio </label>
                 <label class="col-xs-3" > Fecha </label>
@@ -88,7 +92,68 @@
                         }
                     }
                 }
-            %>
+            %>--%>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <%
+                    Iterator it = CU.getDataPedidos(nick).entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry entry = (Map.Entry) it.next();
+                        DataPedido DP = (DataPedido) entry.getValue();
+                        if (!DP.getEstado().equals(Estado.aconfirmar)) {
+                %>
+                <div class="panel panel-pedido  panel-default">
+                    <div class="panel-heading" role="tab" id="<%=DP.getNumero()%>">
+                        <div class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=DP.getNumero()%>" aria-expanded="true" aria-controls="collapseOne">
+                                <b>Fecha:</b> <%=DP.getFecha()%>  |  <b>Restaurante:</b> <%=CU.buscarRestaurante(DP.getRestaurante()).getNombre()%> | <b>Total:</b> $<%=DP.getPrecio()%>
+                            </a>
+                            <a href="<%=DP.getNumero()%>" style="float: right;" class="calificarPedido"><span class="glyphicon glyphicon-pencil"></span></a>
+                        </div>
+                    </div>
+                    <div id="collapse<%=DP.getNumero()%>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%=DP.getNumero()%>">
+                        <div style="padding: 10px; " >
+                            <ul class="media-list">
+                                <%
+                                    HashMap DataProdPedido = DP.getProdPedidos();
+                                    Iterator it2 = DataProdPedido.entrySet().iterator();
+                                    while (it2.hasNext()) {
+                                        Map.Entry entry2 = (Map.Entry) it2.next();
+                                        DataProdPedido DPP = (DataProdPedido) entry2.getValue();
+                                %>
+                                <li class="media" id="<%=DP.getNumero()%>_<%=DP.getRestaurante()%>_<%=DPP.getProducto().getNombre()%>">
+                                    <div class="media-left">
+                                        <img class="media-object img-thumbnail" src="<%=DPP.getProducto().getImagen()%>" alt="<%=DPP.getProducto().getNombre()%>"  class="img img-thumbnail" style=" width:105px; height:105px;">
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading" ><%=DPP.getProducto().getNombre()%></h4>
+                                        Precio unitario: $<%=DPP.getProducto().getPrecio()%> <br/>
+                                        cantidad:<%=DPP.getCantidad()%> <br/>
+                                        Subtotal: $<%=(DPP.getProducto().getPrecio() * DPP.getCantidad())%> <br/>
+                                        <%
+                                            if (DPP.getProducto() instanceof DataPromocion) {
+                                        %>
+                                        Tipo: Promocional (<%=((DataPromocion) DPP.getProducto()).getDescuento()%>% Descuento)<br/> 
+                                        <%
+                                            }
+                                            if (DPP.getProducto() instanceof DataIndividual) {
+                                        %>
+                                        Tipo: Individual <br/> 
+                                        <%
+                                            }
+
+                                        %>
+                                    </div>
+                                </li>
+                                <%}%><%-- Esta llave cierra  el segundo while--%>
+
+                            </ul>
+                        </div> 
+                    </div>
+                </div>
+                <%        }
+                    }
+                %>
+            </div>
         </div>
         <div class="tab-pane" id="Configuracion">
             <h1>Configuracion</h1>
@@ -112,6 +177,20 @@
         $('#ModalPedido').modal({remote: 'modalCarga.html'});
         $('#ModalPedido').removeData('bs.modal');
         $('#ModalPedido').modal({remote: 'verPedido.jsp?x=' + x});
+        $('#ModalPedido').modal('show');
+    };
+    $(".calificarPedido").each(function () {
+        var href = $(this).attr("href");       
+        if (href !== "#") {
+            $(this).removeAttr("href");
+            $(this).click(function () {
+                calificarPedido(href);
+            });
+        }
+    });
+    calificarPedido = function (x) {
+        $('#ModalPedido').removeData('bs.modal');
+        $('#ModalPedido').modal({remote: 'calificarPedido.jsp?pedido=' + x});
         $('#ModalPedido').modal('show');
     };
 </script>    

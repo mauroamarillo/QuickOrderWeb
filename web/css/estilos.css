@@ -8,14 +8,14 @@ body{
 /*Links que no pierden el href por javascript*/
 .confirmarPedido:hover{
     cursor: pointer;
-    text-shadow: 0 0 10px black,
-        0 0 5px  black,
-        0 0 5px black,
-        0 0 5px  black,
-        0 0 5px  black,
-        0 0 5px  black,
-        0 0 5px black,
-        0 0 5px black!important;
+    text-shadow: 0 0 10px deepskyblue,
+        0 0 5px  deepskyblue,
+        0 0 5px deepskyblue,
+        0 0 5px  deepskyblue,
+        0 0 5px  deepskyblue,
+        0 0 5px  deepskyblue,
+        0 0 5px deepskyblue,
+        0 0 5px deepskyblue!important;
 }
 /*PANELES*/
 .panel-transparent {
@@ -181,3 +181,10 @@ body{
     color: white !important;
 }
 /*lista de pedidos*/
+.media-list li{
+    background: rgba(0,0,0, 0.9);
+    border: rgba(25,25,25, 0.8);
+    border-radius: 5px 5px 5px 5px;
+    border-style: solid ;
+    padding: 0px !important;
+}
