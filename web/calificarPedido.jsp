@@ -14,9 +14,12 @@
 <!DOCTYPE html>
 <style>
 
-
-    input[type = "radio"]{ display:none;/*position: absolute;top: -1000em;*/}
-    label{ color:grey;}
+    input[type = "radio"]{ 
+        display:none;
+    }
+    label{
+        color:grey;
+    }
 
     .clasificacion{
         direction: rtl;
@@ -26,8 +29,12 @@
     }
 
     label:hover,
-    label:hover ~ label{color:orange;}
-    input[type = "radio"]:checked ~ label{color:orange;}
+    label:hover ~ label{
+        color:orange;
+    }
+    input[type = "radio"]:checked ~ label{
+        color:orange;
+    }
 
 </style>
 

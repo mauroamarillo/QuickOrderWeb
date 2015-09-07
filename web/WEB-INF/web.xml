@@ -32,6 +32,10 @@
         <servlet-name>calificarPedido</servlet-name>
         <servlet-class>servlets.calificarPedido</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>verificar</servlet-name>
+        <servlet-class>servlets.verificar</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>control</servlet-name>
         <url-pattern>/control</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>calificarPedido</servlet-name>
         <url-pattern>/calificarPedido</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>verificar</servlet-name>
+        <url-pattern>/verificar</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
