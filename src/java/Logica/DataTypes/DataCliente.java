@@ -8,6 +8,7 @@ package Logica.DataTypes;
 import Logica.Cliente;
 import Logica.Pedido;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class DataCliente {
         this.pedidos = pedidos;
     }
 
-    public DataCliente(Cliente C) {
+    public DataCliente(Cliente C) throws SQLException, ClassNotFoundException {
         this.nickname = C.getNickname();
         this.pwd = C.getPwd();
         this.nombre = C.getNombre();
