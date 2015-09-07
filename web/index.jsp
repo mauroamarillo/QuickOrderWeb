@@ -126,21 +126,21 @@
                             <div id="resultado"></div>
                         </div> 
                         <div class="form-group">
-                            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre Usuario*" required>
+                            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre Usuario*" required/>
                         </div> 
                         <div class="form-group">
-                            <input type="text" name="direccion" id="direccion" class="form-control" placeholder="direccion*" required>
+                            <input type="text" name="direccion" id="direccion" class="form-control" placeholder="direccion*" required/>
                         </div> 
                         <div class="form-group">
-                            <input type="email" name="email" id="email" class="form-control " placeholder="Email*" required>
+                            <input type="email" name="email" id="email" class="form-control " placeholder="Email*" required/>
                             <div id="resultadoEmail"></div>
                         </div> 
                         <div class="form-group">
-                            <input type="password" name="passwd" id="passwd" class="form-control" placeholder="Contraseña*" required>
+                            <input type="password" name="passwd" id="passwd" class="form-control" placeholder="Contraseña*" required/>
                         </div> 
                         <div class="form-group">
                             <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                <input type="text" name="fecha" class="form-control" size="16" placeholder="Fecha Nacimiento*" required >
+                                <input type="text" id="fecha" name="fecha" class="form-control" size="16" placeholder="Fecha Nacimiento*" required />
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
@@ -229,18 +229,16 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            var consulta;
             //comprobamos si se pulsa una tecla
             $("#nick").keyup(function (e) {
                 //obtenemos el texto introducido en el campo
-                consulta = $("#nick").val();
+                var consulta = $("#nick").val();
                 //hace la búsqueda          
                 $("#resultado").delay(1000).queue(function (n) {
-                    // antes ponia un botoncito como que estaba cargando, pero incha bastabte
                     // $("#resultado").html('<img src="img/ajax-loader.gif" />');
                     $.ajax({
                         type: "POST",
-                        url: "verificarNombre.jsp",
+                        url: "verificar",
                         data: "nick=" + consulta,
                         dataType: "html",
                         error: function () {
@@ -254,7 +252,32 @@
                     });
                 });
             });
-            // $("#barraSup").load("barraSup.jsp");
+             //comprobamos si se pulsa una tecla
+            $("#email").keyup(function (e) {
+                //obtenemos el texto introducido en el campo
+                var consulta = $("#email").val();
+                //hace la búsqueda          
+                $("#resultadoEmail").delay(1000).queue(function (n) {
+                    // $("#resultado").html('<img src="img/ajax-loader.gif" />');
+                    $.ajax({
+                        type: "POST",
+                        url: "verificar",
+                        data: "email=" + consulta,
+                        dataType: "html",
+                        error: function () {
+                            $("#resultadoEmail").html("Error en la peticion ajax");
+                            n();
+                        },
+                        success: function (data) {
+                            $("#resultadoEmail").html(data);
+                            n();
+                        }
+                    });
+                });
+            });
+            $("#fecha").keydown(function (e) {
+                e.preventDefault();
+            });
             //cargo la direccion de los links frameLink en el frameContainer
             $(".frameLink").each(function () {
                 var href = $(this).attr("href");
@@ -282,8 +305,7 @@
                     });
                 }
             });
-        });
-    </script>
+        });</script>
 
     <script type="text/javascript">
         /* Este es el script para que se despliege el calendario*/

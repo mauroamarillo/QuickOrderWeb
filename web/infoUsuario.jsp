@@ -60,39 +60,7 @@
             </div>
         </div>
         </br>
-        <div class="tab-pane" id="Pedidos">
-            <%--<div class="col-xs-12 tituloLista"> 
-                <label class="col-xs-3" > Numero </label>
-                <label class="col-xs-3 lista-num" > Precio </label>
-                <label class="col-xs-3" > Fecha </label>
-                <label class="col-xs-3" > Restaurante </label>
-            </div>
-            <%
-                Iterator IT = DC.getPedidos().entrySet().iterator();
-                int x = 1;
-                String ultimo = "";
-
-                while (IT.hasNext()) {
-                    Map.Entry entry = (Map.Entry) IT.next();
-                    DataPedido DP = (DataPedido) entry.getValue();
-                    if (!DP.getEstado().equals(Estado.aconfirmar)) {
-                        if (!IT.hasNext()) {
-                            ultimo = "lista-ultimo";
-                        }
-                        out.print(" <div class=\"col-xs-12 lista" + x + " " + ultimo + "\"> <input type=\"button\" onclick=\"verPedido(" + DP.getNumero() + ");\" hidden=\"true\" id= \"checkProd" + DP.getNumero() + "\"/>");
-                        out.print(" <label class=\"col-xs-3\" for=\"checkProd" + DP.getNumero() + "\">" + DP.getNumero() + " </label>");
-                        out.print(" <label class=\"col-xs-3 lista-num\" for=\"checkProd" + DP.getNumero() + "\">$" + DP.getPrecio() + " </label>");
-                        out.print(" <label class=\"col-xs-3\" for=\"checkProd" + DP.getNumero() + "\">" + DP.getFecha() + " </label> ");
-                        out.print(" <label class=\"col-xs-3\" for=\"checkProd" + DP.getNumero() + "\">" + DP.getRestaurante() + " </label> ");
-                        out.print(" </div> ");
-                        if (x == 1) {
-                            x = 2;
-                        } else {
-                            x = 1;
-                        }
-                    }
-                }
-            %>--%>
+        <div class="tab-pane" id="Pedidos">            
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 <%
                     Iterator it = CU.getDataPedidos(nick).entrySet().iterator();
@@ -107,6 +75,7 @@
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=DP.getNumero()%>" aria-expanded="true" aria-controls="collapseOne">
                                 <b>Fecha:</b> <%=DP.getFecha()%>  |  <b>Restaurante:</b> <%=CU.buscarRestaurante(DP.getRestaurante()).getNombre()%> | <b>Total:</b> $<%=DP.getPrecio()%>
                             </a>
+                            <%-- aca hay que agregar otro boton si el pedido ya esta calificado--%>
                             <a href="<%=DP.getNumero()%>" style="float: right;" class="calificarPedido"><span class="glyphicon glyphicon-pencil"></span></a>
                         </div>
                     </div>
@@ -180,7 +149,7 @@
         $('#ModalPedido').modal('show');
     };
     $(".calificarPedido").each(function () {
-        var href = $(this).attr("href");       
+        var href = $(this).attr("href");
         if (href !== "#") {
             $(this).removeAttr("href");
             $(this).click(function () {
