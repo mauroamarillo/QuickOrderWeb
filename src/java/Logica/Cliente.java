@@ -12,6 +12,7 @@ package Logica;
 import Logica.DataTypes.DataCliente;
 import Logica.DataTypes.DataPedido;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class Cliente extends Usuario {
         this.pedidos = pedidos;
     }
 
-    public DataCliente getDataType() {
+    public DataCliente getDataType() throws SQLException, ClassNotFoundException {
         HashMap DataPedidos = new HashMap();
         if (pedidos != null) {
             Iterator it = pedidos.entrySet().iterator();
