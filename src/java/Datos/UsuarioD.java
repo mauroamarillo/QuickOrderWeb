@@ -86,6 +86,19 @@ public class UsuarioD {
         st.execute(categoria);
         st.getConnection().close();
     }
+    
+    public float obtenerCalificacionRestaurante(String nick) throws SQLException, ClassNotFoundException{
+        this.st = es.generarSt();
+        String query = "SELECT round(avg(c.puntaje),2)"
+                + " FROM calificaciones c, pedidos p"
+                + " WHERE p.restaurante = '" + nick + "' AND c.pedido = p.numero;";
+        ResultSet rs = st.executeQuery(query);
+        if (rs.next()) {
+            return rs.getFloat(1);
+        }
+        st.getConnection().close();
+        return -1;
+    }
 
     public ResultSet listarRestaurantes() throws SQLException, ClassNotFoundException {
         this.st = es.generarSt();

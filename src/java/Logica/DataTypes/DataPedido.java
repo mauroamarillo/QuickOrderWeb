@@ -9,6 +9,7 @@ import Logica.Estado;
 import Logica.Pedido;
 import Logica.ProdPedido;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -26,8 +27,9 @@ public class DataPedido {
     private final String cliente;
     private final String restaurante;
     private final float precio;
+    private final DataCalificacion calificacion;
 
-    public DataPedido(int numero, Date fecha, Estado estado, HashMap prodPedidos, String cliente, String restaurante, float precio) {
+    public DataPedido(int numero, Date fecha, Estado estado, HashMap prodPedidos, String cliente, String restaurante, float precio, DataCalificacion calificacion) {
         this.numero = numero;
         this.fecha = fecha;
         this.estado = estado;
@@ -35,9 +37,10 @@ public class DataPedido {
         this.cliente = cliente;
         this.restaurante = restaurante;
         this.precio = precio;
+        this.calificacion = calificacion;
     }
 
-    public DataPedido(Pedido P) {
+    public DataPedido(Pedido P) throws SQLException, ClassNotFoundException {
         this.numero = P.getNumero();
         this.fecha = P.getFecha();
         this.estado = P.getEstado();
@@ -52,7 +55,7 @@ public class DataPedido {
             ProdPedido p = (ProdPedido) entry.getValue();
             prodPedidos.put(p.getProducto().getNombre(), new DataProdPedido(p));
         }
-
+        this.calificacion = P.getCalificacion();
     }
 
     public float getPrecio() {
@@ -83,4 +86,8 @@ public class DataPedido {
         return restaurante;
     }
 
+    public DataCalificacion getCalificacion() {
+        return calificacion;
+    }
+    
 }

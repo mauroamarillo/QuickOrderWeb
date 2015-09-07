@@ -14,9 +14,13 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import Datos.PedidoD;
+import Logica.DataTypes.DataCalificacion;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Pedido {
-
+    
     private int numero;
     private Date fecha;
     private Estado estado;
@@ -24,6 +28,8 @@ public class Pedido {
     private Cliente cliente;
 
     private Restaurante restaurante;
+    
+    private PedidoD PedidoDatos = new PedidoD();
 
     public Pedido(int numero, Date fecha, Estado estado, Cliente cliente, Restaurante restaurante, HashMap prodPedidos) {
         this.numero = numero;
@@ -34,7 +40,7 @@ public class Pedido {
         this.prodPedidos = prodPedidos;
     }
 
-    public DataPedido getDataType() {
+    public DataPedido getDataType() throws SQLException, ClassNotFoundException {
         HashMap dataProdPedidos;
         dataProdPedidos = new HashMap();
         Iterator it = prodPedidos.entrySet().iterator();
@@ -43,7 +49,7 @@ public class Pedido {
             ProdPedido pp = (ProdPedido) entry.getValue();
             dataProdPedidos.put(pp.getProducto().getNombre(), pp.getDataType());
         }
-        return new DataPedido(numero, fecha, estado, dataProdPedidos, cliente.getNickname(), restaurante.getNickname(), getPrecio());
+        return new DataPedido(numero, fecha, estado, dataProdPedidos, cliente.getNickname(), restaurante.getNickname(), getPrecio(), getCalificacion());
     }
 
     public Cliente getCliente() {
@@ -87,6 +93,15 @@ public class Pedido {
             precio += pp.getPrecio();
         }
         return precio;
+    }
+    
+    public DataCalificacion getCalificacion() throws SQLException, ClassNotFoundException{
+        ResultSet rs = PedidoDatos.obtenerCalificacion(this.numero);
+        if(rs.next()){
+            return new DataCalificacion(rs.getInt("puntaje"), rs.getString("comentario"));
+        }else{
+            return new DataCalificacion();
+        }
     }
 
     public Estado getEstado() {

@@ -3,6 +3,7 @@ package Logica;
 import Datos.CategoriaD;
 import Datos.PedidoD;
 import Datos.UsuarioD;
+import Logica.DataTypes.DataCalificacion;
 import Logica.DataTypes.DataCliente;
 import Logica.DataTypes.DataPedido;
 import Logica.DataTypes.DataProdPedido;
@@ -511,11 +512,15 @@ public final class ControladorUsuario {
         this.asignarPedidosAClientes();
     }
 
-    public void quitarLineaPedido(int pedido, String restaurante, String producto) throws SQLException, ClassNotFoundException, Exception {
-        if (getDataPedido(pedido).getEstado().equals(Estado.aconfirmar)) {
+    public void quitarLineaPedido(int pedido, String restaurante, String producto) throws SQLException, ClassNotFoundException, Exception{
+        if(getDataPedido(pedido).getEstado().equals(Estado.aconfirmar)){
             PedidoDatos.removerLineaDePedido(pedido, restaurante, producto);
+            this.Clientes = retornarClientes();
             asignarPedidosAClientes();
-        } else {
+            if(getDataPedido(pedido).getProdPedidos().entrySet().isEmpty()){
+                cancelarPedido(pedido);
+            }
+        }else{
             throw new Exception("No se pueden modificar pedidos confirmados.");
         }
     }
@@ -526,6 +531,10 @@ public final class ControladorUsuario {
         } else {
             throw new Exception("No se pueden calificar pedidos sin confirmar.");
         }
+    }
+    
+    public DataCalificacion obtenerCalificacionPedido(int pedido) throws SQLException, ClassNotFoundException{
+        return getDataPedido(pedido).getCalificacion();
     }
 
     public void cancelarPedido(int numero) throws SQLException, ClassNotFoundException {

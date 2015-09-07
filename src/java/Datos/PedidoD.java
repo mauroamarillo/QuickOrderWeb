@@ -104,10 +104,20 @@ public class PedidoD {
         st.getConnection().close();
     }
     
+    public ResultSet obtenerCalificacion(int pedido) throws SQLException, ClassNotFoundException{
+        this.st = es.generarSt();
+        String query = " SELECT * "
+                + " FROM calificaciones"
+                + " WHERE pedido=" + pedido + ";";
+        ResultSet rs = st.executeQuery(query);
+        st.getConnection().close();
+        return rs;
+    }
+    
     public void calificarPedido(int numero, Date fecha, int calificacion, String comentario) throws SQLException, ClassNotFoundException{
         this.st = es.generarSt();
         String query = "INSERT INTO calificaciones(fecha, pedido, puntaje, comentario)"
-            + "VALUES (" + fecha + ", " + numero + ", " + calificacion + ", '" + comentario + "');";
+            + "VALUES ('" + fecha + "', " + numero + ", " + calificacion + ", '" + comentario + "');";
         st.execute(query);
         st.getConnection().close();
     }
