@@ -157,7 +157,30 @@
         </div>
         <div class="tab-pane" id="Configuracion">
             <h1>Configuracion</h1>
-            <p>aca se va a poder modificar informacion del cliente</p>
+            <div class="row">
+                <div class="col-lg-3 " >
+                    <img id="imagenPerfilNueva" onclick="seleccionarArchivo();" src="<%=urlImg%> " class="img-thumbnail" style="width:190px; height:190px;" />
+                    <input id="selectorArchivos" name="selectorArchivos" type="file" style= " visibility: hidden;" /> <br/>
+                </div>
+                <div class="col-lg-9 " >                    
+                    <div class="form-group">
+                        <input type="text" name="nombre" id="nombre" value="<%=DC.getNombre()%>" class="form-control" placeholder="Nombre*" required/>
+                    </div> 
+                    <div class="form-group">
+                        <input type="text" name="apellido" id="apellido" value="<%=DC.getApellido()%>" class="form-control" placeholder="Apellido*" required/>
+                    </div> 
+                    <div class="form-group">
+                        <input type="text" name="direccion" id="direccion" value="<%=DC.getDireccion()%>" class="form-control" placeholder="direccion*" required/>
+                    </div> 
+                    <div class="form-group">
+                        <input type="email" name="email" id="email" value="<%=DC.getEmail()%>"class="form-control " placeholder="Email*" required/>
+                        <div id="resultadoEmail"></div>
+                    </div> 
+                    <div class="form-group">
+                        <input type="password" name="passwd" id="passwd" value="<%=DC.getPwd()%>" class="form-control" placeholder="Contraseña*" required/>
+                    </div> 
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -168,6 +191,44 @@
         </div>
     </div>
 </div>
+
+
+<script type="text/javascript">
+    /*operaciones para cambiar imagen*/
+    document.getElementById('selectorArchivos').addEventListener('change', archivo, false);
+    function seleccionarArchivo() {
+        var elem = document.getElementById("selectorArchivos");
+        if (elem && document.createEvent) {
+            var evt = document.createEvent("MouseEvents");
+            evt.initEvent("click", true, false);
+            elem.dispatchEvent(evt);
+        }
+    }
+    function archivo(evt) {
+        var files = evt.target.files; // FileList object
+        // Obtenemos la imagen del campo "selectorArchivos".
+        for (var i = 0, f; f = files[i]; i++) {
+            //Solo admitimos imágenes.
+            if (!f.type.match('image.*')) {
+                continue;
+            }
+
+            var reader = new FileReader();
+
+            reader.onload = (function () {
+                return function (e) {
+                    $('#imagenPerfilNueva').attr('src', e.target.result);
+                    $.post("guardarImgTemporal",
+                            {img: e.target.result}
+                    );
+                };
+            })(f);
+            reader.readAsDataURL(f);
+        }
+    }
+</script>
+
+
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
         $('#tabs').tab();
@@ -185,7 +246,6 @@
             $(this).removeAttr("href");
             $(this).click(function () {
                 calPed(href);
-
             });
         }
     });
