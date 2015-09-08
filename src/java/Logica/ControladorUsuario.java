@@ -52,7 +52,7 @@ public final class ControladorUsuario {
         return UsuarioDatos.emailOcupado(email);
     }
 
-    public HashMap getDataClientes() {
+    public HashMap getDataClientes() throws SQLException, ClassNotFoundException {
         HashMap resultado = new HashMap();
         Iterator it = Clientes.entrySet().iterator();
         while (it.hasNext()) {

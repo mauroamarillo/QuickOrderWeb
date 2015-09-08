@@ -4,6 +4,8 @@
     Author     : Jean
 --%>
 
+<%@page import="Logica.DataTypes.DataCalificacion"%>
+<%@page import="Logica.Fecha"%>
 <%@page import="Logica.DataTypes.DataIndividual"%>
 <%@page import="Logica.DataTypes.DataPromocion"%>
 <%@page import="Logica.DataTypes.DataProdPedido"%>
@@ -73,15 +75,32 @@
                     <div class="panel-heading" role="tab" id="<%=DP.getNumero()%>">
                         <div class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=DP.getNumero()%>" aria-expanded="true" aria-controls="collapseOne">
-                                <b>Fecha:</b> <%=DP.getFecha()%>  |  <b>Restaurante:</b> <%=CU.buscarRestaurante(DP.getRestaurante()).getNombre()%> | <b>Total:</b> $<%=DP.getPrecio()%>
+                                <b>Fecha:</b> <%=new Fecha(DP.getFecha()).toString()%>  |  <b>Restaurante:</b> <%=CU.buscarRestaurante(DP.getRestaurante()).getNombre()%> | <b>Total:</b> $<%=DP.getPrecio()%>
                             </a>
-                            <%-- aca hay que agregar otro boton si el pedido ya esta calificado--%>
+                            <%
+                                DataCalificacion calificacion = CU.obtenerCalificacionPedido(DP.getNumero());
+                                if (calificacion.getPuntaje() == 0) {
+                            %>
                             <a href="<%=DP.getNumero()%>" style="float: right;" class="calificarPedido"><span class="glyphicon glyphicon-pencil"></span></a>
+                                <%
+                                    } else {
+                                        for (int i = 0; i < 5; i++) {
+                                            out.print("<p style=\"float: right;\">");
+                                            if (i < calificacion.getPuntaje()) {
+                                                out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:orange;\"></span>");
+                                            } else {
+                                                out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:gray;\"></span>");
+                                            }
+                                            out.print("</p>");
+
+                                        }
+                                    }
+                                %>
                         </div>
                     </div>
                     <div id="collapse<%=DP.getNumero()%>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%=DP.getNumero()%>">
-                        <div style="padding: 10px; " >
-                            <ul class="media-list">
+                        <div class="row" style="padding: 10px; " >
+                            <ul class="media-list col-lg-7">
                                 <%
                                     HashMap DataProdPedido = DP.getProdPedidos();
                                     Iterator it2 = DataProdPedido.entrySet().iterator();
@@ -109,12 +128,24 @@
                                         Tipo: Individual <br/> 
                                         <%
                                             }
-
                                         %>
                                     </div>
                                 </li>
                                 <%}%><%-- Esta llave cierra  el segundo while--%>
 
+                            </ul>
+                            <ul class="col-lg-5">
+                                <%
+                                    if (calificacion.getPuntaje() != 0) {
+                                %>
+                                <div class="verCal">
+                                    <p>Comentario:</p>
+                                    <p style="text-align: center; "><%=calificacion.getComentario()%></p>
+                                    <p><br/></p>
+                                </div>
+                                <%
+                                    }
+                                %>
                             </ul>
                         </div> 
                     </div>
@@ -153,11 +184,12 @@
         if (href !== "#") {
             $(this).removeAttr("href");
             $(this).click(function () {
-                calificarPedido(href);
+                calPed(href);
+
             });
         }
     });
-    calificarPedido = function (x) {
+    calPed = function (x) {
         $('#ModalPedido').removeData('bs.modal');
         $('#ModalPedido').modal({remote: 'calificarPedido.jsp?pedido=' + x});
         $('#ModalPedido').modal('show');

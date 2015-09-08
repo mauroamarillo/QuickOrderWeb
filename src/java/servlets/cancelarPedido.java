@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Jean
  */
-public class calificarPedido extends HttpServlet {
+public class cancelarPedido extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,35 +31,21 @@ public class calificarPedido extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException, Exception {
+            throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
+             HttpSession session = request.getSession();
             ControladorUsuario CU = null;
             if (session.getAttribute("CU") == null) {
                 CU = new ControladorUsuario();
             } else {
                 CU = (ControladorUsuario) session.getAttribute("CU");
             }
-            int pedido = Integer.parseInt((String) request.getParameter("pedido"));
-            int estrellas = 1;
-            if (request.getParameter("estrellas") != null) {
-                estrellas = Integer.parseInt((String) request.getParameter("estrellas"));
-            }
-            String comentario = (String) request.getParameter("comentario");
-
-            try {
-                CU.calificarPedido(pedido, estrellas, comentario);
-                out.print("Pedido Calificado");
-            } catch (Exception e) {
-                out.print("Error");
-                out.print(e);
-            }
-
+            int pedido = Integer.parseInt((String) request.getParameter("p"));
+            CU.cancelarPedido(pedido);
+            out.println("<p>Pedido Cancelado</p>");
         }
     }
 
@@ -78,9 +64,9 @@ public class calificarPedido extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(calificarPedido.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(calificarPedido.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(cancelarPedido.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(cancelarPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -98,9 +84,9 @@ public class calificarPedido extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(calificarPedido.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(calificarPedido.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(cancelarPedido.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(cancelarPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

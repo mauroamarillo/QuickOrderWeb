@@ -36,6 +36,10 @@
         <servlet-name>verificar</servlet-name>
         <servlet-class>servlets.verificar</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>cancelarPedido</servlet-name>
+        <servlet-class>servlets.cancelarPedido</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>control</servlet-name>
         <url-pattern>/control</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>verificar</servlet-name>
         <url-pattern>/verificar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>cancelarPedido</servlet-name>
+        <url-pattern>/cancelarPedido</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

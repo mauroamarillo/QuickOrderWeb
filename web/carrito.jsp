@@ -4,6 +4,7 @@
     Author     : Jean
 --%>
 
+<%@page import="Logica.Fecha"%>
 <%@page import="Logica.DataTypes.DataIndividual"%>
 <%@page import="Logica.DataTypes.DataPromocion"%>
 <%@page import="Logica.DataTypes.DataProdPedido"%>
@@ -46,18 +47,20 @@
             DataPedido DP = (DataPedido) entry.getValue();
             if (DP.getEstado().equals(Estado.aconfirmar)) {
     %>
-    <div class="panel panel-pedido  panel-default">
+    <div class="panel panel-pedido panel-default" id="Pedido<%=DP.getNumero()%>">
         <div class="panel-heading" role="tab" id="<%=DP.getNumero()%>">
             <div class="panel-title">
                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=DP.getNumero()%>" aria-expanded="true" aria-controls="collapseOne">
-                    <b>Fecha:</b> <%=DP.getFecha()%>  |  <b>Restaurante:</b> <%=CU.buscarRestaurante(DP.getRestaurante()).getNombre()%> | <b>Total:</b> $<%=DP.getPrecio()%>
+                    <b>Fecha:</b> <%=new Fecha(DP.getFecha()).toString()%>  |  <b>Restaurante:</b> <%=CU.buscarRestaurante(DP.getRestaurante()).getNombre()%> | <b>Total:</b> $<%=DP.getPrecio()%>
                 </a>
-                <a href="<%=DP.getNumero()%>" style="float: right;" class="confirmarPedido"><span class="glyphicon glyphicon-ok"></span></a>
+
+                <a href="<%=DP.getNumero()%>" style="float: right; font-size:20px;" class="confirmarPedido"><span class="glyphicon glyphicon-ok-sign"></span></a>
+                <a id="cancelar<%=DP.getNumero()%>" href="<%=DP.getNumero()%>" style="float: right; font-size:20px; padding-right: 20px;" class="cancelarPedido"><span class="glyphicon glyphicon-remove-sign"></span></a>
             </div>
         </div>
         <div id="collapse<%=DP.getNumero()%>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%=DP.getNumero()%>">
             <div style="padding: 10px; " >
-                <ul class="media-list">
+                <ul class="media-list" id="Lista<%=DP.getNumero()%>">
                     <%
                         HashMap DataProdPedido = DP.getProdPedidos();
                         Iterator it2 = DataProdPedido.entrySet().iterator();
@@ -107,6 +110,8 @@
             $(this).removeAttr("href");
             $(this).click(function () {
                 $(this).removeClass("confirmarPedido");
+                var botonCancelar = document.getElementById("cancelar" + pedido);
+                botonCancelar.parentNode.removeChild(botonCancelar);
                 $(this).html("<p><img src=\"img/confirmarCarrito.gif\"/> Confirmando</p>");
                 $.post("confirmarPedido",
                         {p: pedido},
@@ -120,6 +125,26 @@
     });
 </script>    
 <script type="text/javascript">
+    $(".cancelarPedido").each(function () {
+        var pedido = $(this).attr("href");
+        if (pedido !== "#") {
+            $(this).removeAttr("href");
+            $(this).click(function () {
+                $(this).removeClass("confirmarPedido");
+                $.post("cancelarPedido",
+                        {p: pedido},
+                function (result) {
+                    var x = document.getElementById("Pedido" + pedido);
+                    x.parentNode.removeChild(x);
+                    //$("#frameContainer").load("carrito.jsp");
+                    mostrarRespuesta(result, true);
+                }
+                );
+            });
+        }
+    });
+</script>   
+<script type="text/javascript">
     $(".confirmarTodo").each(function () {
         $(this).click(function () {
             $.post("confirmarTodo",
@@ -130,16 +155,30 @@
         });
     });
 </script> 
+
 <script type="text/javascript">
     $(".elimimarLineaPedido").each(function () {
         var href = $(this).attr("href");
         var datos = href.split("_");
+        href = $(this).attr("href");
         if (href !== "#") {
             $(this).removeAttr("href");
+
             $(this).click(function () {
                 $(this).removeClass("elimimarLineaPedido");
-                var x = document.getElementById(href);
-                x.parentNode.removeChild(x);
+
+                var Lista = $("#Lista" + datos[0]);
+
+                if (Lista.find("li").length === 1) {
+                    var x = document.getElementById("Pedido" + datos[0]);
+                    x.parentNode.removeChild(x);
+                } else {
+                    var x = document.getElementById(href);
+                    var parent = x.parentNode;
+                    parent.removeChild(x);
+                }
+
+
                 $.post("eliminarLineaPedido",
                         {pedido: datos[0],
                             restaurante: datos[1],
