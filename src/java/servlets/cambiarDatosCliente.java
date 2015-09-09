@@ -5,26 +5,18 @@
  */
 package servlets;
 
-import Logica.ControladorUsuario;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import org.apache.tomcat.util.codec.binary.Base64;
 
 /**
  *
  * @author Jean
  */
-public class guardarImgTemporal extends HttpServlet {
+public class cambiarDatosCliente extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,27 +31,7 @@ public class guardarImgTemporal extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            ControladorUsuario CU = null;
-            if (session.getAttribute("CU") == null) {
-                CU = new ControladorUsuario();
-            } else {
-                CU = (ControladorUsuario) session.getAttribute("CU");
-            }
-            String nick = (String) session.getAttribute("nick");
-            
-            String imagenBase64 = request.getParameter("img");
-            String header = "data:image/jpeg;base64,";
-            String encodedImage = imagenBase64.substring(header.length());
-            File destino = new File("C:\\imagenes\\__temp\\nuevo_"+nick+".jpg");
-            byte dearr[] = Base64.decodeBase64(encodedImage);
-            FileOutputStream fos = new FileOutputStream(destino);
-            fos.write(dearr);
-            fos.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(guardarImgTemporal.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(guardarImgTemporal.class.getName()).log(Level.SEVERE, null, ex);
+           
         }
     }
 

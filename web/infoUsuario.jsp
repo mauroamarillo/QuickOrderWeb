@@ -156,29 +156,39 @@
             </div>
         </div>
         <div class="tab-pane" id="Configuracion">
-            <h1>Configuracion</h1>
+            <h1>Modificar Datos</h1>
             <div class="row">
                 <div class="col-lg-3 " >
-                    <img id="imagenPerfilNueva" onclick="seleccionarArchivo();" src="<%=urlImg%> " class="img-thumbnail" style="width:190px; height:190px;" />
-                    <input id="selectorArchivos" name="selectorArchivos" type="file" style= " visibility: hidden;" /> <br/>
+                    <p style=" text-align: center;">
+                    <div class="cambioImagenPerfil ">
+                        <img id="imagenPerfilNueva"<%--onclick="seleccionarArchivo();" --%> src="<%=urlImg%> " class="img-thumbnail" style="width:190px; height:190px;" />
+                        <span  onclick="seleccionarArchivo();" class="spanCambio"><span>Click para <br/>cambiar imagen</span></span>
+                    </div>
+                    </p>
+                    <input id="selectorArchivos" name="selectorArchivos" type="file" style="visibility: hidden;" />
                 </div>
-                <div class="col-lg-9 " >                    
-                    <div class="form-group">
-                        <input type="text" name="nombre" id="nombre" value="<%=DC.getNombre()%>" class="form-control" placeholder="Nombre*" required/>
-                    </div> 
-                    <div class="form-group">
-                        <input type="text" name="apellido" id="apellido" value="<%=DC.getApellido()%>" class="form-control" placeholder="Apellido*" required/>
-                    </div> 
-                    <div class="form-group">
-                        <input type="text" name="direccion" id="direccion" value="<%=DC.getDireccion()%>" class="form-control" placeholder="direccion*" required/>
-                    </div> 
-                    <div class="form-group">
-                        <input type="email" name="email" id="email" value="<%=DC.getEmail()%>"class="form-control " placeholder="Email*" required/>
-                        <div id="resultadoEmail"></div>
-                    </div> 
-                    <div class="form-group">
-                        <input type="password" name="passwd" id="passwd" value="<%=DC.getPwd()%>" class="form-control" placeholder="Contraseña*" required/>
-                    </div> 
+                <div class="col-lg-6 " >
+                    <form id ="formCambiarDatos" method="post">
+                        <%-- este valor es para saber si la imagen seleccionada cambio --%> 
+                        <input id="cambioImagen" name="cambioImagen" type="number" hidden="true" value="0" />
+                        <div class="form-group">
+                            <input type="text" name="nombre" id="nombre" value="<%=DC.getNombre()%>" class="form-control" placeholder="Nombre*" required/>
+                        </div> 
+                        <div class="form-group">
+                            <input type="text" name="apellido" id="apellido" value="<%=DC.getApellido()%>" class="form-control" placeholder="Apellido*" required/>
+                        </div> 
+                        <div class="form-group">
+                            <input type="text" name="direccion" id="direccion" value="<%=DC.getDireccion()%>" class="form-control" placeholder="direccion*" required/>
+                        </div> 
+                        <div class="form-group">
+                            <input type="email" name="email" id="email" value="<%=DC.getEmail()%>"class="form-control " placeholder="Email*" required/>
+                            <div id="resultadoEmail"></div>
+                        </div> 
+                        <div class="form-group">
+                            <input type="password" name="passwd" id="passwd" value="<%=DC.getPwd()%>" class="form-control" placeholder="Contraseña*" required/>
+                        </div> 
+                        <button class="btn btn-primary" type="submit" if="confirmarCambios">Confirmar</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -212,7 +222,6 @@
             if (!f.type.match('image.*')) {
                 continue;
             }
-
             var reader = new FileReader();
 
             reader.onload = (function () {
@@ -221,6 +230,7 @@
                     $.post("guardarImgTemporal",
                             {img: e.target.result}
                     );
+                    $('#cambioImagen').attr('value', '1');
                 };
             })(f);
             reader.readAsDataURL(f);
@@ -255,4 +265,87 @@
         $('#ModalPedido').modal('show');
     };
 </script>    
+<script>
+    $(function () {
+        $("#confirmarCambios").click(function (event) {
+            event.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "cambiarDatosCliente",
+                data: $("#formCambiarDatos").serialize(),
+                success: function (data) {
+                    mostrarRespuesta(data, true);
+                    // $("#frameContainer").load("infoUsuario.jsp");
+                }
+            });
+            return false; // Evitar ejecutar el submit del formulario.
+        });
+    });
+</script>
 
+<style>
+    .cambioImagenPerfil {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    .cambioImagenPerfil {
+        display: inline-block;
+        height: 190px;
+        margin: 0 1em 1em 0;
+        position: relative;
+        width: 190px;
+    }
+    .spanCambio {
+        background: rgba(0,0,0,0.5);
+        color: white;
+        cursor: pointer;
+        display: table;
+        height: 190px;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 150px;
+    }
+
+    .spanCambio span {
+        display: table-cell;
+        text-align: center;
+        font-size: 20px;
+        vertical-align: middle;
+    }
+    .spanCambio  {
+        background: rgba(0,0,0,0.5);
+        color: white;
+        cursor: pointer;
+        display: table;
+        height: 190px;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 190px;
+        opacity: 0;
+    }
+
+    .cambioImagenPerfil:hover .spanCambio {
+        opacity: 1;
+    }
+    .spanCambio  {
+        background: rgba(0,0,0,0.5);
+        color: white;
+        cursor: pointer;
+        display: table;
+        height: 190px;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 190px;
+        opacity: 0;
+        -webkit-transition: opacity 500ms;
+        -moz-transition: opacity 500ms;
+        -o-transition: opacity 500ms;
+        transition: opacity 500ms;
+    }
+</style>
