@@ -6,6 +6,8 @@
 package servlets;
 
 import Logica.ControladorUsuario;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -16,12 +18,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 /**
  *
  * @author Jean
  */
-public class calificarPedido extends HttpServlet {
+public class guardarImgTemporal extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,11 +34,9 @@ public class calificarPedido extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException, Exception {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
@@ -45,21 +46,21 @@ public class calificarPedido extends HttpServlet {
             } else {
                 CU = (ControladorUsuario) session.getAttribute("CU");
             }
-            int pedido = Integer.parseInt((String) request.getParameter("pedido"));
-            int estrellas = 1;
-            if (request.getParameter("estrellas") != null) {
-                estrellas = Integer.parseInt((String) request.getParameter("estrellas"));
-            }
-            String comentario = (String) request.getParameter("comentario");
+            String nick = (String) session.getAttribute("nick");
 
-            try {
-                CU.calificarPedido(pedido, estrellas, comentario);
-                out.print("Pedido Calificado");
-            } catch (Exception e) {
-                out.print("Error");
-                out.print(e);
+            String imagenBase64 = request.getParameter("img");
+            String header = imagenBase64.split(",")[0];//"data:image/jpg;base64,";
+            String encodedImage = imagenBase64.substring(header.length() + 1);
+            File destino = new File("C:\\imagenes\\__temp\\nuevo_" + nick + ".jpeg");
+            byte dearr[] = Base64.decodeBase64(encodedImage);
+            try (FileOutputStream fos = new FileOutputStream(destino)) {
+                fos.write(dearr);
+                fos.flush();
             }
-
+        } catch (SQLException ex) {
+            Logger.getLogger(guardarImgTemporal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(guardarImgTemporal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -75,13 +76,7 @@ public class calificarPedido extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(calificarPedido.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(calificarPedido.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -95,13 +90,7 @@ public class calificarPedido extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(calificarPedido.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(calificarPedido.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

@@ -5,23 +5,18 @@
  */
 package servlets;
 
-import Logica.ControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Jean
  */
-public class calificarPedido extends HttpServlet {
+public class cambiarDatosCliente extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,35 +26,15 @@ public class calificarPedido extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException, Exception {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            ControladorUsuario CU = null;
-            if (session.getAttribute("CU") == null) {
-                CU = new ControladorUsuario();
-            } else {
-                CU = (ControladorUsuario) session.getAttribute("CU");
-            }
-            int pedido = Integer.parseInt((String) request.getParameter("pedido"));
-            int estrellas = 1;
-            if (request.getParameter("estrellas") != null) {
-                estrellas = Integer.parseInt((String) request.getParameter("estrellas"));
-            }
-            String comentario = (String) request.getParameter("comentario");
-
-            try {
-                CU.calificarPedido(pedido, estrellas, comentario);
-                out.print("Pedido Calificado");
-            } catch (Exception e) {
-                out.print("Error");
-                out.print(e);
-            }
-
+            String nombre = request.getParameter("nombre");
+            String apellido = request.getParameter("apellido");
+            String cambioImagen = request.getParameter("cambioImagen");
+            out.print("Datos<br/> Actualizados<br/>" + nombre + "<br/>" + apellido + "<br/>" + cambioImagen + "");
         }
     }
 
@@ -75,13 +50,7 @@ public class calificarPedido extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(calificarPedido.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(calificarPedido.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -95,13 +64,7 @@ public class calificarPedido extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(calificarPedido.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(calificarPedido.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

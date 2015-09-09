@@ -74,6 +74,7 @@
                 success: function (data) {
                     mostrarRespuesta(data, true);
                     $('#ModalPedido').modal('hide');
+                    $("#frameContainer").load("infoUsuario.jsp");
                 }
             });
             return false; // Evitar ejecutar el submit del formulario.
