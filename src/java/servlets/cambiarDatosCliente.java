@@ -31,7 +31,10 @@ public class cambiarDatosCliente extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-           out.print("Datos<br/> Actualizados");
+            String nombre = request.getParameter("nombre");
+            String apellido = request.getParameter("apellido");
+            String cambioImagen = request.getParameter("cambioImagen");
+            out.print("Datos<br/> Actualizados<br/>" + nombre + "<br/>" + apellido + "<br/>" + cambioImagen + "");
         }
     }
 

@@ -97,6 +97,7 @@
         transition: opacity 500ms;
     }
 </style>
+<!DOCTYPE HTML>
 <div id="content">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
         <li class="active"><a href="#Datos" data-toggle="tab">Datos <%=DC.getNombre()%></a></li>
@@ -146,7 +147,7 @@
                             </a>
                             <%
                                 DataCalificacion calificacion = CU.obtenerCalificacionPedido(DP.getNumero());
-                                if (calificacion.getPuntaje() == 0) {
+                                if (calificacion.getPuntaje() == 0) {//&& DP.getEstado().equals(Estado.recibido) <-- hay que poner esto porque solo deberian poder puntuarse pedidos recibidos
                             %>
                             <a href="<%=DP.getNumero()%>" style="float: right;" class="calificarPedido"><span class="glyphicon glyphicon-pencil"></span></a>
                                 <%
@@ -235,7 +236,7 @@
                     <input id="selectorArchivos" name="selectorArchivos" type="file" accept="image/*" style="visibility: hidden;" />
                 </div>
                 <div class="col-lg-6 " >
-                    <form id ="formCambiarDatos" method="post">
+                    <form id ="formCambiarDatos" method="post" class="form-signin" onsubmit="return false;">
                         <%-- este valor es para saber si la imagen seleccionada cambio --%> 
                         <input id="cambioImagen" name="cambioImagen" type="number" hidden="true" value="0" />
                         <div class="form-group">
@@ -254,9 +255,10 @@
                         <div class="form-group">
                             <input type="password" name="passwd" id="passwd" value="<%=DC.getPwd()%>" class="form-control" placeholder="Contraseña*" required/>
                         </div> 
-                        <button class="btn btn-primary" type="submit" id="confirmarCambios">Confirmar</button>
+                        <button value="Send" class="btn btn-primary" type="submit"  id="confirmarCambios" >Confirmar</button>                        
                         <a class="btn btn-primary" onclick="resetCampos()" >Restaurar Campos</a>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -335,17 +337,16 @@
 <script type="text/javascript">
     $(function () {
         $("#confirmarCambios").click(function (event) {
-            event.preventDefault();
-            $.ajax({
-                type: "POST",
-                url: "cambiarDatosCliente",
-                data: $("#formCambiarDatos").serialize(),
-                success: function (data) {
-                    mostrarRespuesta(data, true);
-                    // $("#frameContainer").load("infoUsuario.jsp");
-                }
-            });
-            return false; // Evitar ejecutar el submit del formulario.
+            if ($('#formCambiarDatos')[0].checkValidity())
+                $.ajax({
+                    type: "POST",
+                    url: "cambiarDatosCliente",
+                    data: $('#formCambiarDatos').serialize(),
+                    success: function (data) {
+                        mostrarRespuesta(data, true);
+                        // $("#frameContainer").load("infoUsuario.jsp");
+                    }
+                });
         });
     });
 </script>

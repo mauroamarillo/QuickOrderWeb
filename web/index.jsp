@@ -17,7 +17,7 @@
         error = "0";
     }
 %>
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
     <head>
         <meta charset="UTF-8" />
@@ -122,7 +122,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <input type="text" name="nick" id="nick" class="form-control" placeholder="Nickname*" required />
+                            <input type="text" name="nick" id="nick" onkeyup="verificarNick()" class="form-control" placeholder="Nickname*" required />
                             <div id="resultado"></div>
                         </div> 
                         <div class="form-group">
@@ -132,7 +132,7 @@
                             <input type="text" name="direccion" id="direccion" class="form-control" placeholder="direccion*" required/>
                         </div> 
                         <div class="form-group">
-                            <input type="email" name="email" id="email" class="form-control " placeholder="Email*" required/>
+                            <input type="email" name="email" id="email" onkeyup="verificarEmail()" class="form-control " placeholder="Email*" required/>
                             <div id="resultadoEmail"></div>
                         </div> 
                         <div class="form-group">
@@ -149,7 +149,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button value=" Send" class="btn btn-primary" type="submit" id="submit">Confirmar</button>
+                        <button value="Send" class="btn btn-primary" type="submit" id="submit">Confirmar</button>
                     </div>
                 </form>
             </div>
@@ -185,7 +185,7 @@
     <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
     <script type="text/javascript" src="js/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
     <script>
-        !window.jQuery && document.write('<script src="js/jquery.min.js"><\/script>');
+                                !window.jQuery && document.write('<script src="js/jquery.min.js"><\/script>');
     </script>
     <script type="text/javascript">
         $.ajax({
@@ -228,53 +228,50 @@
         };
     </script>
     <script type="text/javascript">
+        verificarNick = function () {
+            var consulta = $("#nick").val();
+            $.ajax({
+                type: "POST",
+                url: "verificar",
+                data: "nick=" + consulta,
+                dataType: "html",
+                beforeSend: function () {
+                    $("#resultado").html('<img src="img/confirmarCarrito.gif" />');
+                },
+                error: function () {
+                    $("#resultado").html("Error en la peticion ajax");
+                    n();
+                },
+                success: function (data) {
+                    $("#resultado").html(data);
+                    n();
+                }
+            });
+        };
+        verificarEmail = function () {
+            var consulta = $("#email").val();
+            $.ajax({
+                type: "POST",
+                url: "verificar",
+                data: "email=" + consulta,
+                dataType: "html",
+                beforeSend: function () {
+                    $("#resultadoEmail").html('<img src="img/confirmarCarrito.gif" />');
+                },
+                error: function () {
+                    $("#resultadoEmail").html("Error en la peticion ajax");
+                    n();
+                },
+                success: function (data) {
+                    $("#resultadoEmail").html(data);
+                    n();
+                }
+            });
+        };
+    </script>
+    <script type="text/javascript">
         $(document).ready(function () {
-            //comprobamos si se pulsa una tecla
-            $("#nick").keyup(function (e) {
-                //obtenemos el texto introducido en el campo
-                var consulta = $("#nick").val();
-                //hace la búsqueda          
-                $("#resultado").delay(1000).queue(function (n) {
-                    // $("#resultado").html('<img src="img/ajax-loader.gif" />');
-                    $.ajax({
-                        type: "POST",
-                        url: "verificar",
-                        data: "nick=" + consulta,
-                        dataType: "html",
-                        error: function () {
-                            $("#resultado").html("Error en la peticion ajax");
-                            n();
-                        },
-                        success: function (data) {
-                            $("#resultado").html(data);
-                            n();
-                        }
-                    });
-                });
-            });
-            //comprobamos si se pulsa una tecla
-            $("#email").keyup(function (e) {
-                //obtenemos el texto introducido en el campo
-                var consulta = $("#email").val();
-                //hace la búsqueda          
-                $("#resultadoEmail").delay(1000).queue(function (n) {
-                    // $("#resultado").html('<img src="img/ajax-loader.gif" />');
-                    $.ajax({
-                        type: "POST",
-                        url: "verificar",
-                        data: "email=" + consulta,
-                        dataType: "html",
-                        error: function () {
-                            $("#resultadoEmail").html("Error en la peticion ajax");
-                            n();
-                        },
-                        success: function (data) {
-                            $("#resultadoEmail").html(data);
-                            n();
-                        }
-                    });
-                });
-            });
+
             $("#fecha").keydown(function (e) {
                 e.preventDefault();
             });
@@ -321,7 +318,7 @@
         });
         //mostrar mensajes
         function mostrarRespuesta(mensaje, ok) {
-            $("#respuesta").removeClass('alert alert-success').removeClass('alert alert-danger').html("<p style='text-align: center'>" +mensaje+ "</p>");
+            $("#respuesta").removeClass('alert alert-success').removeClass('alert alert-danger').html("<p style='text-align: center'>" + mensaje + "</p>");
             if (ok) {
                 $("#respuesta").addClass('alert alert-success');
             } else {
