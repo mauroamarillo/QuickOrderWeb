@@ -52,7 +52,7 @@ public final class ControladorUsuario {
         return UsuarioDatos.emailOcupado(email);
     }
 
-    public HashMap getDataClientes() {
+    public HashMap getDataClientes() throws SQLException, ClassNotFoundException {
         HashMap resultado = new HashMap();
         Iterator it = Clientes.entrySet().iterator();
         while (it.hasNext()) {
@@ -526,15 +526,41 @@ public final class ControladorUsuario {
     }
 
     public void calificarPedido(int numero, int calificacion, String comentario) throws SQLException, ClassNotFoundException, Exception {
-        if (!getDataPedido(numero).getEstado().equals(Estado.aconfirmar)) {
+        if (getDataPedido(numero).getEstado().equals(Estado.recibido)) {
             PedidoDatos.calificarPedido(numero, new Fecha().getSQLDate(), calificacion, comentario);
         } else {
-            throw new Exception("No se pueden calificar pedidos sin confirmar.");
+            throw new Exception("No se pueden calificar pedidos no recibidos.");
         }
     }
     
     public DataCalificacion obtenerCalificacionPedido(int pedido) throws SQLException, ClassNotFoundException{
         return getDataPedido(pedido).getCalificacion();
+    }
+    
+    public HashMap getPedidosRestaurante(String restaurante) throws SQLException, ClassNotFoundException{
+        HashMap resultado = new HashMap();
+        java.sql.ResultSet rs = PedidoDatos.obtenerPedidosRestaurante(restaurante);
+        
+        while (rs.next()) {
+            Estado e;
+            switch(rs.getInt("estado")){
+                case 0:
+                    e = Estado.preparacion;
+                    break;
+                case 1:
+                    e = Estado.enviado;
+                    break;
+                case 2:
+                    e = Estado.recibido;
+                    break;
+                case 3:
+                    e = Estado.aconfirmar;
+                    break;
+            }
+            Restaurante R = new Pedido(rs.getInt("numero"), rs.getDate("fecha"), e, rs.getString("cliente"));
+            resultado.put(R.getNickname(), R);
+        }
+        return resultado;
     }
 
     public void cancelarPedido(int numero) throws SQLException, ClassNotFoundException {
