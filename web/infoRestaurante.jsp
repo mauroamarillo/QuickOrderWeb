@@ -173,12 +173,14 @@
                 </p>
             </div>
         </div>
-        <div class="tab-pane" id="Calificaciones">
-            <h1>Calificaciones</h1>
-            <p>Ta geno pa meter algo aca :v</p>
+        <div class="tab-pane" id="Calificaciones"><%-- tercer panel --%>
+            <h1>Calificaciones por Pedidos</h1>
+            
         </div>
     </div>
 </div>
+                
+                
 <div id="ModalPromocion" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content modal-transparent" id="ModalPromocionContenido">

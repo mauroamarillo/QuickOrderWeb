@@ -30,6 +30,73 @@
     }
     DataCliente DC = CU.buscarCliente(nick);
 %>
+<style>
+    //estos estilos son para hacer que aparesca el mensaje sobre la imagen 
+    .cambioImagenPerfil {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    .cambioImagenPerfil {
+        display: inline-block;
+        height: 190px;
+        margin: 0 1em 1em 0;
+        position: relative;
+        width: 190px;
+    }
+    .spanCambio {
+        background: rgba(0,0,0,0.5);
+        color: white;
+        cursor: pointer;
+        display: table;
+        height: 190px;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 150px;
+    }
+
+    .spanCambio span {
+        display: table-cell;
+        text-align: center;
+        font-size: 20px;
+        vertical-align: middle;
+    }
+    .spanCambio  {
+        background: rgba(0,0,0,0.5);
+        color: white;
+        cursor: pointer;
+        display: table;
+        height: 190px;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 190px;
+        opacity: 0;
+    }
+
+    .cambioImagenPerfil:hover .spanCambio {
+        opacity: 1;
+    }
+    .spanCambio  {
+        background: rgba(0,0,0,0.5);
+        color: white;
+        cursor: pointer;
+        display: table;
+        height: 190px;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 190px;
+        opacity: 0;
+        -webkit-transition: opacity 500ms;
+        -moz-transition: opacity 500ms;
+        -o-transition: opacity 500ms;
+        transition: opacity 500ms;
+    }
+</style>
 <div id="content">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
         <li class="active"><a href="#Datos" data-toggle="tab">Datos <%=DC.getNombre()%></a></li>
@@ -162,10 +229,10 @@
                     <p style=" text-align: center;">
                     <div class="cambioImagenPerfil ">
                         <img id="imagenPerfilNueva"<%--onclick="seleccionarArchivo();" --%> src="<%=urlImg%> " class="img-thumbnail" style="width:190px; height:190px;" />
-                        <span  onclick="seleccionarArchivo();" class="spanCambio"><span>Click para <br/>cambiar imagen</span></span>
+                        <span  onclick="seleccionarArchivo();" class="spanCambio"><span>Click para <br/>cambiar imagen<b style=" font-size: 10px;"><br/>Max: 1Mb</b></span></span>
                     </div>
                     </p>
-                    <input id="selectorArchivos" name="selectorArchivos" type="file" style="visibility: hidden;" />
+                    <input id="selectorArchivos" name="selectorArchivos" type="file" accept="image/*" style="visibility: hidden;" />
                 </div>
                 <div class="col-lg-6 " >
                     <form id ="formCambiarDatos" method="post">
@@ -187,7 +254,8 @@
                         <div class="form-group">
                             <input type="password" name="passwd" id="passwd" value="<%=DC.getPwd()%>" class="form-control" placeholder="Contraseña*" required/>
                         </div> 
-                        <button class="btn btn-primary" type="submit" if="confirmarCambios">Confirmar</button>
+                        <button class="btn btn-primary" type="submit" id="confirmarCambios">Confirmar</button>
+                        <a class="btn btn-primary" onclick="resetCampos()" >Restaurar Campos</a>
                     </form>
                 </div>
             </div>
@@ -223,7 +291,6 @@
                 continue;
             }
             var reader = new FileReader();
-
             reader.onload = (function () {
                 return function (e) {
                     $('#imagenPerfilNueva').attr('src', e.target.result);
@@ -265,7 +332,7 @@
         $('#ModalPedido').modal('show');
     };
 </script>    
-<script>
+<script type="text/javascript">
     $(function () {
         $("#confirmarCambios").click(function (event) {
             event.preventDefault();
@@ -282,70 +349,15 @@
         });
     });
 </script>
+<script type="text/javascript">
+    resetCampos = function () {
+        document.getElementById('imagenPerfilNueva').src = '<%=urlImg%>';
+        document.getElementById('cambioImagen').value = '0';
+        document.getElementById('nombre').value = '<%=DC.getNombre()%>';
+        document.getElementById('apellido').value = '<%=DC.getApellido()%>';
+        document.getElementById('direccion').value = '<%=DC.getDireccion()%>';
+        document.getElementById('email').value = '<%=DC.getEmail()%>';
+        document.getElementById('passwd').value = '<%=DC.getPwd()%>';
+    };
+</script>
 
-<style>
-    .cambioImagenPerfil {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        text-align: center;
-    }
-
-    .cambioImagenPerfil {
-        display: inline-block;
-        height: 190px;
-        margin: 0 1em 1em 0;
-        position: relative;
-        width: 190px;
-    }
-    .spanCambio {
-        background: rgba(0,0,0,0.5);
-        color: white;
-        cursor: pointer;
-        display: table;
-        height: 190px;
-        left: 0;
-        position: absolute;
-        top: 0;
-        width: 150px;
-    }
-
-    .spanCambio span {
-        display: table-cell;
-        text-align: center;
-        font-size: 20px;
-        vertical-align: middle;
-    }
-    .spanCambio  {
-        background: rgba(0,0,0,0.5);
-        color: white;
-        cursor: pointer;
-        display: table;
-        height: 190px;
-        left: 0;
-        position: absolute;
-        top: 0;
-        width: 190px;
-        opacity: 0;
-    }
-
-    .cambioImagenPerfil:hover .spanCambio {
-        opacity: 1;
-    }
-    .spanCambio  {
-        background: rgba(0,0,0,0.5);
-        color: white;
-        cursor: pointer;
-        display: table;
-        height: 190px;
-        left: 0;
-        position: absolute;
-        top: 0;
-        width: 190px;
-        opacity: 0;
-        -webkit-transition: opacity 500ms;
-        -moz-transition: opacity 500ms;
-        -o-transition: opacity 500ms;
-        transition: opacity 500ms;
-    }
-</style>

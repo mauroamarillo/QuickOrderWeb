@@ -252,7 +252,7 @@
                     });
                 });
             });
-             //comprobamos si se pulsa una tecla
+            //comprobamos si se pulsa una tecla
             $("#email").keyup(function (e) {
                 //obtenemos el texto introducido en el campo
                 var consulta = $("#email").val();
@@ -321,7 +321,7 @@
         });
         //mostrar mensajes
         function mostrarRespuesta(mensaje, ok) {
-            $("#respuesta").removeClass('alert alert-success').removeClass('alert alert-danger').html(mensaje);
+            $("#respuesta").removeClass('alert alert-success').removeClass('alert alert-danger').html("<p style='text-align: center'>" +mensaje+ "</p>");
             if (ok) {
                 $("#respuesta").addClass('alert alert-success');
             } else {

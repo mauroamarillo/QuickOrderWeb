@@ -47,15 +47,16 @@ public class guardarImgTemporal extends HttpServlet {
                 CU = (ControladorUsuario) session.getAttribute("CU");
             }
             String nick = (String) session.getAttribute("nick");
-            
+
             String imagenBase64 = request.getParameter("img");
-            String header = "data:image/jpeg;base64,";
-            String encodedImage = imagenBase64.substring(header.length());
-            File destino = new File("C:\\imagenes\\__temp\\nuevo_"+nick+".jpg");
+            String header = imagenBase64.split(",")[0];//"data:image/jpg;base64,";
+            String encodedImage = imagenBase64.substring(header.length() + 1);
+            File destino = new File("C:\\imagenes\\__temp\\nuevo_" + nick + ".jpeg");
             byte dearr[] = Base64.decodeBase64(encodedImage);
-            FileOutputStream fos = new FileOutputStream(destino);
-            fos.write(dearr);
-            fos.close();
+            try (FileOutputStream fos = new FileOutputStream(destino)) {
+                fos.write(dearr);
+                fos.flush();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(guardarImgTemporal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
