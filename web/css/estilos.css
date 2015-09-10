@@ -58,6 +58,8 @@ body{
     background-color: rgba(0,0,0, 0.0)!important;
     border: none;
 }
+.navbar-brand{    
+}
 .navbar-brand:link,.navbar-brand:visited{   /*logo por defecto*/
     color: black !important;
     text-shadow: 0 0 10px white,
@@ -187,4 +189,16 @@ body{
     border-radius: 5px 5px 5px 5px;
     border-style: solid ;
     padding: 0px !important;
+}
+/* -- Productos -- */
+.botonListaDetallePromo:hover{
+    cursor: pointer;
+    text-shadow: 0 0 1px deepskyblue,
+        0 0 1px  deepskyblue,
+        0 0 1px deepskyblue,
+        0 0 1px  deepskyblue,
+        0 0 1px  deepskyblue,
+        0 0 1px  deepskyblue,
+        0 0 1px deepskyblue,
+        0 0 1px deepskyblue!important;
 }

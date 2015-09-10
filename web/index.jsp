@@ -194,7 +194,32 @@
                                 !window.jQuery && document.write('<script src="js/jquery.min.js"><\/script>');
     </script>
     <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: "bienvenida.jsp",
+                beforeSend: function () {
+                    cambioFrameIcono("refresh");
+                    $("#frameContainer").load("cargando.html");
+                    $("#frameTitulo").html(" CARGANDO");
+                },
+                error: function () {
+                    cambioFrameIcono("alert");
+                    $("#frameContainer").html(" Error al cargar restaurante");
+                    $("#frameTitulo").html(" ERROR");
+                    n();
+                },
+                success: function (data) {
+                    cambioFrameIcono("cutlery");
+                    $("#frameContainer").html(data);
+                    $("#frameTitulo").html(" bienvenido");
+                    n();
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
         $.ajax({
+            url: "restaurantesPorCategoria.jsp",
             beforeSend: function () {
                 $("#barraRestauranes").load("cargando.html");
             },
@@ -202,8 +227,8 @@
                 $("#barraRestauranes").html("Error al cargar restaurante");
                 n();
             },
-            success: function () {
-                $("#barraRestauranes").load("restaurantesPorCategoria.jsp");
+            success: function (data) {
+                $("#barraRestauranes").html(data);
                 n();
             }
         });
