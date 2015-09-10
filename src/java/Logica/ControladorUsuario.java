@@ -356,7 +356,7 @@ public final class ControladorUsuario {
 
     public DataCliente buscarCliente(String nickname) throws SQLException, ClassNotFoundException {
         if ((Cliente) Clientes.get(nickname) == null) {
-            Clientes = this.retornarRestaurantes();
+            Clientes = this.retornarClientes();
         }
         Cliente C = (Cliente) Clientes.get(nickname);
         if (C == null) {
