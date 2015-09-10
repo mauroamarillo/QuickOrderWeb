@@ -23,7 +23,6 @@
     HashMap ListaProductos = new HashMap();
     ListaProductos.putAll(CU.getCP().getDataIndividuales());
     ListaProductos.putAll(CU.getCP().getDataPromociones());
-
 %>
 <!DOCTYPE html>
 </br>
