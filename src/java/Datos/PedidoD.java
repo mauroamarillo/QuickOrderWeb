@@ -114,6 +114,16 @@ public class PedidoD {
         return rs;
     }
     
+    public ResultSet obtenerPedidosRestaurante(String nick) throws SQLException, ClassNotFoundException{
+        this.st = es.generarSt();
+        String query = " SELECT * "
+                + " FROM pedidos"
+                + " WHERE restaurante='" + nick + "';";
+        ResultSet rs = st.executeQuery(query);
+        st.getConnection().close();
+        return rs;
+    }
+    
     public void calificarPedido(int numero, Date fecha, int calificacion, String comentario) throws SQLException, ClassNotFoundException{
         this.st = es.generarSt();
         String query = "INSERT INTO calificaciones(fecha, pedido, puntaje, comentario)"

@@ -42,6 +42,15 @@ public class UsuarioD {
         st.execute(Usuario);
         st.getConnection().close();
     }
+    
+    public void modificarUsuario(String nickAntiguo, String nick, String nombre, String email, String direccion, String pwd) throws SQLException, ClassNotFoundException {
+        this.st = es.generarSt();
+        String Usuario = "UPDATE usuarios" 
+                + " SET nickname='" + nick + "', nombre='" + nombre + "', email='" + nombre + "', direccion='" + direccion + "', contrasenia='" + pwd + "'" 
+                + " WHERE nickname = '" + nickAntiguo + "';";
+        st.execute(Usuario);
+        st.getConnection().close();
+    }
 
     public void agregarCliente(String nick, String nombre, String email, String direccion, String apellido, Date fechaN, String imagen, String pwd) throws SQLException, ClassNotFoundException {
         agregarUsuario(nick, nombre, email, direccion, pwd);
@@ -59,6 +68,25 @@ public class UsuarioD {
         String Img = " INSERT INTO clientes_imagenes(cliente,imagen)"
                 + " VALUES('" + nick + "','" + imagen + "')";
         st.execute(Img);
+        st.getConnection().close();
+    }
+    
+    public void modificarCliente(String nickAntiguo, String nick, String nombre, String email, String direccion, String apellido, Date fechaN, String imagen, String pwd) throws SQLException, ClassNotFoundException {
+        modificarUsuario(nickAntiguo, nick, nombre, email, direccion, pwd);
+        this.st = es.generarSt();
+        
+        String Cliente = "UPDATE clientes" 
+                + " SET \"nicknameC\"='" + nick +  "', apellido='" + apellido + "', \"fechaN\"='" + fechaN + "'" 
+                + " WHERE \"nicknameC\" = '" + nickAntiguo + "';";
+
+        st.execute(Cliente);
+        /*if (imagen.equals("sin_imagen")) {
+            return;
+        }
+
+        String Img = "INSERT INTO clientes_imagenes(cliente,imagen)"
+                + " VALUES('" + nick + "','" + imagen + "')";
+        st.execute(Img);*/
         st.getConnection().close();
     }
 

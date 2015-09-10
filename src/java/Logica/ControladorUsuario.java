@@ -9,9 +9,7 @@ import Logica.DataTypes.DataPedido;
 import Logica.DataTypes.DataProdPedido;
 import Logica.DataTypes.DataRestaurante;
 import java.io.File;
-import java.util.Calendar;
 import java.sql.SQLException;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -146,8 +144,7 @@ public final class ControladorUsuario {
 
     public HashMap consultarCategorias() throws SQLException, ClassNotFoundException {
         HashMap resultado = new HashMap();
-        java.sql.ResultSet rs;
-        rs = CategoriaDatos.consultarCategorias();
+        java.sql.ResultSet rs = CategoriaDatos.consultarCategorias();
         while (rs.next()) {
             resultado.put(rs.getInt("idCat"), rs.getString("nombre"));
         }
@@ -359,7 +356,7 @@ public final class ControladorUsuario {
 
     public DataCliente buscarCliente(String nickname) throws SQLException, ClassNotFoundException {
         if ((Cliente) Clientes.get(nickname) == null) {
-            Clientes = this.retornarRestaurantes();
+            Clientes = this.retornarClientes();
         }
         Cliente C = (Cliente) Clientes.get(nickname);
         if (C == null) {
@@ -542,24 +539,10 @@ public final class ControladorUsuario {
         java.sql.ResultSet rs = PedidoDatos.obtenerPedidosRestaurante(restaurante);
         
         while (rs.next()) {
-            Estado e;
-            switch(rs.getInt("estado")){
-                case 0:
-                    e = Estado.preparacion;
-                    break;
-                case 1:
-                    e = Estado.enviado;
-                    break;
-                case 2:
-                    e = Estado.recibido;
-                    break;
-                case 3:
-                    e = Estado.aconfirmar;
-                    break;
-            }
-            Restaurante R = new Pedido(rs.getInt("numero"), rs.getDate("fecha"), e, rs.getString("cliente"));
-            resultado.put(R.getNickname(), R);
+            DataPedido DP = getDataPedido(rs.getInt("numero"));
+            resultado.put(DP.getNumero(), DP);
         }
+        
         return resultado;
     }
 
