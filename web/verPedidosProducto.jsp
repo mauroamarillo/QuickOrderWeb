@@ -33,10 +33,11 @@
         Map.Entry entry = (Map.Entry) it.next();
         DataPedido DP = (DataPedido) entry.getValue();
 %>
+<!DOCTYPE html >
 <div class="row">
     <label class="col-lg-4"><%=new Fecha(DP.getFecha()).toString()%></label>
     <label class="col-lg-2"><%=DP.getCliente()%></label>
-    <label class="col-lg-2"><%=DP.getPrecio()%></label>
+    <label class="col-lg-2">$ <%=DP.getPrecio()%></label>
     <label class="col-lg-2"><%
         if (DP.getCalificacion().getPuntaje() == 0) {
             out.print("S/C");
@@ -56,4 +57,3 @@
 <%
     }
 %>
-<!DOCTYPE html >

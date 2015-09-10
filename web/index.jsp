@@ -64,9 +64,15 @@
             </div>
             <div id="BARRA-QUE-SE-OCULTA" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a class="frameLink" href="verProductos.jsp"> Buscar Productos </a></li>
-                        <%-- <li><a class="frameLink" href="#"> Imagenes </a></li>
-                            <li><a class="frameLink" href="#"> Musica </a></li>--%>
+                    <li>
+                        <a class="frameLink" href="verProductos.jsp"> Listar Productos </a>
+                    </li>
+                    <%--    <li><a class="frameLink" href="#"> Musica </a></li>--%>
+                </ul>
+                <ul class="nav navbar-nav navbar-form">
+                    <li>
+                        <input type="text" id="inputBusquedaProducto" placeholder="Busqueda" class="form-control" onkeyup="busquedaProducto(document.getElementById('inputBusquedaProducto').value)"/>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <%
@@ -74,7 +80,7 @@
                             out.print("<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#ModalLogin\">  Iniciar Sesion </a></li> "
                                     + "<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#ModalRegistro\"> Registro </a></li>");
                         } else {
-                            out.print("<li><a href=\"infoUsuario.jsp\" class=\"frameLink\">" + session.getAttribute("nombre") + " </a></li> "
+                            out.print("<li><a href=\"infoUsuario.jsp\" class=\"frameLink\">" + session.getAttribute("nombre") + "</a></li> "
                                     + "<li><a href=\"carrito.jsp\" class=\"frameLink\"> Ver Carrito </a></li>"
                                     + "<li><a href=\"logout\"> Cerrar Sesion </a></li>");
                         }
@@ -100,7 +106,7 @@
             <div class="col-md-9">
                 <div class="panel panel-default panel-transparent">
                     <div class="panel-heading">
-                        <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span><span id="frameTitulo" > Quick<%-- 天 --%> Order</span>
+                        <span id="frameIcono" class="glyphicon glyphicon-asterisk" aria-hidden="true"></span><span id="frameTitulo" > Quick<%-- 天 --%> Order</span>
                     </div>
                     <div class="panel-body" id ="frameContainer" >
                         Bienvenido
@@ -210,15 +216,18 @@
                 data: "r=" + r,
                 dataType: "html",
                 beforeSend: function () {
+                    cambioFrameIcono("refresh");
                     $("#frameContainer").load("cargando.html");
                     $("#frameTitulo").html(" CARGANDO");
                 },
                 error: function () {
+                    cambioFrameIcono("alert");
                     $("#frameContainer").html(" Error al cargar restaurante");
                     $("#frameTitulo").html(" ERROR");
                     n();
                 },
                 success: function (data) {
+                    cambioFrameIcono("cutlery");
                     $("#frameContainer").html(data);
                     $("#frameTitulo").html(" Restaurantes");
                     n();
@@ -256,7 +265,7 @@
                 data: "email=" + consulta,
                 dataType: "html",
                 beforeSend: function () {
-                    $("#resultadoEmail").html('<img src="img/confirmarCarrito.gif" />');
+                    $("#resultadoEmail").html('<img src="img/confirmarCarrito.gif" /> verificando');
                 },
                 error: function () {
                     $("#resultadoEmail").html("Error en la peticion ajax");
@@ -283,18 +292,26 @@
                     $(this).attr({href: "#"});
                     $(this).click(function () {
                         $.ajax({
-                            url: "infoRestaurante.jsp",
+                            url: href,
                             beforeSend: function () {
+                                cambioFrameIcono("refresh");
                                 $("#frameContainer").load("cargando.html");
                                 $("#frameTitulo").html(" CARGANDO");
                             },
                             error: function () {
+                                cambioFrameIcono("alert");
                                 $("#frameContainer").html(" Error al cargar restaurante");
                                 $("#frameTitulo").html(" ERROR");
                                 n();
                             },
-                            success: function () {
-                                $("#frameContainer").load(href);
+                            success: function (data) {
+                                if (href === 'infoUsuario.jsp')
+                                    cambioFrameIcono("user");
+                                else if (href === 'carrito.jsp')
+                                    cambioFrameIcono("shopping-cart");
+                                else
+                                    cambioFrameIcono('cutlery');
+                                $("#frameContainer").html(data);
                                 $("#frameTitulo").html(" " + titulo);
                                 n();
                             }
@@ -302,7 +319,8 @@
                     });
                 }
             });
-        });</script>
+        });
+    </script>
 
     <script type="text/javascript">
         /* Este es el script para que se despliege el calendario*/
@@ -326,6 +344,44 @@
             }
             $('#respuesta').show().delay(3000).fadeOut("slow");
         }
+    </script>
+    <script>
+        busquedaProducto = function (filtro) {
+            $.ajax({
+                type: "POST",
+                url: "busquedaProducto.jsp",
+                data: {filtro: filtro},
+                beforeSend: function () {
+                    cambioFrameIcono("refresh");
+                    $("#frameContainer").load("cargando.html");
+                    $("#frameTitulo").html(" Buscando...");
+                },
+                error: function () {
+                    cambioFrameIcono("alert");
+                    $("#frameContainer").html(" Error al cargar restaurante");
+                    $("#frameTitulo").html(" ERROR");
+                    n();
+                },
+                success: function (data) {
+                    cambioFrameIcono("search");
+                    $("#frameContainer").html(data);
+                    $("#frameTitulo").html(" Resultado de busqueda por: " + filtro);
+                    n();
+                }
+            });
+        };
+    </script>
+    <script>
+        cambioFrameIcono = function (icono) {
+            $("#frameIcono").removeClass('glyphicon-asterisk');
+            $("#frameIcono").removeClass('glyphicon-user');
+            $("#frameIcono").removeClass('glyphicon-refresh');
+            $("#frameIcono").removeClass('glyphicon-search');
+            $("#frameIcono").removeClass('glyphicon-cutlery');
+            $("#frameIcono").removeClass('glyphicon-alert');
+            $("#frameIcono").removeClass('glyphicon-shopping-cart');
+            $("#frameIcono").addClass('glyphicon-' + icono);
+        };
     </script>
 
 </body>
