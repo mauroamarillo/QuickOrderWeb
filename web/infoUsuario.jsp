@@ -148,7 +148,7 @@
                             <%
                                 DataCalificacion calificacion = CU.obtenerCalificacionPedido(DP.getNumero());
                                 if (calificacion.getPuntaje() == 0) {//&& DP.getEstado().equals(Estado.recibido) <-- hay que poner esto porque solo deberian poder puntuarse pedidos recibidos
-                            %>
+%>
                             <a href="<%=DP.getNumero()%>" style="float: right;" class="calificarPedido"><span class="glyphicon glyphicon-pencil"></span></a>
                                 <%
                                     } else {
