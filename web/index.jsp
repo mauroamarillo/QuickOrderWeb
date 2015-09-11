@@ -60,7 +60,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Quick Order</a><%-- 天 --%>
+                <a class="navbar-brand frameLink" href="bienvenida.jsp">Quick Order</a><%-- 天 --%>
             </div>
             <div id="BARRA-QUE-SE-OCULTA" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">

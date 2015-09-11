@@ -4,6 +4,7 @@
     Author     : Jean
 --%>
 
+<%@page import="Logica.DataTypes.DataCliente"%>
 <%@page import="Logica.Fecha"%>
 <%@page import="Logica.DataTypes.DataCalificacion"%>
 <%@page import="Logica.DataTypes.DataPedido"%>
@@ -32,24 +33,25 @@
     while (it.hasNext()) {
         Map.Entry entry = (Map.Entry) it.next();
         DataPedido DP = (DataPedido) entry.getValue();
+        DataCliente DC = CU.buscarCliente(DP.getCliente());
 %>
 <!DOCTYPE html >
 <div class="row">
-    <label class="col-lg-4"><%=new Fecha(DP.getFecha()).toString()%></label>
-    <label class="col-lg-2"><%=DP.getCliente()%></label>
-    <label class="col-lg-2">$ <%=DP.getPrecio()%></label>
-    <label class="col-lg-2"><%
+    <label class="col-lg-5"><%=new Fecha(DP.getFecha()).toString()%></label>
+    <label class="col-lg-3"><%=DC.getNombre()%> <%=DC.getApellido()%></label>
+    <label class="col-lg-2" style="text-align: right;">$ <%=DP.getPrecio()%></label>
+    <label class="col-lg-2" style="text-align: right;"><%
         if (DP.getCalificacion().getPuntaje() == 0) {
             out.print("S/C");
         } else {
             for (int i = 0; i < 5; i++) {
-                out.print("<p style=\"float: right;\">");
+                // out.print("<p>");
                 if (i < DP.getCalificacion().getPuntaje()) {
                     out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:orange;\"></span>");
                 } else {
                     out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:gray;\"></span>");
                 }
-                out.print("</p>");
+                //  out.print("</p>");
             }
         }
         %></label>

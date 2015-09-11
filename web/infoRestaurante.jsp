@@ -3,6 +3,8 @@
     Created on : 29/08/2015, 01:38:02 AM
     Author     : Jean
 --%>
+<%@page import="Logica.Fecha"%>
+<%@page import="Logica.DataTypes.DataPedido"%>
 <%@page import="Logica.DataTypes.DataPromocion"%>
 <%@page import="Logica.DataTypes.DataIndividual"%>
 <%@page import="java.util.Map"%>
@@ -174,13 +176,40 @@
             </div>
         </div>
         <div class="tab-pane" id="Calificaciones"><%-- tercer panel --%>
-            <h1>Calificaciones por Pedidos</h1>
-            
+            <h1>Calificaciones por Pedidos</h1><br/>
+
+            <%
+                HashMap Pedidos = CU.getPedidosRestaurante(nick);
+                it = Pedidos.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry entry = (Map.Entry) it.next();
+                    DataPedido DP = (DataPedido) entry.getValue();
+                    if (DP.getCalificacion().getPuntaje() > 0) {
+                        out.print(" <div class=\"row\">");
+                        out.print("<div class=\"col-sm-4\">" + new Fecha(DP.getFecha()).toString() + "</div>");
+                        out.print("<div class=\"col-sm-2\">" + DP.getCliente() + "</div>");
+                        out.print("<div class=\"col-sm-4\">" + DP.getCalificacion().getComentario() + "</div>");
+                        out.print("<div class=\"col-sm-2\">");
+                        for (int i = 0; i < 5; i++) {
+                            // out.print("<p>");
+                            if (i < DP.getCalificacion().getPuntaje()) {
+                                out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:orange;\" />");
+                            } else {
+                                out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:gray;\" />");
+                            }
+                            //  out.print("</p>");
+                        }
+                        out.print("</div>");
+                        out.print("</div>");
+                    }
+                }
+            %>
+
         </div>
     </div>
 </div>
-                
-                
+
+
 <div id="ModalPromocion" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content modal-transparent" id="ModalPromocionContenido">

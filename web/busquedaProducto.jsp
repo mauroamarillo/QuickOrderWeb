@@ -4,6 +4,7 @@
     Author     : Jean
 --%>
 
+<%@page import="Logica.DataTypes.DataRestaurante"%>
 <%@page import="Logica.DataTypes.DataProducto"%>
 <%@page import="Logica.DataTypes.DataIndividual"%>
 <%@page import="Logica.DataTypes.DataPromocion"%>
@@ -32,6 +33,7 @@
         while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
             if (((DataProducto) entry.getValue()).getNombre().toLowerCase().contains(filtro.toLowerCase())) {
+                DataRestaurante DR = CU.buscarRestaurante(((DataProducto) entry.getValue()).getRestaurante());
                 if (entry.getValue() instanceof DataPromocion) {
                     DataPromocion DP = (DataPromocion) entry.getValue();
                     String urlImg = DP.getImagen();
@@ -43,7 +45,7 @@
                     out.print("<img src=\"" + urlImg + "\" style=\"width: 100%; height: 150px;\"alt=\"" + DP.getNombre() + "\">");
                     out.print("         <div class=\"caption\">");
                     out.print("             <h3>" + DP.getNombre() + "</h3>");
-                    out.print("                 <p>" + DP.getRestaurante() + "</p>");
+                    out.print("                 <p>" + DR.getNombre() + "</p>");
                     out.print("                 <p>" + DP.getDescripcion() + "</p>");
                     out.print("                 <p>Precio: $" + DP.getPrecio() + "</p>");
                     out.print("                 <p>Descuento: " + DP.getDescuento() + "%</p>");
@@ -79,7 +81,7 @@
                     out.print("<img src=\"" + urlImg + "\" style=\"width: 100%; height: 150px;\"alt=\"" + DI.getNombre() + "\">");
                     out.print("         <div class=\"caption\">");
                     out.print("             <h3>" + DI.getNombre() + "</h3>");
-                    out.print("                 <p>" + DI.getRestaurante() + "</p>");
+                    out.print("                 <p>" + DR.getNombre() + "</p>");
                     out.print("                 <p>" + DI.getDescripcion() + "</p>");
                     out.print("                 <p>Precio: $" + DI.getPrecio() + "</p>");
                     out.print("                     <a href=\"" + DI.getRestaurante() + "_" + DI.getNombre() + "\" class=\"btn btn-primary verPedidosProducto\" role=\"button\" style=\"width: 100%;\">Pedidos Relacionados      </a>");

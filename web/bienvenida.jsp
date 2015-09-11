@@ -4,6 +4,8 @@
     Author     : Jean
 --%>
 
+<%@page import="Logica.DataTypes.DataIndividual"%>
+<%@page import="Logica.DataTypes.DataPromocion"%>
 <%@page import="Logica.DataTypes.DataRestaurante"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
@@ -21,10 +23,22 @@
     HashMap restaurantes = CU.getDataRestaurantes();
 %>
 <style>
+    .carousel-caption h1, .carousel-caption p{
+        color: black;
+        text-shadow: 0 0 10px white,
+            0 0 5px  white,
+            0 0 5px white,
+            0 0 5px   white,
+            0 0 5px  white,
+            0 0 5px  white,
+            0 0 5px white,
+            0 0 5px white!important;
+    }
     .imagenCarrusel{
         height: 384px!important;
         width: 100%!important;
-        -webkit-animation: filter-animation 1s infinite;
+        
+        // -webkit-animation: filter-animation 1s infinite;
     }
     @-webkit-keyframes filter-animation {
         0% {
@@ -40,6 +54,7 @@
         }
     }
 </style>
+<!--<embed src="borrar/mp3.mp3" width="240" height="160" style=" visibility: hidden; position: absolute;" /> -->
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">
@@ -60,13 +75,14 @@
             while (it.hasNext()) {
                 Map.Entry entry = (Map.Entry) it.next();
                 DataRestaurante DR = (DataRestaurante) entry.getValue();
+                DataIndividual DI = ((DataIndividual) ((Map.Entry) DR.getIndividuales().entrySet().iterator().next()).getValue());
                 out.print("<div class=\"item " + activo + "\">");
-                out.print(" <img class=\"" + DR.getNombre() + "-slide imagenCarrusel\" src=\"img/car1.jpg\" alt=\"" + DR.getNombre() + "\"/>");
+                out.print(" <img class=\"" + DR.getNombre() + "-slide imagenCarrusel\" src=\"" + DI.getImagen() + "\" alt=\"" + DR.getNombre() + "\"/>");
                 out.print("<div class=\"container\">");
                 out.print("<div class=\"carousel-caption\">");
-                out.print("<h1>" + DR.getNombre() + "</h1>");
-                out.print("<p>Texto con una descripcion re loca</p>");
-                out.print(" <p><a class=\"btn btn-lg btn-primary\" href=\"#\" role=\"button\">Boton que lleva al restaurante</a></p>");
+                out.print("<h1>" + DI.getNombre() + "</h1>");
+                out.print("<p>" + DI.getDescripcion() + "</p>");
+                out.print(" <p><a class=\"btn btn-lg btn-primary\" href=\"#\" role=\"button\">Visitar Restaurante</a></p>");
                 out.print("</div>");
                 out.print("</div>");
                 out.print("</div>");

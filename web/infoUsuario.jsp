@@ -147,10 +147,12 @@
                             </a>
                             <%
                                 DataCalificacion calificacion = CU.obtenerCalificacionPedido(DP.getNumero());
-                                if (calificacion.getPuntaje() == 0) {//&& DP.getEstado().equals(Estado.recibido) <-- hay que poner esto porque solo deberian poder puntuarse pedidos recibidos
-%>
+                                if (calificacion.getPuntaje() == 0) {// <-- hay que poner esto porque solo deberian poder puntuarse pedidos recibidos
+                                    if (DP.getEstado().equals(Estado.recibido)) {
+                            %>
                             <a href="<%=DP.getNumero()%>" style="float: right;" class="calificarPedido"><span class="glyphicon glyphicon-pencil"></span></a>
                                 <%
+                                        }
                                     } else {
                                         for (int i = 0; i < 5; i++) {
                                             out.print("<p style=\"float: right;\">");
