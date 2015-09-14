@@ -156,7 +156,7 @@
                                     } else {
                                         for (int i = 5; i > 0; i--) {
                                             out.print("<p style=\"float: right;\">");
-                                            if (i < calificacion.getPuntaje()) {
+                                            if (i <= calificacion.getPuntaje()) {
                                                 out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:orange;\"></span>");
                                             } else {
                                                 out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:gray;\"></span>");
