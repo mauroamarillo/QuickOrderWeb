@@ -39,7 +39,6 @@ public final class ControladorUsuario {
         this.Categorias = consultarCategorias();
         this.CP = new ControladorProductos(this);
         this.asignarPedidosAClientes();
-
     }
 
     public boolean nickOcupado(String nick) throws SQLException, ClassNotFoundException {
@@ -530,8 +529,16 @@ public final class ControladorUsuario {
         }
     }
     
+    public float getPromedioCalificaciones(String nick) throws SQLException, ClassNotFoundException{
+        return UsuarioDatos.obtenerCalificacionRestaurante(nick);
+    }
+    
     public DataCalificacion obtenerCalificacionPedido(int pedido) throws SQLException, ClassNotFoundException{
         return getDataPedido(pedido).getCalificacion();
+    }
+    
+    public void modificarCliente(String nick, String nombre, String email, String direccion, String apellido, String imagen, String pwd) throws SQLException, ClassNotFoundException {
+            UsuarioDatos.modificarCliente(nick, nombre, email, direccion, apellido, imagen, pwd);
     }
     
     public HashMap getPedidosRestaurante(String restaurante) throws SQLException, ClassNotFoundException{
