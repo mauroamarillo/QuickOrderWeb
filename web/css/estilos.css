@@ -202,3 +202,12 @@ body{
         0 0 1px deepskyblue,
         0 0 1px deepskyblue!important;
 }
+
+.lineaCalificacionRestaurante{
+    color: black;
+    text-shadow: 0 0 10px black!important;
+    vertical-align: central;
+    background: rgba(225,225,225,0.5);
+    margin:2px!important;
+    border-radius: 5px 5px 5px 5px;
+}

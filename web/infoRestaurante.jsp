@@ -3,6 +3,7 @@
     Created on : 29/08/2015, 01:38:02 AM
     Author     : Jean
 --%>
+<%@page import="Logica.DataTypes.DataCliente"%>
 <%@page import="Logica.Fecha"%>
 <%@page import="Logica.DataTypes.DataPedido"%>
 <%@page import="Logica.DataTypes.DataPromocion"%>
@@ -185,9 +186,10 @@
                     Map.Entry entry = (Map.Entry) it.next();
                     DataPedido DP = (DataPedido) entry.getValue();
                     if (DP.getCalificacion().getPuntaje() > 0) {
-                        out.print(" <div class=\"row\">");
+                        DataCliente DC = CU.buscarCliente(DP.getCliente());
+                        out.print(" <div class=\"row lineaCalificacionRestaurante\">");
                         out.print("<div class=\"col-sm-4\">" + new Fecha(DP.getFecha()).toString() + "</div>");
-                        out.print("<div class=\"col-sm-2\">" + DP.getCliente() + "</div>");
+                        out.print("<div class=\"col-sm-2\">" + DC.getNombre() + " " + DC.getApellido() + "</div>");
                         out.print("<div class=\"col-sm-4\">" + DP.getCalificacion().getComentario() + "</div>");
                         out.print("<div class=\"col-sm-2\">");
                         for (int i = 0; i < 5; i++) {

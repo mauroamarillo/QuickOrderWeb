@@ -154,7 +154,7 @@
                                 <%
                                         }
                                     } else {
-                                        for (int i = 0; i < 5; i++) {
+                                        for (int i = 5; i > 0; i--) {
                                             out.print("<p style=\"float: right;\">");
                                             if (i < calificacion.getPuntaje()) {
                                                 out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:orange;\"></span>");
@@ -170,7 +170,7 @@
                     </div>
                     <div id="collapse<%=DP.getNumero()%>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%=DP.getNumero()%>">
                         <div class="row" style="padding: 10px; " >
-                            <ul class="media-list col-lg-7">
+                            <ul class="media-list col-lg-7" style="padding-left: 10px; ">
                                 <%
                                     HashMap DataProdPedido = DP.getProdPedidos();
                                     Iterator it2 = DataProdPedido.entrySet().iterator();
