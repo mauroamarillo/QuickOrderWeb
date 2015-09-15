@@ -192,15 +192,15 @@
                         out.print("<div class=\"col-sm-2\">" + DC.getNombre() + " " + DC.getApellido() + "</div>");
                         out.print("<div class=\"col-sm-4\">" + DP.getCalificacion().getComentario() + "</div>");
                         out.print("<div class=\"col-sm-2\">");
+                        out.print("<a  href=\"#\" data-toggle=\"popover\" data-trigger=\"focus\" title=\"Comentario\" data-content=\"" + DP.getCalificacion().getComentario() + "\" >");
                         for (int i = 0; i < 5; i++) {
-                            // out.print("<p>");
                             if (i < DP.getCalificacion().getPuntaje()) {
                                 out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:orange;\" />");
                             } else {
                                 out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:gray;\" />");
                             }
-                            //  out.print("</p>");
                         }
+                        out.print("</a>");
                         out.print("</div>");
                         out.print("</div>");
                     }
@@ -235,12 +235,18 @@
             </div>
         </div>
     </div>
-</div>                
+</div>               
 
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+</script>
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
         $('#tabs').tab();
-    });</script> 
+    });
+</script> 
 <script type="text/javascript">
     verPromo = function (x) {
         $('#ModalPromocion').removeData('bs.modal');

@@ -81,7 +81,7 @@ public class UsuarioD {
 
         st.execute(Cliente);
 
-        if (imagen.equals("sin_imagen")) {
+       /* if (imagen.equals("sin_imagen")) {
             return;
         }
 
@@ -89,7 +89,7 @@ public class UsuarioD {
                 + " INSERT INTO clientes_imagenes (cliente, imagen)" 
                 + " VALUES ('" + nick + "', '" + imagen + "')" 
                 + " WHERE NOT EXISTS (SELECT * FROM clientes_imagenes c WHERE c.cliente='" + nick + "');";
-        st.execute(Img);
+        st.execute(Img);*/
 
         st.getConnection().close();
     }

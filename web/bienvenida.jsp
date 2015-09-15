@@ -37,7 +37,7 @@
     .imagenCarrusel{
         height: 384px!important;
         width: 100%!important;
-        
+
         // -webkit-animation: filter-animation 1s infinite;
     }
     @-webkit-keyframes filter-animation {
@@ -78,9 +78,10 @@
                 out.print(" <img class=\"" + DR.getNombre() + "-slide imagenCarrusel\" src=\"" + DI.getImagen() + "\" alt=\"" + DR.getNombre() + "\"/>");
                 out.print("<div class=\"container\">");
                 out.print("<div class=\"carousel-caption\">");
+                out.print("<h1><b>" + DR.getNombre() + "</b></h1>");
                 out.print("<h1>" + DI.getNombre() + "</h1>");
                 out.print("<p>" + DI.getDescripcion() + "</p>");
-                out.print(" <p><a class=\"btn btn-lg btn-primary\" href=\"#\" role=\"button\">Visitar Restaurante</a></p>");
+                out.print(" <p><a class=\"btn btn-lg btn-primary\" href=\"#\" onclick=\"cargarResaurante('" + DR.getNickname() + "')\" role=\"button\">Visitar Restaurante</a></p>");
                 out.print("</div>");
                 out.print("</div>");
                 out.print("</div>");

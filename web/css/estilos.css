@@ -276,3 +276,19 @@ body{
     -o-transition: opacity 500ms;
     transition: opacity 500ms;
 }
+.popover-title{
+    background-color: black;
+    font-size: 18px;
+    color:white;
+}
+
+.popover{
+    max-width: 300px;
+    width: 250px; 
+    text-align: center;
+    margin-bottom: 6px;
+    background-color: black;
+    font-size: 14px;
+    color:white;
+    text-shadow: 0 0 10px white!important;
+}

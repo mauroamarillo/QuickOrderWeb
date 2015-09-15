@@ -40,22 +40,27 @@
     <label class="col-lg-5"><%=new Fecha(DP.getFecha()).toString()%></label>
     <label class="col-lg-3"><%=DC.getNombre()%> <%=DC.getApellido()%></label>
     <label class="col-lg-2" style="text-align: right;">$ <%=DP.getPrecio()%></label>
-    <label class="col-lg-2" style="text-align: right;"><%
+    <label class="col-lg-2"><%
         if (DP.getCalificacion().getPuntaje() == 0) {
             out.print("S/C");
         } else {
+            out.print("<a  href=\"#\" data-toggle=\"popover\" data-trigger=\"focus\" title=\"Comentario\" data-content=\"" + DP.getCalificacion().getComentario() + "\" >");
             for (int i = 0; i < 5; i++) {
-                // out.print("<p>");
                 if (i < DP.getCalificacion().getPuntaje()) {
                     out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:orange;\"></span>");
                 } else {
                     out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:gray;\"></span>");
                 }
-                //  out.print("</p>");
             }
+            out.print("</a>");
         }
         %></label>
 </div>
 <%
     }
 %>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();   
+});
+</script>
