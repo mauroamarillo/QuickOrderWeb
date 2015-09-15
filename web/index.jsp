@@ -120,7 +120,7 @@
     <div class="modal fade " id="ModalRegistro" tabindex="-1" role="dialog" aria-labelledby="ModalRegistroLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-transparent">
-                <form class="form-signin" action="registro.jsp" method="post" autocomplete="off">
+                <form class="form-signin" action="registro" method="post" autocomplete="off">
 
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -132,7 +132,10 @@
                             <div id="resultado"></div>
                         </div> 
                         <div class="form-group">
-                            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre Usuario*" required/>
+                            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre*" required/>
+                        </div> 
+                        <div class="form-group">
+                            <input type="text" name="apellido" id="apellido" class="form-control" placeholder="Apellido*" required/>
                         </div> 
                         <div class="form-group">
                             <input type="text" name="direccion" id="direccion" class="form-control" placeholder="direccion*" required/>

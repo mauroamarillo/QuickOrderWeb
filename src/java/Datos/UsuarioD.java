@@ -46,7 +46,7 @@ public class UsuarioD {
     public void modificarUsuario(String nick, String nombre, String email, String direccion, String pwd) throws SQLException, ClassNotFoundException {
         this.st = es.generarSt();
         String Usuario = "UPDATE usuarios" 
-                + " SET nombre='" + nombre + "', email='" + nombre + "', direccion='" + direccion + "', contrasenia='" + pwd + "'" 
+                + " SET nombre='" + nombre + "', email='" + email + "', direccion='" + direccion + "', contrasenia='" + pwd + "'" 
                 + " WHERE nickname = '" + nick + "';";
         st.execute(Usuario);
         st.getConnection().close();
@@ -88,7 +88,7 @@ public class UsuarioD {
         String Img = "UPDATE clientes_imagenes SET imagen='" + imagen + "' WHERE cliente='" + nick + "';" 
                 + " INSERT INTO clientes_imagenes (cliente, imagen)" 
                 + " VALUES ('" + nick + "', '" + imagen + "')" 
-                + " WHERE NOT EXISTS (SELECT * FROM clientes_imagenes WHERE cliente='" + nick + "');";
+                + " WHERE NOT EXISTS (SELECT * FROM clientes_imagenes c WHERE c.cliente='" + nick + "');";
         st.execute(Img);
 
         st.getConnection().close();

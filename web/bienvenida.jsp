@@ -44,11 +44,9 @@
         0% {
             -webkit-filter: sepia(0) saturate(2);
         }
-
         50% {
             -webkit-filter: sepia(1) saturate(8);
         }
-
         100% {
             -webkit-filter: sepia(0) saturate(2);
         }

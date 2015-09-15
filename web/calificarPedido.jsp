@@ -13,21 +13,18 @@
 
 <!DOCTYPE html>
 <style>
-
     input[type = "radio"]{ 
         display:none;
     }
     label{
         color:grey;
     }
-
     .clasificacion{
         direction: rtl;
         unicode-bidi: bidi-override;
         text-align:center; 
         font-size:20px;
     }
-
     label:hover,
     label:hover ~ label{
         color:orange;
@@ -35,7 +32,6 @@
     input[type = "radio"]:checked ~ label{
         color:orange;
     }
-
 </style>
 
 <div class="modal-header">

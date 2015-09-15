@@ -30,73 +30,6 @@
     }
     DataCliente DC = CU.buscarCliente(nick);
 %>
-<style>
-    //estos estilos son para hacer que aparesca el mensaje sobre la imagen 
-    .cambioImagenPerfil {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        text-align: center;
-    }
-
-    .cambioImagenPerfil {
-        display: inline-block;
-        height: 190px;
-        margin: 0 1em 1em 0;
-        position: relative;
-        width: 190px;
-    }
-    .spanCambio {
-        background: rgba(0,0,0,0.5);
-        color: white;
-        cursor: pointer;
-        display: table;
-        height: 190px;
-        left: 0;
-        position: absolute;
-        top: 0;
-        width: 150px;
-    }
-
-    .spanCambio span {
-        display: table-cell;
-        text-align: center;
-        font-size: 20px;
-        vertical-align: middle;
-    }
-    .spanCambio  {
-        background: rgba(0,0,0,0.5);
-        color: white;
-        cursor: pointer;
-        display: table;
-        height: 190px;
-        left: 0;
-        position: absolute;
-        top: 0;
-        width: 190px;
-        opacity: 0;
-    }
-
-    .cambioImagenPerfil:hover .spanCambio {
-        opacity: 1;
-    }
-    .spanCambio  {
-        background: rgba(0,0,0,0.5);
-        color: white;
-        cursor: pointer;
-        display: table;
-        height: 190px;
-        left: 0;
-        position: absolute;
-        top: 0;
-        width: 190px;
-        opacity: 0;
-        -webkit-transition: opacity 500ms;
-        -moz-transition: opacity 500ms;
-        -o-transition: opacity 500ms;
-        transition: opacity 500ms;
-    }
-</style>
 <!DOCTYPE HTML>
 <div id="content">
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
@@ -114,11 +47,8 @@
                     }
                     out.print(urlImg);%> " class="img-thumbnail" style=" width:190px; height:190px;" />
 
-            </div
-            > <div 
-                class  
-
-                ="col-lg-9">
+            </div> 
+            <div  class ="col-lg-9">
                 <h1><%=DC.getNickname()%></h1>
                 <p> 
                     <b>Nombre:</b> <%=DC.getNombre()%></br> 
@@ -240,7 +170,7 @@
                 <div class="col-lg-6 " >
                     <form id ="formCambiarDatos" method="post" class="form-signin" onsubmit="return false;">
                         <%-- este valor es para saber si la imagen seleccionada cambio --%> 
-                        <input id="cambioImagen" name="cambioImagen" type="number" hidden="true" value="0" />
+                        <input id="cambioImagen" name="cambioImagen" type="number" hidden="true" value="0" />                         
                         <div class="form-group">
                             <input type="text" name="nombre" id="nombre" value="<%=DC.getNombre()%>" class="form-control" placeholder="Nombre*" required/>
                         </div> 
@@ -256,6 +186,9 @@
                         </div> 
                         <div class="form-group">
                             <input type="password" name="passwd" id="passwd" value="<%=DC.getPwd()%>" class="form-control" placeholder="Contraseña*" required/>
+                        </div> 
+                        <div class="form-group">
+                            <input type="password" name="re-passwd" id="re-passwd" value="<%=DC.getPwd()%>" class="form-control" placeholder="Confirmar Contraseña*" required/>
                         </div> 
                         <button value="Send" class="btn btn-primary" type="submit"  id="confirmarCambios" >Confirmar</button>                        
                         <a class="btn btn-primary" onclick="resetCampos()" >Restaurar Campos</a>

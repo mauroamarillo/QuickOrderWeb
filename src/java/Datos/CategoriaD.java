@@ -25,7 +25,7 @@ public class CategoriaD {
 
     public ResultSet consultarCategorias() throws SQLException, ClassNotFoundException {
         this.st = es.generarSt();
-        String seleccion = "SELECT * FROM categorias ";
+        String seleccion = "SELECT * FROM categorias";
         ResultSet rs = st.executeQuery(seleccion);
         st.getConnection().close();
         return rs;

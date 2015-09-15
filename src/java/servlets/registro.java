@@ -6,7 +6,6 @@
 package servlets;
 
 import Logica.ControladorUsuario;
-import Logica.HerramientaArchivos;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -22,7 +21,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Jean
  */
-public class cambiarDatosCliente extends HttpServlet {
+public class registro extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,28 +43,30 @@ public class cambiarDatosCliente extends HttpServlet {
             } else {
                 CU = (ControladorUsuario) session.getAttribute("CU");
             }
+            String nick = request.getParameter("nick");
+            String pwd = request.getParameter("passwd");
             String nombre = request.getParameter("nombre");
-            String apellido = request.getParameter("apellido");
-            String cambioImagen = request.getParameter("cambioImagen");
-            String email = request.getParameter("email");
-            String passwd = request.getParameter("passwd");
-            String nick = (String) session.getAttribute("nick");
             String direccion = request.getParameter("direccion");
-            String imagen = "";
-            if (cambioImagen.equals("1")) {
-                HerramientaArchivos.copyFile("C:\\imagenes\\__temp\\nuevo_" + nick + ".jpeg", "C:\\imagenes\\" + nick + ".jpeg");
-            }
+            String apellido = request.getParameter("apellido");
+            String email = request.getParameter("email");
+            String fecha = request.getParameter("fecha");
+            String separador = " ";
+            String[] temp;
+            temp = fecha.split(separador); // reparo la fecha en 3
             try {
-                CU.modificarCliente(nick, nombre, email, direccion, apellido, "C:\\imagenes\\" + nick + ".jpeg", passwd);
-            } catch (SQLException ex) {
-                response.getWriter().print(ex);
-            } catch (ClassNotFoundException ex) {
-                response.getWriter().print(ex);
+                CU.insertarCliente(nick, email, direccion, nombre, apellido, temp[0], temp[1].toLowerCase(), temp[2], null, pwd);
+                session.setAttribute("nick", nick);
+                session.setAttribute("nombre", nombre);
+                session.setAttribute("apellido", apellido);
+                response.sendRedirect("index.jsp");
+            } catch (Exception e) {
+                out.print("<span style='font-weight:bold;color:red;'>" + e.getMessage() + "</span>");
+                out.print("</br><a href=\"index.jsp\">volver</a>");
             }
         } catch (SQLException ex) {
-            response.getWriter().print(ex);
+            Logger.getLogger(registro.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            response.getWriter().print(ex);
+            Logger.getLogger(registro.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
