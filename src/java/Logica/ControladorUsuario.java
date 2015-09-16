@@ -539,6 +539,7 @@ public final class ControladorUsuario {
     
     public void modificarCliente(String nick, String nombre, String email, String direccion, String apellido, String imagen, String pwd) throws SQLException, ClassNotFoundException {
             UsuarioDatos.modificarCliente(nick, nombre, email, direccion, apellido, imagen, pwd);
+            this.Clientes = retornarClientes();
     }
     
     public HashMap getPedidosRestaurante(String restaurante) throws SQLException, ClassNotFoundException{
