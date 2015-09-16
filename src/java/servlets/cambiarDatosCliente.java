@@ -56,7 +56,7 @@ public class cambiarDatosCliente extends HttpServlet {
                 HerramientaArchivos.copyFile("C:\\imagenes\\__temp\\nuevo_" + nick + ".jpg", "C:\\imagenes\\" + nick + ".jpg");
             }
             try {
-                CU.modificarCliente(nick, nombre, email, direccion, apellido, "C:\\imagenes\\" + nick + ".jpg", passwd);
+                CU.modificarCliente(nick, nombre, email, direccion, apellido, "ftp://127.0.0.1/" + nick + ".jpg", passwd);
             } catch (SQLException ex) {
                 response.getWriter().print(ex);
             } catch (ClassNotFoundException ex) {
