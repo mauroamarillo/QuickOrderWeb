@@ -39,7 +39,7 @@
     </ul>
     <div id="my-tab-content" class="tab-content">
         <div class="tab-pane active" id="Datos" style="color:white;">
-            </br>
+            <br/>
             <div class="col-lg-3 ">
                 <img src="<%String urlImg = DC.getImagen();
                     if (urlImg.equals("sin_imagen")) {

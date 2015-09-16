@@ -53,10 +53,10 @@ public class cambiarDatosCliente extends HttpServlet {
             String direccion = request.getParameter("direccion");
             String imagen = "";
             if (cambioImagen.equals("1")) {
-                HerramientaArchivos.copyFile("C:\\imagenes\\__temp\\nuevo_" + nick + ".jpeg", "C:\\imagenes\\" + nick + ".jpeg");
+                HerramientaArchivos.copyFile("C:\\imagenes\\__temp\\nuevo_" + nick + ".jpg", "C:\\imagenes\\" + nick + ".jpg");
             }
             try {
-                CU.modificarCliente(nick, nombre, email, direccion, apellido, "C:\\imagenes\\" + nick + ".jpeg", passwd);
+                CU.modificarCliente(nick, nombre, email, direccion, apellido, "C:\\imagenes\\" + nick + ".jpg", passwd);
             } catch (SQLException ex) {
                 response.getWriter().print(ex);
             } catch (ClassNotFoundException ex) {

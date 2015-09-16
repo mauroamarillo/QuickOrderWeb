@@ -51,7 +51,7 @@ public class guardarImgTemporal extends HttpServlet {
             String imagenBase64 = request.getParameter("img");
             String header = imagenBase64.split(",")[0];//"data:image/jpg;base64,";
             String encodedImage = imagenBase64.substring(header.length() + 1);
-            File destino = new File("C:\\imagenes\\__temp\\nuevo_" + nick + ".jpeg");
+            File destino = new File("C:\\imagenes\\__temp\\nuevo_" + nick + ".jpg");
             byte dearr[] = Base64.decodeBase64(encodedImage);
             try (FileOutputStream fos = new FileOutputStream(destino)) {
                 fos.write(dearr);

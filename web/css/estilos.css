@@ -295,39 +295,46 @@ body{
 }
 /*Estilo para Datos Restaurante*/
 .DatosRestaurante{
+    padding: 1px;
+    border: 1px solid white;
     width:100%;
     height:200px;
     position:relative;
     overflow:hidden;
     box-shadow: inset 10px 10px 50px black,
-        10px 10px 50px black; 
-    background: #000000; /* Old browsers */
-    background: -moz-linear-gradient(top,  #000000 1%, #b7b7b7 31%, #140313 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,#000000), color-stop(31%,#b7b7b7), color-stop(100%,#140313)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #000000 1%,#b7b7b7 31%,#140313 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #000000 1%,#b7b7b7 31%,#140313 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #000000 1%,#b7b7b7 31%,#140313 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  #000000 1%,#b7b7b7 31%,#140313 100%); /* W3C */
+        inset 10px 10px 50px black,
+        inset 10px 10px 50px black,
+        inset 10px 10px 50px black; 
+    background: gray; /* Old browsers */
+    background: -moz-linear-gradient(top, black 0%, gray 50%, black 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,black), color-stop(50%,gray), color-stop(100%,black)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  black 0%, gray 50%, black 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, black 0%, gray 50%, black 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, black 0%, gray 50%, black 100%); /* IE10+ */
+    background: linear-gradient(to bottom,black 0%, gray 50%, black 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#140313',GradientType=0 ); /* IE6-9 */
 
 }
 
 .DatosRestaurante .fondo {
-    width: auto;
-    height: auto;
+    z-index:0; 
     position:absolute;
     top:50%;
     left:50%;
     -webkit-transform: translate(-50%, -50%);
     max-width:100%;
-    opacity: 0.4;
+    opacity: 0.5;
+    min-height: 100%;
+    min-width: 100%;
 
 }
 .DatosRestaurante .carousel{
+    z-index:1;
     float: left;
     margin: 20px;
 }
 .DatosRestaurante .info{
+    z-index:1;
     float:left;
     position:relative;
     color: black;
@@ -340,17 +347,83 @@ body{
         0 0 2px white,
         0 0 2px white!important;
 }
+.DatosRestaurante h1{
+    font-style: italic;
+    font-family: sans-serif;
+}
 .DatosRestaurante .info .Estrellas{
-    text-shadow:none;
+    z-index:1;
+    text-shadow:0 0 2px white,
+        0 0 2px  white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white!important;
     font-size: 25px;
 }
 .DatosRestaurante .info .badge{
+    z-index:1;
     font-size: 15px!important;
+    text-shadow: none;
 }
 .FotoPerfilRestaurante{
+    z-index:1;
     min-height: 150px;
     min-width: 150px;
     width: 150px;
     height: 150px;
+
 }
 
+/*Estilos de Pestañas Restaurante*/
+.PestaniasRestaurante .nav-tabs {
+    margin: 0;
+    padding: 0;
+    border: 0;   
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.PestaniasRestaurante .nav-tabs > li > a {
+    background: #DADADA;
+    border-radius: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: inset 0 -8px 7px -9px rgba(0,0,0,.4),-2px -2px 5px -2px rgba(0,0,0,.4);
+}
+.PestaniasRestaurante .nav-tabs > li.active > a,
+.PestaniasRestaurante .nav-tabs > li.active > a:hover {
+    background: #F5F5F5;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    box-shadow: inset 0 0 0 0 rgba(0,0,0,.4),-2px -3px 5px -2px rgba(0,0,0,.4);
+}
+/*
+en proceso
+.thumbnail {
+    background: rgba(225,225,225,0.5);
+    position:relative;
+    overflow:hidden;
+    box-shadow: inset 0px 0px 50px black,
+        0px 0px 50px black; 
+
+}
+.thumbnail img{
+    float: left;
+    margin: 5px;
+    height: 115px!important;
+    width: 115px!important;
+}
+.thumbnail .caption{
+    color: black;
+    text-shadow: 0 0 5px white,
+        0 0 2px  white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white!important;
+}
+*/

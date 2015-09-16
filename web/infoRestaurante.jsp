@@ -37,21 +37,19 @@
 
 <div id="content">
     <div class="DatosRestaurante">
-        <img src="img/car1.jpg" class="fondo" />
-
         <%
             HashMap IMGs = DR.getImagenes();
+            String portada = "";
             if (IMGs.size() > 0) {
+
                 it = IMGs.entrySet().iterator();
                 int x = 0;
                 out.print("<div id=\"myCarousel\" class=\"carousel slide\" data-ride=\"carousel\">");
-
                 out.print("<div class=\"carousel-inner\" role=\"listbox\">");
-                it = IMGs.entrySet().iterator();
-                x = 0;
                 while (it.hasNext()) {
                     Map.Entry entry = (Map.Entry) it.next();
                     String img = (String) entry.getValue();
+                    portada = img;
                     if (x == 0) {
                         out.print("<div class=\"item active\">");
                     } else {
@@ -74,10 +72,12 @@
                         //se cierar el div del carrusel
                         + "</div>");
 
-            } else {// si no hay imagenes solo pongo una imagen que dce que no hay xD
+            } else {// si no hay imagenes solo pongo una imagen que dice que no hay xD
+                portada = "img/imagenrestaurante.jpg";
                 out.print("<div  class=\"carousel\" ><img src=\"img/sin_img.jpg\" class=\"img-thumbnail FotoPerfilRestaurante\" /> </div>");
             }
         %>
+        <img src="<%=portada%>" class="fondo" />
         <div class="info">
             <h1><%=DR.getNombre()%></h1>
             <p> 
@@ -98,122 +98,128 @@
                 %>
             </p>
         </div>
-    </div>
-    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-        <li class="active"><a href="#Productos" data-toggle="tab">Productos</a></li>
-        <li><a href="#Calificaciones" data-toggle="tab">Calificaciones</a></li>
-    </ul>
-    <div id="my-tab-content" class="tab-content">
-        <div class="tab-pane active" id="Productos">
-            </br>
-            <div class="row"><%--Productos--%>
-                <%
-                    it = DR.getPromociones().entrySet().iterator();
-                    int contador = 0;
-                    while (it.hasNext()) {
-                        Map.Entry entry = (Map.Entry) it.next();
-                        DataPromocion DP = (DataPromocion) entry.getValue();
-                        String urlImg = DP.getImagen();
-                        if (urlImg.equals("sin_imagen")) {
-                            urlImg = "img/sin_img.jpg";
-                        }
-                        out.print("<div class=\"col-sm-6 col-md-4 transparente\">");
-                        out.print("     <div class=\"thumbnail\">");
-                        out.print("<img src=\"" + urlImg + "\" style=\"width: 100%; height: 150px;\"alt=\"" + DP.getNombre() + "\">");
-                        out.print("         <div class=\"caption\">");
-                        out.print("             <h3>" + DP.getNombre() + "</h3>");
-                        out.print("                 <p>" + DP.getDescripcion() + "</p>");
-                        out.print("                 <p>Precio: $" + DP.getPrecio() + "</p>");
-                        out.print("                 <p>Descuento: " + DP.getDescuento() + "%</p>");
-                        if (DP.isActivo()) {
-                            out.print("                 <p><b>Promocion Activa</b>");
-                        } else {
-                            out.print("                 <p><b>Promocion Inactiva</b>");
-                        }
-                        out.print(" <input type=\"button\" onclick=\"verPromo('" + DP.getRestaurante() + "_" + DP.getNombre() + "');\" hidden=\"true\" id= \"Prod_" + DP.getNombre() + "\"/> <label class=\"botonListaDetallePromo\"  for=\"Prod_" + DP.getNombre() + "\"> <span class=\"glyphicon glyphicon-list-alt\" aria-hidden=\"true\"></span></label>");
-                        out.print("                     <a href=\"" + DP.getRestaurante() + "_" + DP.getNombre() + "\" class=\"btn btn-primary verPedidosProducto\" role=\"button\" style=\"width: 100%;\">Pedidos Relacionados      </a>");
-                        if (session.getAttribute("nick") != null && DP.isActivo()) {
-                            out.print("                     <input id=\"Cantidad_" + DP.getRestaurante() + "_" + DP.getNombre() + "\" class=\"number\" type=\"number\" min=\"1\" max=\"1000\" step=\"1\" value=\"1\">");
-                            out.print("                     <a href=\"" + DP.getRestaurante() + "_" + DP.getNombre() + "\" class=\"btn btn-primary agregarProducto\" role=\"button\" >Agregar Al Carrito</a>");
-                        }
-                        out.print("         </div>");
-                        out.print("     </div>");
-                        out.print("</div>");
-                        contador++;
-                        if (contador == 3) {
-                            contador = 0;
-                            out.print("</div>"
-                                    + "<div class=\"row\">");
-                        }
-                    }
-                    it = DR.getIndividuales().entrySet().iterator();
-                    while (it.hasNext()) {
-                        Map.Entry entry = (Map.Entry) it.next();
-                        DataIndividual DI = (DataIndividual) entry.getValue();
-                        String urlImg = DI.getImagen();
-                        if (urlImg.equals("sin_imagen")) {
-                            urlImg = "img/sin_img.jpg";
-                        }
-                        out.print("<div class=\"col-sm-6 col-md-4\">");
-                        out.print("     <div class=\"thumbnail\" >");
-                        out.print("<img src=\"" + urlImg + "\" style=\"width: 100%; height: 150px;\"alt=\"" + DI.getNombre() + "\">");
-                        out.print("         <div class=\"caption\">");
-                        out.print("             <h3>" + DI.getNombre() + "</h3>");
-                        out.print("                 <p>" + DI.getDescripcion() + "</p>");
-                        out.print("                 <p>Precio: $" + DI.getPrecio() + "</p>");
-                        out.print("                     <a href=\"" + DI.getRestaurante() + "_" + DI.getNombre() + "\" class=\"btn btn-primary verPedidosProducto\" role=\"button\" style=\"width: 100%;\">Pedidos Relacionados      </a>");
-                        if (session.getAttribute("nick") != null) {
-                            out.print("                     <input id=\"Cantidad_" + DI.getRestaurante() + "_" + DI.getNombre() + "\" class=\"number\" type=\"number\" min=\"1\" max=\"1000\" step=\"1\" value=\"1\">");
-                            out.print("                     <a href=\"" + DI.getRestaurante() + "_" + DI.getNombre() + "\" class=\"btn btn-primary agregarProducto\" role=\"button\">Agregar Al Carrito</a>");
-                        }
-                        out.print("         </div>");
-                        out.print("     </div>");
-                        out.print("</div>");
-                        contador++;
-                        if (contador == 3) {
-                            contador = 0;
-                            out.print("</div>"
-                                    + "<div class=\"row\">");
-                        }
-                    }
-                %>
-            </div>
-        </div>       
-        <div class="tab-pane" id="Calificaciones"><%-- tercer panel --%>
-            <h1>Calificaciones por Pedidos</h1><br/>
 
-            <%
-                HashMap Pedidos = CU.getPedidosRestaurante(nick);
-                it = Pedidos.entrySet().iterator();
-                while (it.hasNext()) {
-                    Map.Entry entry = (Map.Entry) it.next();
-                    DataPedido DP = (DataPedido) entry.getValue();
-                    if (DP.getCalificacion().getPuntaje() > 0) {
-                        DataCliente DC = CU.buscarCliente(DP.getCliente());
-                        out.print(" <div class=\"row lineaCalificacionRestaurante\">");
-                        out.print("<div class=\"col-sm-4\">" + new Fecha(DP.getFecha()).toString() + "</div>");
-                        out.print("<div class=\"col-sm-2\">" + DC.getNombre() + " " + DC.getApellido() + "</div>");
-                        out.print("<div class=\"col-sm-4\">" + DP.getCalificacion().getComentario() + "</div>");
-                        out.print("<div class=\"col-sm-2\">");
-                        out.print("<a  href=\"#\" data-toggle=\"popover\" data-trigger=\"focus\" title=\"Comentario\" data-content=\"" + DP.getCalificacion().getComentario() + "\" >");
-                        for (int i = 0; i < 5; i++) {
-                            if (i < DP.getCalificacion().getPuntaje()) {
-                                out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:orange;\" />");
+    </div>
+    <div class="PestaniasRestaurante">
+        <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+            <li class="active"><a href="#Productos" data-toggle="tab">Productos</a></li>
+            <li><a href="#Calificaciones" data-toggle="tab">Calificaciones</a></li>
+        </ul>
+        <div id="my-tab-content" class="tab-content">
+            <div class="tab-pane active" id="Productos">
+                </br>
+                <div class="row"><%--Productos--%>
+                    <%
+                        it = DR.getPromociones().entrySet().iterator();
+                        int contador = 0;
+                        while (it.hasNext()) {
+                            Map.Entry entry = (Map.Entry) it.next();
+                            DataPromocion DP = (DataPromocion) entry.getValue();
+                            String urlImg = DP.getImagen();
+                            if (urlImg.equals("sin_imagen")) {
+                                urlImg = "img/sin_img.jpg";
+                            }
+                            out.print("<div class=\"col-sm-6 col-md-4 transparente\">");
+                            out.print("     <div class=\"thumbnail\">");
+                            out.print("<img src=\"" + urlImg + "\" style=\"width: 100%; height: 150px;\"alt=\"" + DP.getNombre() + "\">");
+                            out.print("         <div class=\"caption\">");
+                            out.print("             <h3>" + DP.getNombre() + "</h3>");
+                            out.print("                 <p>" + DP.getDescripcion() + "</p>");
+                            out.print("                 <p>Precio: $" + DP.getPrecio() + "</p>");
+                            out.print("                 <p>Descuento: " + DP.getDescuento() + "%</p>");
+                            if (DP.isActivo()) {
+                                out.print("                 <p><b>Promocion Activa</b>");
                             } else {
-                                out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:gray;\" />");
+                                out.print("                 <p><b>Promocion Inactiva</b>");
+                            }
+                            out.print(" <input type=\"button\" onclick=\"verPromo('" + DP.getRestaurante() + "_" + DP.getNombre() + "');\" hidden=\"true\" id= \"Prod_" + DP.getNombre() + "\"/> <label class=\"botonListaDetallePromo\"  for=\"Prod_" + DP.getNombre() + "\"> <span class=\"glyphicon glyphicon-list-alt\" aria-hidden=\"true\"></span></label>");
+                            out.print("                     <a href=\"" + DP.getRestaurante() + "_" + DP.getNombre() + "\" class=\"btn btn-primary verPedidosProducto\" role=\"button\" style=\"width: 100%;\">Pedidos Relacionados      </a>");
+                            if (session.getAttribute("nick") != null && DP.isActivo()) {
+                                out.print("                     <input id=\"Cantidad_" + DP.getRestaurante() + "_" + DP.getNombre() + "\" class=\"number\" type=\"number\" min=\"1\" max=\"1000\" step=\"1\" value=\"1\">");
+                                out.print("                     <a href=\"" + DP.getRestaurante() + "_" + DP.getNombre() + "\" class=\"btn btn-primary agregarProducto\" role=\"button\" >Agregar Al Carrito</a>");
+                            }
+                            out.print("         </div>");
+                            out.print("     </div>");
+                            out.print("</div>");
+                            contador++;
+                            if (contador == 3) {
+                                contador = 0;
+                                out.print("</div>"
+                                        + "<div class=\"row\">");
                             }
                         }
-                        out.print("</a>");
-                        out.print("</div>");
-                        out.print("</div>");
+                        it = DR.getIndividuales().entrySet().iterator();
+                        while (it.hasNext()) {
+                            Map.Entry entry = (Map.Entry) it.next();
+                            DataIndividual DI = (DataIndividual) entry.getValue();
+                            String urlImg = DI.getImagen();
+                            if (urlImg.equals("sin_imagen")) {
+                                urlImg = "img/sin_img.jpg";
+                            }
+                            out.print("<div class=\"col-sm-6 col-md-4\">");
+                            out.print("     <div class=\"thumbnail\" >");
+                            out.print("<img src=\"" + urlImg + "\" style=\"width: 100%; height: 150px;\"alt=\"" + DI.getNombre() + "\">");
+                            out.print("         <div class=\"caption\">");
+                            out.print("             <h3>" + DI.getNombre() + "</h3>");
+                            out.print("                 <p>" + DI.getDescripcion() + "</p>");
+                            out.print("                 <p>Precio: $" + DI.getPrecio() + "</p>");
+                            out.print("                     <a href=\"" + DI.getRestaurante() + "_" + DI.getNombre() + "\" class=\"btn btn-primary verPedidosProducto\" role=\"button\" style=\"width: 100%;\">Pedidos Relacionados      </a>");
+                            if (session.getAttribute("nick") != null) {
+                                out.print("                     <input id=\"Cantidad_" + DI.getRestaurante() + "_" + DI.getNombre() + "\" class=\"number\" type=\"number\" min=\"1\" max=\"1000\" step=\"1\" value=\"1\">");
+                                out.print("                     <a href=\"" + DI.getRestaurante() + "_" + DI.getNombre() + "\" class=\"btn btn-primary agregarProducto\" role=\"button\">Agregar Al Carrito</a>");
+                            }
+                            out.print("         </div>");
+                            out.print("     </div>");
+                            out.print("</div>");
+                            contador++;
+                            if (contador == 3) {
+                                contador = 0;
+                                out.print("</div>"
+                                        + "<div class=\"row\">");
+                            }
+                        }
+                    %>
+                </div>
+            </div>       
+            <div class="tab-pane" id="Calificaciones"><%-- tercer panel --%>
+                <br>
+                <%
+                    boolean hay_cal = false;
+                    HashMap Pedidos = CU.getPedidosRestaurante(nick);
+                    it = Pedidos.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry entry = (Map.Entry) it.next();
+                        DataPedido DP = (DataPedido) entry.getValue();
+                        if (DP.getCalificacion().getPuntaje() > 0) {
+                            hay_cal = true;
+                            DataCliente DC = CU.buscarCliente(DP.getCliente());
+                            out.print(" <div class=\"row lineaCalificacionRestaurante\">");
+                            out.print("<div class=\"col-sm-4\">" + new Fecha(DP.getFecha()).toString() + "</div>");
+                            out.print("<div class=\"col-sm-2\">" + DC.getNombre() + " " + DC.getApellido() + "</div>");
+                            out.print("<div class=\"col-sm-4\">" + DP.getCalificacion().getComentario() + "</div>");
+                            out.print("<div class=\"col-sm-2\">");
+                            out.print("<a  href=\"#\" data-toggle=\"popover\" data-trigger=\"focus\" title=\"Comentario\" data-content=\"" + DP.getCalificacion().getComentario() + "\" >");
+                            for (int i = 0; i < 5; i++) {
+                                if (i < DP.getCalificacion().getPuntaje()) {
+                                    out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:orange;\" />");
+                                } else {
+                                    out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:gray;\" />");
+                                }
+                            }
+                            out.print("</a>");
+                            out.print("</div>");
+                            out.print("</div>");
+                        }
                     }
-                }
-            %>
+                    if (!hay_cal) {
+                        out.print("<p>No hay calificaciones registradas por el momento</p>");
+                    }
+                %>
 
+            </div>
         </div>
     </div>
 </div>
-
 
 <div id="ModalPromocion" class="modal fade">
     <div class="modal-dialog">
