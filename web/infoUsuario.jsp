@@ -84,7 +84,7 @@
                                 <%
                                         }
                                     } else {
-                                        out.print("<a Style=\"Float:right;\" data-placement=\"left\" href=\"#\" data-toggle=\"popover\" data-trigger=\"focus\" title=\"Comentario\" data-content=\"" + calificacion.getComentario() + "\" >");
+                                        out.print("<a Style=\"Float:right;\" data-placement=\"left\" data-toggle=\"popover\" data-trigger=\"focus\" title=\"Comentario\" data-content=\"" + calificacion.getComentario() + "\" >");
                                         for (int i = 5; i > 0; i--) {
                                             if (i <= calificacion.getPuntaje()) {
                                                 out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:orange;\"></span>");
