@@ -84,23 +84,22 @@
                                 <%
                                         }
                                     } else {
+                                        out.print("<a Style=\"Float:right;\" data-placement=\"left\" data-toggle=\"popover\" data-trigger=\"focus\" title=\"Comentario\" data-content=\"" + calificacion.getComentario() + "\" >");
                                         for (int i = 5; i > 0; i--) {
-                                            out.print("<p style=\"float: right;\">");
                                             if (i <= calificacion.getPuntaje()) {
                                                 out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:orange;\"></span>");
                                             } else {
                                                 out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:gray;\"></span>");
                                             }
-                                            out.print("</p>");
-
                                         }
+                                        out.print("</a>");
                                     }
                                 %>
                         </div>
                     </div>
                     <div id="collapse<%=DP.getNumero()%>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="<%=DP.getNumero()%>">
                         <div class="row" style="padding: 10px; " >
-                            <ul class="media-list col-lg-7" style="padding-left: 10px; ">
+                            <ul class="media-list col-lg-12" style="padding-left: 10px; ">
                                 <%
                                     HashMap DataProdPedido = DP.getProdPedidos();
                                     Iterator it2 = DataProdPedido.entrySet().iterator();
@@ -133,19 +132,6 @@
                                 </li>
                                 <%}%><%-- Esta llave cierra  el segundo while--%>
 
-                            </ul>
-                            <ul class="col-lg-5">
-                                <%
-                                    if (calificacion.getPuntaje() != 0) {
-                                %>
-                                <div class="verCal">
-                                    <p>Comentario:</p>
-                                    <p style="text-align: center; "><%=calificacion.getComentario()%></p>
-                                    <p><br/></p>
-                                </div>
-                                <%
-                                    }
-                                %>
                             </ul>
                         </div> 
                     </div>
@@ -207,6 +193,11 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+</script>
 
 <script type="text/javascript">
     /*operaciones para cambiar imagen*/

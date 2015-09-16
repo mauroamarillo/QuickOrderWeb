@@ -30,13 +30,77 @@
         out.print("<h1>No se encontro este restaurante</h1>");  // muestro el mensaje
         return;                                                 // y me las tomo
     }
+    float promedio = CU.getPromedioCalificaciones(DR.getNickname());
+    Iterator it;
 %>
 <!DOCTYPE html>
 
 <div id="content">
+    <div class="DatosRestaurante">
+        <img src="img/car1.jpg" class="fondo" />
+
+        <%
+            HashMap IMGs = DR.getImagenes();
+            if (IMGs.size() > 0) {
+                it = IMGs.entrySet().iterator();
+                int x = 0;
+                out.print("<div id=\"myCarousel\" class=\"carousel slide\" data-ride=\"carousel\">");
+
+                out.print("<div class=\"carousel-inner\" role=\"listbox\">");
+                it = IMGs.entrySet().iterator();
+                x = 0;
+                while (it.hasNext()) {
+                    Map.Entry entry = (Map.Entry) it.next();
+                    String img = (String) entry.getValue();
+                    if (x == 0) {
+                        out.print("<div class=\"item active\">");
+                    } else {
+                        out.print("<div class=\"item\">");
+                    }
+                    out.print("<img src=\"" + img + "\" alt=\"" + x + "\" class=\" img-thumbnail FotoPerfilRestaurante\">");
+                    out.print("</div>");
+                    x++;
+                }
+                out.print("</div>");
+                //se crean los controles 
+                out.print("<a class=\"left carousel-control\" href=\"#myCarousel\" role=\"button\" data-slide=\"prev\">"
+                        + "     <span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span>"
+                        + "     <span class=\"sr-only\">Previous</span>"
+                        + "</a>"
+                        + "<a class=\"right carousel-control\" href=\"#myCarousel\" role=\"button\" data-slide=\"next\">"
+                        + "     <span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>"
+                        + "     <span class=\"sr-only\">Next</span>"
+                        + " </a>"
+                        //se cierar el div del carrusel
+                        + "</div>");
+
+            } else {// si no hay imagenes solo pongo una imagen que dce que no hay xD
+                out.print("<div  class=\"carousel\" ><img src=\"img/sin_img.jpg\" class=\"img-thumbnail FotoPerfilRestaurante\" /> </div>");
+            }
+        %>
+        <div class="info">
+            <h1><%=DR.getNombre()%></h1>
+            <p> 
+                <b>Direccion:</b> <%=DR.getDireccion()%></br>
+                <b>Email:</b> <%=DR.getEmail()%></br>                
+                <%
+                    out.print("<p class=\"Estrellas\">");
+                    out.print("<span class=\"badge alert-warning\">" + promedio + "</span> ");
+                    int parteEntera = (int) promedio;
+                    for (int i = 0; i < 5; i++) {
+                        if (i < parteEntera) {
+                            out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:orange;\" />");
+                        } else {
+                            out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:gray;\" />");
+                        }
+                    }
+                    out.print("</p>");
+                %>
+            </p>
+        </div>
+    </div>
     <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
         <li class="active"><a href="#Productos" data-toggle="tab">Productos</a></li>
-        <li ><a href="#Datos" data-toggle="tab">Datos <%=DR.getNombre()%></a></li>
         <li><a href="#Calificaciones" data-toggle="tab">Calificaciones</a></li>
     </ul>
     <div id="my-tab-content" class="tab-content">
@@ -44,7 +108,7 @@
             </br>
             <div class="row"><%--Productos--%>
                 <%
-                    Iterator it = DR.getPromociones().entrySet().iterator();
+                    it = DR.getPromociones().entrySet().iterator();
                     int contador = 0;
                     while (it.hasNext()) {
                         Map.Entry entry = (Map.Entry) it.next();
@@ -114,68 +178,7 @@
                     }
                 %>
             </div>
-        </div>
-        <div class="tab-pane" id="Datos" style="color:white;">
-            <div class="col-lg-3 ">
-                </br>
-                <%-- Aca cargo las imagenes del restaurante si las tiene, si no le meto que no hay imagen--%>
-                <%                    HashMap IMGs = DR.getImagenes();
-                    if (IMGs.size() > 0) {
-                        it = IMGs.entrySet().iterator();
-                        int x = 0;
-                        out.print("<div id=\"myCarousel\" class=\"carousel slide\" data-ride=\"carousel\">");
-                        out.print("<ol class=\"carousel-indicators\">");
-                        while (it.hasNext()) {
-                            it.next();
-                            if (x == 0) {
-                                out.print("<li data-target=\"#myCarousel\" data-slide-to=\"" + x + "\" class=\"active\"></li>");
-                            } else {
-                                out.print("<li data-target=\"#myCarousel\" data-slide-to=\"" + x + "\"></li>");
-                            }
-                            x++;
-                        }
-                        out.print("</ol>");
-                        out.print("<div class=\"carousel-inner\" role=\"listbox\">");
-                        it = IMGs.entrySet().iterator();
-                        x = 0;
-                        while (it.hasNext()) {
-                            Map.Entry entry = (Map.Entry) it.next();
-                            String img = (String) entry.getValue();
-                            if (x == 0) {
-                                out.print("<div class=\"item active\">");
-                            } else {
-                                out.print("<div class=\"item\">");
-                            }
-                            out.print("<img src=\"" + img + "\" alt=\"" + x + "\" style=\" width: 190px; height: 190px;\">");
-                            out.print("</div>");
-                            x++;
-                        }
-                        out.print("</div>");
-                        //se crean los controles 
-                        out.print("<a class=\"left carousel-control\" href=\"#myCarousel\" role=\"button\" data-slide=\"prev\">"
-                                + "     <span class=\"glyphicon glyphicon-chevron-left\" aria-hidden=\"true\"></span>"
-                                + "     <span class=\"sr-only\">Previous</span>"
-                                + "</a>"
-                                + "<a class=\"right carousel-control\" href=\"#myCarousel\" role=\"button\" data-slide=\"next\">"
-                                + "     <span class=\"glyphicon glyphicon-chevron-right\" aria-hidden=\"true\"></span>"
-                                + "     <span class=\"sr-only\">Next</span>"
-                                + " </a>"
-                                //se cierar el div del carrusel
-                                + "</div>");
-
-                    } else {// si no hay imagenes solo pongo una imagen que dce que no hay xD
-                        out.print("<img src=\"img/sin_img.jpg\" class=\"img-thumbnail\" style=\" width: 190px; height: 190px;\" />");
-                    }
-                %>
-            </div>
-            <div class="col-lg-9">
-                <h1><%=DR.getNombre()%></h1>
-                <p> 
-                    <b>Direccion:</b> <%=DR.getDireccion()%></br>
-                    <b>Email:</b> <%=DR.getEmail()%></br>
-                </p>
-            </div>
-        </div>
+        </div>       
         <div class="tab-pane" id="Calificaciones"><%-- tercer panel --%>
             <h1>Calificaciones por Pedidos</h1><br/>
 
@@ -192,15 +195,15 @@
                         out.print("<div class=\"col-sm-2\">" + DC.getNombre() + " " + DC.getApellido() + "</div>");
                         out.print("<div class=\"col-sm-4\">" + DP.getCalificacion().getComentario() + "</div>");
                         out.print("<div class=\"col-sm-2\">");
+                        out.print("<a  href=\"#\" data-toggle=\"popover\" data-trigger=\"focus\" title=\"Comentario\" data-content=\"" + DP.getCalificacion().getComentario() + "\" >");
                         for (int i = 0; i < 5; i++) {
-                            // out.print("<p>");
                             if (i < DP.getCalificacion().getPuntaje()) {
                                 out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:orange;\" />");
                             } else {
                                 out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:gray;\" />");
                             }
-                            //  out.print("</p>");
                         }
+                        out.print("</a>");
                         out.print("</div>");
                         out.print("</div>");
                     }
@@ -235,12 +238,18 @@
             </div>
         </div>
     </div>
-</div>                
+</div>               
 
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+</script>
 <script type="text/javascript">
     jQuery(document).ready(function ($) {
         $('#tabs').tab();
-    });</script> 
+    });
+</script> 
 <script type="text/javascript">
     verPromo = function (x) {
         $('#ModalPromocion').removeData('bs.modal');
