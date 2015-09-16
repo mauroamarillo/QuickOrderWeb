@@ -87,7 +87,7 @@ public class UsuarioD {
 
         String Img = "UPDATE clientes_imagenes SET imagen='" + imagen + "' WHERE cliente='" + nick + "';" 
                 + " INSERT INTO clientes_imagenes (cliente, imagen)" 
-                + " VALUES ('" + nick + "', '" + imagen + "')" 
+                + " SELECT '" + nick + "', '" + imagen + "'"
                 + " WHERE NOT EXISTS (SELECT * FROM clientes_imagenes c WHERE c.cliente='" + nick + "');";
         st.execute(Img);
 
