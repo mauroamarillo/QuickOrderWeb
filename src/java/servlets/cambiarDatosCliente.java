@@ -57,6 +57,7 @@ public class cambiarDatosCliente extends HttpServlet {
             }
             try {
                 CU.modificarCliente(nick, nombre, email, direccion, apellido, "ftp://127.0.0.1/" + nick + ".jpg", passwd);
+                out.print("<p>Cambios Aplicados</p>");
             } catch (SQLException ex) {
                 response.getWriter().print(ex);
             } catch (ClassNotFoundException ex) {

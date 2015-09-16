@@ -270,7 +270,7 @@
                     data: $('#formCambiarDatos').serialize(),
                     success: function (data) {
                         mostrarRespuesta(data, true);
-                        // $("#frameContainer").load("infoUsuario.jsp");
+                        $("#frameContainer").load("infoUsuario.jsp");
                     }
                 });
         });
