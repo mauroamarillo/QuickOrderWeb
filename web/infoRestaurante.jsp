@@ -49,7 +49,7 @@
                 out.print("<div class=\"carousel-inner\" role=\"listbox\">");
                 while (it.hasNext()) {
                     Map.Entry entry = (Map.Entry) it.next();
-                    String img = (String) entry.getValue();
+                    String img = ((String) entry.getValue()).replace("127.0.0.1", request.getLocalAddr());
                     portada = img;
                     if (x == 0) {
                         out.print("<div class=\"item active\">");
@@ -116,7 +116,7 @@
                         while (it.hasNext()) {
                             Map.Entry entry = (Map.Entry) it.next();
                             DataPromocion DP = (DataPromocion) entry.getValue();
-                            String urlImg = DP.getImagen();
+                            String urlImg = DP.getImagen().replace("127.0.0.1", request.getLocalAddr());
                             if (urlImg.equals("sin_imagen")) {
                                 urlImg = "img/sin_img.jpg";
                             }
@@ -153,7 +153,7 @@
                         while (it.hasNext()) {
                             Map.Entry entry = (Map.Entry) it.next();
                             DataIndividual DI = (DataIndividual) entry.getValue();
-                            String urlImg = DI.getImagen();
+                            String urlImg = DI.getImagen().replace("127.0.0.1", request.getLocalAddr());
                             if (urlImg.equals("sin_imagen")) {
                                 urlImg = "img/sin_img.jpg";
                             }

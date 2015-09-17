@@ -75,7 +75,7 @@
                 DataRestaurante DR = (DataRestaurante) entry.getValue();
                 DataIndividual DI = ((DataIndividual) ((Map.Entry) DR.getIndividuales().entrySet().iterator().next()).getValue());
                 out.print("<div class=\"item " + activo + "\">");
-                out.print(" <img class=\"" + DR.getNombre() + "-slide imagenCarrusel\" src=\"" + DI.getImagen() + "\" alt=\"" + DR.getNombre() + "\"/>");
+                out.print(" <img class=\"" + DR.getNombre() + "-slide imagenCarrusel\" src=\"" + DI.getImagen().replace("127.0.0.1", request.getLocalAddr()) + "\" alt=\"" + DR.getNombre() + "\"/>");
                 out.print("<div class=\"container\">");
                 out.print("<div class=\"carousel-caption\">");
                 out.print("<h1><b>" + DR.getNombre() + "</b></h1>");

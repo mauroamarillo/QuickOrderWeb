@@ -36,7 +36,7 @@
                 DataRestaurante DR = CU.buscarRestaurante(((DataProducto) entry.getValue()).getRestaurante());
                 if (entry.getValue() instanceof DataPromocion) {
                     DataPromocion DP = (DataPromocion) entry.getValue();
-                    String urlImg = DP.getImagen();
+                    String urlImg = DP.getImagen().replace("127.0.0.1", request.getLocalAddr());
                     if (urlImg.equals("sin_imagen")) {
                         urlImg = "img/sin_img.jpg";
                     }
@@ -72,7 +72,7 @@
 
                 } else {
                     DataIndividual DI = (DataIndividual) entry.getValue();
-                    String urlImg = DI.getImagen();
+                    String urlImg = DI.getImagen().replace("127.0.0.1", request.getLocalAddr());
                     if (urlImg.equals("sin_imagen")) {
                         urlImg = "img/sin_img.jpg";
                     }

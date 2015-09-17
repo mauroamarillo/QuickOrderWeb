@@ -41,7 +41,7 @@
         <div class="tab-pane active" id="Datos" style="color:white;">
             <br/>
             <div class="col-lg-3 ">
-                <img src="<%String urlImg = DC.getImagen();
+                <img src="<%String urlImg = DC.getImagen().replace("127.0.0.1", request.getLocalAddr());
                     if (urlImg.equals("sin_imagen")) {
                         urlImg = "img/sin_img.jpg";
                     }
@@ -109,7 +109,7 @@
                                 %>
                                 <li class="media" id="<%=DP.getNumero()%>_<%=DP.getRestaurante()%>_<%=DPP.getProducto().getNombre()%>">
                                     <div class="media-left">
-                                        <img class="media-object img-thumbnail" src="<%=DPP.getProducto().getImagen()%>" alt="<%=DPP.getProducto().getNombre()%>"  class="img img-thumbnail" style=" width:105px; height:105px;">
+                                        <img class="media-object img-thumbnail" src="<%=DPP.getProducto().getImagen().replace("127.0.0.1", request.getLocalAddr())%>" alt="<%=DPP.getProducto().getNombre()%>"  class="img img-thumbnail" style=" width:105px; height:105px;">
                                     </div>
                                     <div class="media-body">
                                         <h4 class="media-heading" ><%=DPP.getProducto().getNombre()%></h4>
