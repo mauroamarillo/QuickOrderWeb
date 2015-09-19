@@ -31,7 +31,7 @@
 %>
 <!DOCTYPE html>
 <style>
-    
+
 
 </style>
 <div class="row">
@@ -54,7 +54,8 @@
                 <img src="<%=urlImg%>" alt="<%=DP.getNombre()%>" /> 
                 <p class="precio">Precio $<%=DP.getPrecio()%></p>
                 <h3 class="nombre"><%=DP.getNombre()%></h3>
-                <p class="descripcion"><%=DP.getDescripcion()%><br>
+                <p class="restaurante"><b><%=CU.buscarRestaurante(DP.getRestaurante()).getNombre()%></b></p>
+                <p class="descripcion"><%=DP.getDescripcion()%></p>
                 <p class="activa">
                     <%
                         if (DP.isActivo()) {
@@ -92,6 +93,7 @@
                 <img src="<%=urlImg%>" alt="<%=DI.getNombre()%>" /> 
                 <p class="precio">Precio $<%=DI.getPrecio()%></p>
                 <h3 class="nombre"><%=DI.getNombre()%></h3>
+                <p class="restaurante"><b><%=CU.buscarRestaurante(DI.getRestaurante()).getNombre()%></b></p>
                 <p class="descripcion"><%=DI.getDescripcion()%> </p>
             </div>
             <div class=" col-sm-2 controles">

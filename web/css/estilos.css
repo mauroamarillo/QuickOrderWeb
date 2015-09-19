@@ -463,8 +463,16 @@ body{
     opacity: 1;
     color: black;
 }
+.Producto .contenido .restaurante{
+    font-style: oblique;
+    margin: 0;
+    position: relative;
+    z-index:1;
+    opacity: 1;
+    color: black;
+    font-style:  oblique;
+}
 .Producto .contenido .descripcion{
-    padding: 5px;
     font-style: oblique;
     margin: 0;
     position: relative;
@@ -473,7 +481,6 @@ body{
     color: gray;
 }
 .Producto .contenido .activa{
-    padding: 5px;
     margin: 0;
     position: relative;
     z-index:1;
@@ -483,7 +490,7 @@ body{
 .Producto:hover .contenido img{
     opacity: 0.9;
 }
-.Producto:hover .contenido .nombre, .Producto:hover .contenido .precio{
+.Producto:hover .contenido .nombre, .Producto:hover .contenido .precio,.Producto:hover .contenido .restaurante{
     color: black;
     text-shadow: 0 0 5px white,
         0 0 2px  white,
