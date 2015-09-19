@@ -50,7 +50,7 @@
             %>
             <div class="row">
                 <input type="button" onclick="cargarResaurante('<%=DR.getNickname()%>')" hidden="true" class="col-xs-1 btn-xs " id="<%=DR.getNickname()%>"/>
-                <label class="col-xs-12 listaRestaurante" for="<%=DR.getNickname()%>" >  <%=DR.getNombre()%> </label>
+                <label class="col-xs-12 listaRestaurante" for="<%=DR.getNickname()%>" > <%=DR.getNombre()%> </label>
             </div>
             <%}%><%-- Esta llave cierra  el segundo while--%>
         </div>

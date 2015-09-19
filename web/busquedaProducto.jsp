@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : verProductos
     Created on : 10/09/2015, 01:19:35 PM
     Author     : Jean
@@ -20,16 +20,23 @@
     } else {
         CU = (ControladorUsuario) session.getAttribute("CU");
     }
-    String filtro = request.getParameter("filtro");
+
+    String filtro = "";
+    if (request.getParameter("filtro") != null) {
+        filtro = request.getParameter("filtro");
+    }
     HashMap ListaProductos = new HashMap();
     ListaProductos.putAll(CU.getCP().getDataIndividuales());
     ListaProductos.putAll(CU.getCP().getDataPromociones());
 %>
 <!DOCTYPE html>
-</br>
+<style>
+    
+
+</style>
 <div class="row">
-    <%        Iterator it = ListaProductos.entrySet().iterator();
-        int contador = 0;
+    <%
+        Iterator it = ListaProductos.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
             if (((DataProducto) entry.getValue()).getNombre().toLowerCase().contains(filtro.toLowerCase())) {
@@ -38,66 +45,69 @@
                     DataPromocion DP = (DataPromocion) entry.getValue();
                     String urlImg = DP.getImagen().replace("127.0.0.1", request.getLocalAddr());
                     if (urlImg.equals("sin_imagen")) {
-                        urlImg = "img/sin_img.jpg";
+                        urlImg = "img/imagenrestaurante.jpg";
                     }
-                    out.print("<div class=\"col-sm-6 col-md-4 transparente\">");
-                    out.print("     <div class=\"thumbnail\">");
-                    out.print("<img src=\"" + urlImg + "\" style=\"width: 100%; height: 150px;\"alt=\"" + DP.getNombre() + "\">");
-                    out.print("         <div class=\"caption\">");
-                    out.print("             <h3>" + DP.getNombre() + "</h3>");
-                    out.print("                 <p>" + DR.getNombre() + "</p>");
-                    out.print("                 <p>" + DP.getDescripcion() + "</p>");
-                    out.print("                 <p>Precio: $" + DP.getPrecio() + "</p>");
-                    out.print("                 <p>Descuento: " + DP.getDescuento() + "%</p>");
-                    if (DP.isActivo()) {
-                        out.print("                 <p><b>Promocion Activa</b>");
-                    } else {
-                        out.print("                 <p><b>Promocion Inactiva</b>");
-                    }
-                    out.print(" <input type=\"button\" onclick=\"verPromo('" + DP.getRestaurante() + "_" + DP.getNombre() + "');\" hidden=\"true\" id= \"Prod_" + DP.getNombre() + "\"/> <label class=\"botonListaDetallePromo\"  for=\"Prod_" + DP.getNombre() + "\"> <span class=\"glyphicon glyphicon-list-alt\" aria-hidden=\"true\"></span></label>");
-                    out.print("                     <a href=\"" + DP.getRestaurante() + "_" + DP.getNombre() + "\" class=\"btn btn-primary verPedidosProducto\" role=\"button\" style=\"width: 100%;\">Pedidos Relacionados</a>");
-                    if (session.getAttribute("nick") != null && DP.isActivo()) {
-                        out.print("                     <input id=\"Cantidad_" + DP.getRestaurante() + "_" + DP.getNombre() + "\" class=\"number\" type=\"number\" min=\"1\" max=\"1000\" step=\"1\" value=\"1\">");
-                        out.print("                     <a href=\"" + DP.getRestaurante() + "_" + DP.getNombre() + "\" class=\"btn btn-primary agregarProducto\" role=\"button\" >Agregar Al Carrito</a>");
-                    }
-                    out.print("         </div>");
-                    out.print("     </div>");
-                    out.print("</div>");
-                    contador++;
-                    if (contador == 3) {
-                        contador = 0;
-                        out.print("</div>"
-                                + "<div class=\"row\">");
-                    }
-
-                } else {
-                    DataIndividual DI = (DataIndividual) entry.getValue();
-                    String urlImg = DI.getImagen().replace("127.0.0.1", request.getLocalAddr());
-                    if (urlImg.equals("sin_imagen")) {
-                        urlImg = "img/sin_img.jpg";
-                    }
-                    out.print("<div class=\"col-sm-6 col-md-4\">");
-                    out.print("     <div class=\"thumbnail\" >");
-                    out.print("<img src=\"" + urlImg + "\" style=\"width: 100%; height: 150px;\"alt=\"" + DI.getNombre() + "\">");
-                    out.print("         <div class=\"caption\">");
-                    out.print("             <h3>" + DI.getNombre() + "</h3>");
-                    out.print("                 <p>" + DR.getNombre() + "</p>");
-                    out.print("                 <p>" + DI.getDescripcion() + "</p>");
-                    out.print("                 <p>Precio: $" + DI.getPrecio() + "</p>");
-                    out.print("                     <a href=\"" + DI.getRestaurante() + "_" + DI.getNombre() + "\" class=\"btn btn-primary verPedidosProducto\" role=\"button\" style=\"width: 100%;\">Pedidos Relacionados      </a>");
-                    if (session.getAttribute("nick") != null) {
-                        out.print("                     <input id=\"Cantidad_" + DI.getRestaurante() + "_" + DI.getNombre() + "\" class=\"number\" type=\"number\" min=\"1\" max=\"1000\" step=\"1\" value=\"1\">");
-                        out.print("                     <a href=\"" + DI.getRestaurante() + "_" + DI.getNombre() + "\" class=\"btn btn-primary agregarProducto\" role=\"button\" >Agregar Al Carrito</a>");
-                    }
-                    out.print("         </div>");
-                    out.print("     </div>");
-                    out.print("</div>");
-                    contador++;
-                    if (contador == 3) {
-                        contador = 0;
-                        out.print("</div>"
-                                + "<div class=\"row\">");
-                    }
+    %>
+    <div class="col-lg-6 col-sm-12 Producto">
+        <div class="row contenedor">
+            <div class="col-sm-10 contenido">
+                <img src="<%=urlImg%>" alt="<%=DP.getNombre()%>" /> 
+                <p class="precio">Precio $<%=DP.getPrecio()%></p>
+                <h3 class="nombre"><%=DP.getNombre()%></h3>
+                <p class="descripcion"><%=DP.getDescripcion()%><br>
+                <p class="activa">
+                    <%
+                        if (DP.isActivo()) {
+                            out.print("                 <a onclick=\"verPromo('" + DP.getRestaurante() + "_" + DP.getNombre() + "');\"><b>Promocion Activa</a>");
+                        } else {
+                            out.print("                 <b>Promocion Inactiva");
+                        }
+                        out.print(" " + DP.getDescuento() + "% </b>");
+                    %>
+                </p>
+            </div>
+            <div class=" col-sm-2 controles">
+                <a href="<%=DP.getRestaurante() + "_" + DP.getNombre()%>" class="btn verPedidosProducto" role="button" title="Ver Pedidos"> <span class="glyphicon glyphicon-open-file" aria-hidden="true"></span></a>
+                    <%
+                        if (session.getAttribute("nick") != null && DP.isActivo()) {
+                    %>
+                <input id="<%="Cantidad_" + DP.getRestaurante() + "_" + DP.getNombre()%>" class="number" type="number" min="1" max="100" step="1" value="1" title="Modificar cantidad" />
+                <a href="<%=DP.getRestaurante() + "_" + DP.getNombre()%>" class="btn agregarProducto" role="button" title="Agregar Al Carrito" > <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
+                    <%
+                        }
+                    %>
+            </div>
+        </div>
+    </div>
+    <%                } else {
+        DataIndividual DI = (DataIndividual) entry.getValue();
+        String urlImg = DI.getImagen().replace("127.0.0.1", request.getLocalAddr());
+        if (urlImg.equals("sin_imagen")) {
+            urlImg = "img/imagenrestaurante.jpg";
+        }
+    %>
+    <div class="col-lg-6  col-sm-12 Producto">
+        <div class="row contenedor">
+            <div class="col-sm-10 contenido">
+                <img src="<%=urlImg%>" alt="<%=DI.getNombre()%>" /> 
+                <p class="precio">Precio $<%=DI.getPrecio()%></p>
+                <h3 class="nombre"><%=DI.getNombre()%></h3>
+                <p class="descripcion"><%=DI.getDescripcion()%> </p>
+            </div>
+            <div class=" col-sm-2 controles">
+                <a href="<%=DI.getRestaurante() + "_" + DI.getNombre()%>" class="btn verPedidosProducto" role="button" title="Ver Pedidos"> <span class="glyphicon glyphicon-open-file" aria-hidden="true"></span></a>
+                    <%
+                        if (session.getAttribute("nick") != null) {
+                    %>
+                <input id="<%="Cantidad_" + DI.getRestaurante() + "_" + DI.getNombre()%>" class="number" type="number" min="1" max="100" step="1" value="1" title="Modificar cantidad" />
+                <a href="<%=DI.getRestaurante() + "_" + DI.getNombre()%>" class="btn agregarProducto" role="button" title="Agregar Al Carrito" > <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span></a>
+                    <%
+                        }
+                    %>
+            </div>
+        </div>
+    </div>
+    <%
                 }
             }
         }
@@ -127,11 +137,15 @@
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
-    jQuery(document).ready(function ($) {
-        $('#tabs').tab();
+    var Height = 0;
+    $('div.lineaProducto').children('div.producto').each(function () {
+        if (Height < $(this).outerHeight(true))
+            Height = $(this).outerHeight(true);
+    }), $('div.lineaProducto').children('div.producto').each(function () {
+        $(this).children('.thumbnail').height(Height);
     });
+
 </script>
 <script type="text/javascript">
     verPromo = function (x) {

@@ -65,7 +65,7 @@
             <div id="BARRA-QUE-SE-OCULTA" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a class="frameLink" href="verProductos.jsp"> Listar Productos </a>
+                        <a class="frameLink" href="busquedaProducto.jsp"> Listar Productos </a>
                     </li>
                     <%--    <li><a class="frameLink" href="#"> Musica </a></li>--%>
                 </ul>
