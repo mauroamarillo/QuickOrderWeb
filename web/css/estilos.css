@@ -423,6 +423,7 @@ body{
     cursor: pointer;
 }
 .Producto .contenido{
+    border-right: 1px solid black;
     height: 100%;
     border-bottom-left-radius: 5px;
     border-top-left-radius: 5px;
@@ -455,7 +456,8 @@ body{
 }
 .Producto .contenido .precio{
     padding:  1px;
-    border-bottom: solid 2px black;
+    margin-bottom: 0; 
+    border-bottom: solid 1px black;
     border-radius: 2px;
     position: relative;
     float: right;
