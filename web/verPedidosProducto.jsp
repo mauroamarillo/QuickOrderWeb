@@ -60,7 +60,10 @@
     }
 %>
 <script>
-$(document).ready(function(){
-    $('[data-toggle="popover"]').popover();   
-});
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+    $('[data-toggle="popover"').click(function () {
+        return false;
+    });
 </script>

@@ -139,15 +139,11 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    var Height = 0;
-    $('div.lineaProducto').children('div.producto').each(function () {
-        if (Height < $(this).outerHeight(true))
-            Height = $(this).outerHeight(true);
-    }), $('div.lineaProducto').children('div.producto').each(function () {
-        $(this).children('.thumbnail').height(Height);
-    });
 
+<script>
+    $(document).ready(function () {
+        cambiarTitulo('Productos');
+    });
 </script>
 <script type="text/javascript">
     verPromo = function (x) {
@@ -179,8 +175,8 @@
 </script> 
 <script type="text/javascript">
     $(".verPedidosProducto").each(function () {
-        var producto = $(this).attr("href");
-        var datos = producto.split("_");
+        var producto = $(this).attr("href");    // esto tiene el kay de producto con este formato: nombreRestaurante_nombreProducto
+        var datos = producto.split("_");        // lo separo en  para guardarlos en variables diferentes
         $(this).click(function () {
             $(this).removeAttr("href");
             var parametros = {

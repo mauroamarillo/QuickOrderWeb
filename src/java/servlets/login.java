@@ -42,7 +42,6 @@ public class login extends HttpServlet {
         HttpSession session = request.getSession();
         if (CU.nickOcupado(user)) {
             DataCliente DC = CU.buscarCliente(user);
-            // falta pedir arreglar la funcion para que retorne el pass de este cliente y comprobar que coincidan
             if (DC != null) {
                 String passCorrecta = DC.getPwd();
                 if (passCorrecta != null && passCorrecta.equals(pass)) {
@@ -57,7 +56,24 @@ public class login extends HttpServlet {
                 response.sendRedirect("index.jsp?error=1"); // no se encontro el usuario
             }
         } else {
-            response.sendRedirect("index.jsp?error=1"); // no se encontro el usuario
+            if (CU.emailOcupado(user)) {
+                DataCliente DC = CU.buscarClientePorEmail(user);
+                if (DC != null) {
+                    String passCorrecta = DC.getPwd();
+                    if (passCorrecta != null && passCorrecta.equals(pass)) {
+                        session.setAttribute("nick", DC.getNickname());
+                        session.setAttribute("nombre", DC.getNombre());
+                        session.setAttribute("apellido", DC.getApellido());
+                        response.sendRedirect("index.jsp");
+                    } else {
+                        response.sendRedirect("index.jsp?error=2"); //el pass no coincide
+                    }
+                } else {
+                    response.sendRedirect("index.jsp?error=1"); // no se encontro el usuario
+                }
+            } else {
+                response.sendRedirect("index.jsp?error=1"); // no se encontro el usuario
+            }
         }
 
     }

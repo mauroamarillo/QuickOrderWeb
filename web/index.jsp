@@ -25,7 +25,6 @@
         <title>Quick　Order</title><%-- 天 --%>
         <link href ="css/bootstrap.min.css" rel="stylesheet" />
         <link href ="css/estilos.css" rel="stylesheet" />
-        <link href="js/fancybox/jquery.fancybox-1.3.4.css" rel="stylesheet" type="text/css" media="screen" />
         <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen" />
         <link rel="icon" type="image/png" href="img/icono.png" />
         <style>
@@ -120,8 +119,7 @@
     <div class="modal fade " id="ModalRegistro" tabindex="-1" role="dialog" aria-labelledby="ModalRegistroLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-transparent">
-                <form class="form-signin" action="registro" method="post" autocomplete="off">
-
+                <form class="form-signin" action="registro" onsubmit="return evitarSubmit()" method="post" autocomplete="off">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h3 class="modal-title " id="exampleModalLabel" style="color:white;">Nuevo Registro</h3>
@@ -140,12 +138,16 @@
                         <div class="form-group">
                             <input type="text" name="direccion" id="direccion" class="form-control" placeholder="direccion*" required/>
                         </div> 
-                        <div class="form-group">
+                        <div class="form-group ">
                             <input type="email" name="email" id="email" onkeyup="verificarEmail()" class="form-control " placeholder="Email*" required/>
                             <div id="resultadoEmail"></div>
                         </div> 
                         <div class="form-group">
-                            <input type="password" name="passwd" id="passwd" class="form-control" placeholder="Contraseña*" required/>
+                            <input type="password" name="passwd" id="passwd" class="form-control" placeholder="Contraseña*"  onkeyup="compararPass()" required/>
+                        </div> 
+                        <div id="re-passwd-group" class="form-group has-warning has-feedback">
+                            <input type="password" name="passwd" id="re-passwd" class="form-control" placeholder="Vereficar Contraseña*" onkeyup="compararPass()" required/>
+                            <span id="re-passwd-icono" class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
                         </div> 
                         <div class="form-group">
                             <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
@@ -176,10 +178,12 @@
                         <h3 class="form-signin-heading text-muted" style="color:white;">Iniciar Sesion</h3>
                     </div>
                     <div class="modal-body">
-
-                        <input type="text" name="nick" class="form-control" placeholder="Nick o Email" required="" autofocus="">
-                        <input type="password" name="passwd" class="form-control" placeholder="Password" required="">
-
+                        <div class="form-group">
+                            <input type="text" name="nick" class="form-control" placeholder="Nick o Email" required="" autofocus="">
+                        </div> 
+                        <div class="form-group">
+                            <input type="password" name="passwd" class="form-control" placeholder="Password" required="">
+                        </div> 
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-lg btn-primary btn-block" type="submit">Aceptar</button>
@@ -195,6 +199,45 @@
     <script type="text/javascript" src="js/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
     <script>
                                 !window.jQuery && document.write('<script src="js/jquery.min.js"><\/script>');
+    </script>
+    <script>
+        (evitarSubmit = function () {
+            var pass = $('#re-passwd').val();
+            var pass2 = $('#passwd').val();
+            if (pass !== pass2) {
+                alert('Las contraseñas no coinciden');
+                return false;
+            }
+            return true;
+        });
+        (compararPass = function () {
+            var pass = $('#re-passwd').val();
+            var pass2 = $('#passwd').val();
+            if (pass === pass2) {
+                $('#re-passwd-group').removeClass('has-success');
+                $('#re-passwd-group').removeClass('has-error');
+                $('#re-passwd-group').removeClass('has-warning');
+                $('#re-passwd-icono').removeClass('glyphicon-remove');
+                $('#re-passwd-icono').removeClass('glyphicon-ok');
+                $('#re-passwd-icono').removeClass('glyphicon-warning-sign');
+                $('#re-passwd-group').addClass('has-success');
+                $('#re-passwd-icono').addClass('glyphicon-ok');
+            } else {
+                $('#re-passwd-group').removeClass('has-success');
+                $('#re-passwd-group').removeClass('has-error');
+                $('#re-passwd-group').removeClass('has-warning');
+                $('#re-passwd-icono').removeClass('glyphicon-remove');
+                $('#re-passwd-icono').removeClass('glyphicon-ok');
+                $('#re-passwd-icono').removeClass('glyphicon-warning-sign');
+                $('#re-passwd-group').addClass('has-error');
+                $('#re-passwd-icono').addClass('glyphicon-remove');
+            }
+        });
+    </script>
+    <script>
+        (cambiarTitulo = function (titulo) {
+            document.title = titulo;
+        });
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -260,7 +303,7 @@
                     $("#frameTitulo").html(" Restaurantes");
                     n();
                 }
-            });
+            });            
             // $("#frameContainer").load({url: "infoRestaurante.jsp", data: "r=" + r, type: "POST", dataType: "html"});
         };
     </script>
@@ -344,6 +387,7 @@
                                 n();
                             }
                         });
+                        return false;
                     });
                 }
             });
@@ -409,6 +453,11 @@
             $("#frameIcono").removeClass('glyphicon-alert');
             $("#frameIcono").removeClass('glyphicon-shopping-cart');
             $("#frameIcono").addClass('glyphicon-' + icono);
+        };
+    </script>
+    <script>
+        window.alert = function (message) {
+            mostrarRespuesta(message, false);
         };
     </script>
 </body>

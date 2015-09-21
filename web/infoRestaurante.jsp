@@ -253,10 +253,17 @@
         </div>
     </div>
 </div>               
-
+<script>
+    $(document).ready(function () {
+        cambiarTitulo('<%=DR.getNombre()%>');
+    });
+</script>
 <script>
     $(document).ready(function () {
         $('[data-toggle="popover"]').popover();
+    });
+    $('[data-toggle="popover"').click(function () {
+        return false;
     });
 </script>
 <script type="text/javascript">

@@ -81,7 +81,7 @@
                 out.print("<h1><b>" + DR.getNombre() + "</b></h1>");
                 out.print("<h1>" + DI.getNombre() + "</h1>");
                 out.print("<p>" + DI.getDescripcion() + "</p>");
-                out.print(" <p><a class=\"btn btn-lg btn-primary\" href=\"#\" onclick=\"cargarResaurante('" + DR.getNickname() + "')\" role=\"button\">Visitar Restaurante</a></p>");
+                out.print(" <p><a class=\"btn btn-lg btn-primary\" href=\"#\" onclick=\"cargarResaurante('" + DR.getNickname() + "');return false;\" role=\"button\">Visitar Restaurante</a></p>");
                 out.print("</div>");
                 out.print("</div>");
                 out.print("</div>");
@@ -128,3 +128,8 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
+<script>
+    $(document).ready(function () {
+        cambiarTitulo('Quick Order');
+    });
+</script>

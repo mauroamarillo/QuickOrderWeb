@@ -103,6 +103,11 @@
         }
     %>
 </div>
+<script>
+    $(document).ready(function () {
+        cambiarTitulo('<%="Carrito "+session.getAttribute("nombre")%>');
+    });
+</script>
 <script type="text/javascript">
     $(".confirmarPedido").each(function () {
         var pedido = $(this).attr("href");

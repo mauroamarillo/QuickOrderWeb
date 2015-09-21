@@ -151,7 +151,9 @@ body{
     border: white 1px;
 }
 .modal-transparent .modal-header{
-    background: rgba(122, 130, 136, 0.9)!important;    
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(122, 130, 136, 0.5)),color-stop(100%,silver)); /* Chrome,Safari4+ */
+    background: -moz-linear-gradient(top,rgba(122, 130, 136, 0.5), silver 100%);
+   
     color:  black !important;
     border-top-left-radius: 5px; 
     border-top-right-radius: 5px; 
@@ -161,8 +163,11 @@ body{
     color: white !important;
 }
 .modal-transparent .modal-footer{
-    background: rgba(122, 130, 136, 0.9)!important;
-    color: white !important;
+   // background: rgba(122, 130, 136, 0.9)!important;
+   background: -webkit-gradient(linear, left bottom, left top, color-stop(0%,rgba(122, 130, 136, 0.5)),color-stop(100%,silver)); /* Chrome,Safari4+ */
+    background: -moz-linear-gradient(bottom,rgba(122, 130, 136, 0.5), silver 100%);
+   
+   color: white !important;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
@@ -530,7 +535,7 @@ body{
     height: 33%;
     width: 100%;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,silver), color-stop(16%,white),color-stop(84%,white), color-stop(100%,silver)); /* Chrome,Safari4+ */
-
+    background: -moz-linear-gradient(top, silver 0%, white 50%, silver 100%);
     border: none;
     border-bottom-left-radius: 0px;
     border-top-left-radius: 0px;
@@ -548,7 +553,7 @@ body{
     width: 100%;
     color: black;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,silver), color-stop(16%,white),color-stop(84%,white), color-stop(100%,silver)); /* Chrome,Safari4+ */
-
+    background: -moz-linear-gradient(top, silver 0%, white 50%, silver 100%);
     border: none;
     border-bottom-left-radius: 0px;
     border-top-left-radius: 0px;
@@ -559,5 +564,6 @@ body{
     border-bottom:  solid 1px black;
 }
 .Producto .controles .number:hover, .Producto .controles .btn:hover{
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,gray),color-stop(40%,silver),color-stop(60%,silver), color-stop(100%,gray)) ;         
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,gray),color-stop(40%,silver),color-stop(60%,silver), color-stop(100%,gray)) ;
+    background: -moz-linear-gradient(top, black 0%, gray 50%, black 100%);
 }
