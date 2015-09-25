@@ -51,7 +51,21 @@ body{
 #respuesta{
     position: fixed;
     color: white !important;
-    background: rgba(122, 130, 136, 0.8)!important;
+    text-shadow: 0 0 10px black,
+        0 0 5px black,
+        0 0 5px blak,
+        0 0 5px blak,
+        0 0 5px black,
+        0 0 5px black,
+        0 0 5px black,
+        0 0 5px black!important;
+    background: rgba(0, 0,0, 0.6)!important;
+}
+#respuesta.alert-success{
+    background: rgba(0, 200,0, 0.6)!important;
+}
+#respuesta.alert-danger{
+    background: rgba(200,0,0, 0.6)!important;
 }
 /*BARRA MENU*/
 .navbar-static-top{
@@ -153,7 +167,7 @@ body{
 .modal-transparent .modal-header{
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(122, 130, 136, 0.5)),color-stop(100%,silver)); /* Chrome,Safari4+ */
     background: -moz-linear-gradient(top,rgba(122, 130, 136, 0.5), silver 100%);
-   
+
     color:  black !important;
     border-top-left-radius: 5px; 
     border-top-right-radius: 5px; 
@@ -163,11 +177,11 @@ body{
     color: white !important;
 }
 .modal-transparent .modal-footer{
-   // background: rgba(122, 130, 136, 0.9)!important;
-   background: -webkit-gradient(linear, left bottom, left top, color-stop(0%,rgba(122, 130, 136, 0.5)),color-stop(100%,silver)); /* Chrome,Safari4+ */
+    // background: rgba(122, 130, 136, 0.9)!important;
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0%,rgba(122, 130, 136, 0.5)),color-stop(100%,silver)); /* Chrome,Safari4+ */
     background: -moz-linear-gradient(bottom,rgba(122, 130, 136, 0.5), silver 100%);
-   
-   color: white !important;
+
+    color: white !important;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }

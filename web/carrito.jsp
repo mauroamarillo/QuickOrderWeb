@@ -106,6 +106,10 @@
 <script>
     $(document).ready(function () {
         cambiarTitulo('<%=" Carrito " + session.getAttribute("nombre")%>');
+        $('[data-toggle="popover"]').popover();
+        $('[data-toggle="popover"').click(function () {
+            return false;
+        });
         linksConfirmarPedido();
         linksCancelarPedido();
         linksConfirmarTodo();

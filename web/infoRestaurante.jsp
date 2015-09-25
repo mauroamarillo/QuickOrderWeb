@@ -256,6 +256,10 @@
 <script>
     $(document).ready(function () {
         cambiarTitulo('<%=DR.getNombre()%>');
+        $('[data-toggle="popover"]').popover();
+        $('[data-toggle="popover"').click(function () {
+            return false;
+        });
         linksVerPedidos();
         linksAgregarProducto();
     });

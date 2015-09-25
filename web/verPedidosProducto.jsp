@@ -59,3 +59,9 @@
 <%
     }
 %>
+<script>
+    $('[data-toggle="popover"]').popover();
+            $('[data-toggle="popover"').click(function () {
+                return false;
+            });
+</script>

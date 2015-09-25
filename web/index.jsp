@@ -43,11 +43,11 @@
     <%  if (error.equals("1")) {
             out.print("<body  onload=\"mostrarRespuesta('<b> Usuario Invalido  </b>',false)\" >");
         } else if (error.equals("2")) {
-            out.print("<body onload=\"mostrarRespuesta('<b>Contraseña Invalida</b>',true)\" >");
+            out.print("<body onload=\"mostrarRespuesta('<b> Contraseña Invalida </b>',false)\" >");
         } else if (session.getAttribute("nick") == null) {
-            out.print("<body onload=\"mostrarRespuesta('<b>Bienvenido Invitado!</b>',true)\" >");
+            out.print("<body onload=\"mostrarRespuesta('<b> Bienvenido Invitado! </b>',true)\" >");
         } else {
-            out.print("<body onload=\"mostrarRespuesta('<b>Bienvenido " + session.getAttribute("nick") + "!</b>',true)\" >");
+            out.print("<body onload=\"mostrarRespuesta('<b> Bienvenido " + session.getAttribute("nick") + "! </b>',true)\" >");
         }
     %>
     <nav class="navbar navbar-inverse navbar-static-top " >
@@ -101,7 +101,7 @@
             <div class="col-md-3">
                 <div class="panel panel-default panel-transparent ">
                     <div class="panel-heading">
-                        <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span><span> Restaurantes</span>
+                        <span  onclick="cargarBarraRestaurantes();" style="cursor: pointer;" class="glyphicon glyphicon-star-empty" aria-hidden="true"></span><span> Restaurantes</span>
                     </div>
                     <div class="panel-body" id="barraRestauranes" >
                     </div>
@@ -113,7 +113,7 @@
                         <span id="frameIcono" class="glyphicon glyphicon-asterisk" aria-hidden="true"></span><span id="frameTitulo" > Quick<%-- 天 --%> Order</span>
                     </div>
                     <div class="panel-body" id ="frameContainer" >
-                        Bienvenido
+                        
                     </div>
                 </div>
             </div>
@@ -207,14 +207,12 @@
                                     !window.jQuery && document.write('<script src="js/jquery.min.js"><\/script>');
     </script>
     <script type="text/javascript">
+
         $(document).ready(function () {
             cargarBienvenida();         // Frame bienvenida
             cargarBarraRestaurantes();  // Barra Restaurantes por categorias
             programarFrameLinks();      // hacer que los 'FrameLinks' carguen los datos en el contenedor principal
-            $('[data-toggle="popover"]').popover();
-            $('[data-toggle="popover"').click(function () {
-                return false;
-            });
+            
             $('#tabs').tab();
             $('.form_date').datetimepicker({// codigo nocesario para el calendario
                 language: 'es',

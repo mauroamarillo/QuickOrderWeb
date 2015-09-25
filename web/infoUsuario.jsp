@@ -195,6 +195,10 @@
 <script>
     $(document).ready(function () {
         cambiarTitulo('<%="Datos "+session.getAttribute("nombre")%>');
+        $('[data-toggle="popover"]').popover();
+            $('[data-toggle="popover"').click(function () {
+                return false;
+            });
     });
 </script>
 <script type="text/javascript">

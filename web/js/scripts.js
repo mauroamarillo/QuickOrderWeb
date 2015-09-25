@@ -1,6 +1,7 @@
 /* 
  * Todos los scripts en un solo archivito que se carga solo en el index.jsp cuando empieso a navegar por la pagina
  */
+
 (cargarBienvenida = function () {
     $.ajax({
         url: "bienvenida.jsp",
@@ -18,7 +19,7 @@
         success: function (data) {
             cambioFrameIcono("cutlery");
             $("#frameContainer").html(data);
-            $("#frameTitulo").html(" bienvenido");
+            $("#frameTitulo").html(" Bienvenido");
             n();
         }
     });
