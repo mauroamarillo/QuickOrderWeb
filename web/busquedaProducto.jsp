@@ -143,61 +143,7 @@
 <script>
     $(document).ready(function () {
         cambiarTitulo('Productos');
+        linksVerPedidos();
+        linksAgregarProducto();
     });
 </script>
-<script type="text/javascript">
-    verPromo = function (x) {
-        $('#ModalPromocion').removeData('bs.modal');
-        $('#ModalPromocion').modal({remote: 'modalCarga.html'});
-        $('#ModalPromocion').modal('show');
-        $('#ModalPromocion').removeData('bs.modal');
-        $('#ModalPromocion').modal({remote: 'verPromo.jsp?x=' + x});
-
-    };
-</script>
-<script type="text/javascript">
-    $(".agregarProducto").each(function () {
-        var producto = $(this).attr("href");
-        if (producto !== "#") {
-            $(this).removeAttr("href");
-            $(this).click(function () {
-                var cantidad = document.getElementById("Cantidad_" + producto).value;
-                var parametros = {
-                    P: producto,
-                    C: cantidad
-                };
-                $.post("agregarACarrito", parametros, function (result) {
-                    mostrarRespuesta(result, true);
-                });
-            });
-        }
-    });
-</script> 
-<script type="text/javascript">
-    $(".verPedidosProducto").each(function () {
-        var producto = $(this).attr("href");    // esto tiene el kay de producto con este formato: nombreRestaurante_nombreProducto
-        var datos = producto.split("_");        // lo separo en  para guardarlos en variables diferentes
-        $(this).click(function () {
-            $(this).removeAttr("href");
-            var parametros = {
-                r: datos[0],
-                p: datos[1]
-            };
-            $.ajax({
-                type: "POST",
-                url: "verPedidosProducto.jsp",
-                data: parametros,
-                beforeSend: function () {
-                    $('#ModalProductosPedidos').removeData('bs.modal');
-                    $('#ModalProductosPedidos').modal({remote: 'modalCarga.html'});
-                    $('#ModalProductosPedidos').modal('show');
-                },
-                success: function (data) {
-                    $('#ModalProductosPedidos').removeData('bs.modal');
-                    $('#ModalProductosPedidos').find('h3').html(datos[1].toString());
-                    $('#ModalProductosPedidos').find('.modal-body').html(data);
-                }
-            });
-        });
-    });
-</script>   

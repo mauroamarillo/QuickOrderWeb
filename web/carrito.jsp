@@ -105,95 +105,10 @@
 </div>
 <script>
     $(document).ready(function () {
-        cambiarTitulo('<%="Carrito "+session.getAttribute("nombre")%>');
+        cambiarTitulo('<%=" Carrito " + session.getAttribute("nombre")%>');
+        linksConfirmarPedido();
+        linksCancelarPedido();
+        linksConfirmarTodo();
+        linksEliminarLineaPedido();
     });
 </script>
-<script type="text/javascript">
-    $(".confirmarPedido").each(function () {
-        var pedido = $(this).attr("href");
-        if (pedido !== "#") {
-            $(this).removeAttr("href");
-            $(this).click(function () {
-                $(this).removeClass("confirmarPedido");
-                var botonCancelar = document.getElementById("cancelar" + pedido);
-                botonCancelar.parentNode.removeChild(botonCancelar);
-                $(this).html("<p><img src=\"img/confirmarCarrito.gif\"/> Confirmando</p>");
-                $.post("confirmarPedido",
-                        {p: pedido},
-                function (result) {
-                    $("#frameContainer").load("carrito.jsp");
-                    mostrarRespuesta(result, true);
-                }
-                );
-            });
-        }
-    });
-</script>    
-<script type="text/javascript">
-    $(".cancelarPedido").each(function () {
-        var pedido = $(this).attr("href");
-        if (pedido !== "#") {
-            $(this).removeAttr("href");
-            $(this).click(function () {
-                $(this).removeClass("confirmarPedido");
-                $.post("cancelarPedido",
-                        {p: pedido},
-                function (result) {
-                    var x = document.getElementById("Pedido" + pedido);
-                    x.parentNode.removeChild(x);
-                    //$("#frameContainer").load("carrito.jsp");
-                    mostrarRespuesta(result, true);
-                }
-                );
-            });
-        }
-    });
-</script>   
-<script type="text/javascript">
-    $(".confirmarTodo").each(function () {
-        $(this).click(function () {
-            $.post("confirmarTodo",
-                    function (result) {
-                        $("#frameContainer").load("carrito.jsp");
-                        mostrarRespuesta(result, true);
-                    });
-        });
-    });
-</script> 
-
-<script type="text/javascript">
-    $(".elimimarLineaPedido").each(function () {
-        var href = $(this).attr("href");
-        var datos = href.split("_");
-        href = $(this).attr("href");
-        if (href !== "#") {
-            $(this).removeAttr("href");
-
-            $(this).click(function () {
-                $(this).removeClass("elimimarLineaPedido");
-
-                var Lista = $("#Lista" + datos[0]);
-
-                if (Lista.find("li").length === 1) {
-                    var x = document.getElementById("Pedido" + datos[0]);
-                    x.parentNode.removeChild(x);
-                } else {
-                    var x = document.getElementById(href);
-                    var parent = x.parentNode;
-                    parent.removeChild(x);
-                }
-
-
-                $.post("eliminarLineaPedido",
-                        {pedido: datos[0],
-                            restaurante: datos[1],
-                            producto: datos[2]},
-                function (result) {
-                    // $("#frameContainer").load("carrito.jsp");
-                    mostrarRespuesta(result, true);
-                }
-                );
-            });
-        }
-    });
-</script>    

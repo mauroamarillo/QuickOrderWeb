@@ -70,7 +70,12 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-form">
                     <li>
-                        <input type="text" id="inputBusquedaProducto" placeholder="Busqueda" class="form-control" onkeyup="busquedaProducto(document.getElementById('inputBusquedaProducto').value)"/>
+                        <input type="text" id="inputBusquedaProducto" placeholder="Busqueda Producto" class="form-control" onkeyup="busquedaProducto(document.getElementById('inputBusquedaProducto').value)"/>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-form">
+                    <li>
+                        <input type="text" id="inputBusquedaRestaurante" placeholder="Busqueda Restaurante" class="form-control" onkeyup="busquedaProducto(document.getElementById('inputBusquedaRestaurante').value)"/>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -122,7 +127,7 @@
                 <form class="form-signin" action="registro" onsubmit="return evitarSubmit()" method="post" autocomplete="off">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h3 class="modal-title " id="exampleModalLabel" style="color:white;">Nuevo Registro</h3>
+                        <h3 class="modal-title " id="exampleModalLabel" style="color:white; text-align: center;">Nuevo Registro</h3>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -151,7 +156,7 @@
                         </div> 
                         <div class="form-group">
                             <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                                <input type="text" id="fecha" name="fecha" class="form-control" size="16" placeholder="Fecha Nacimiento*" required />
+                                <input type="text" id="fecha" name="fecha" onkeydown="return false;" class="form-control" size="16" placeholder="Fecha Nacimiento*" required />
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
@@ -175,7 +180,7 @@
                 <form class="form-signin"  action="login" method="post">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h3 class="form-signin-heading text-muted" style="color:white;">Iniciar Sesion</h3>
+                        <h3 class="form-signin-heading text-muted" style="color:white; text-align: center;">Iniciar Sesion</h3>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -195,270 +200,33 @@
 
     <script src="js/jquery.min.js" ></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js" type="text/javascript"></script>
     <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
     <script type="text/javascript" src="js/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
     <script>
-                                !window.jQuery && document.write('<script src="js/jquery.min.js"><\/script>');
+                                    !window.jQuery && document.write('<script src="js/jquery.min.js"><\/script>');
     </script>
-    <script>
-        (evitarSubmit = function () {
-            var pass = $('#re-passwd').val();
-            var pass2 = $('#passwd').val();
-            if (pass !== pass2) {
-                alert('Las contraseñas no coinciden');
+    <script type="text/javascript">
+        $(document).ready(function () {
+            cargarBienvenida();         // Frame bienvenida
+            cargarBarraRestaurantes();  // Barra Restaurantes por categorias
+            programarFrameLinks();      // hacer que los 'FrameLinks' carguen los datos en el contenedor principal
+            $('[data-toggle="popover"]').popover();
+            $('[data-toggle="popover"').click(function () {
                 return false;
-            }
-            return true;
-        });
-        (compararPass = function () {
-            var pass = $('#re-passwd').val();
-            var pass2 = $('#passwd').val();
-            if (pass === pass2) {
-                $('#re-passwd-group').removeClass('has-success');
-                $('#re-passwd-group').removeClass('has-error');
-                $('#re-passwd-group').removeClass('has-warning');
-                $('#re-passwd-icono').removeClass('glyphicon-remove');
-                $('#re-passwd-icono').removeClass('glyphicon-ok');
-                $('#re-passwd-icono').removeClass('glyphicon-warning-sign');
-                $('#re-passwd-group').addClass('has-success');
-                $('#re-passwd-icono').addClass('glyphicon-ok');
-            } else {
-                $('#re-passwd-group').removeClass('has-success');
-                $('#re-passwd-group').removeClass('has-error');
-                $('#re-passwd-group').removeClass('has-warning');
-                $('#re-passwd-icono').removeClass('glyphicon-remove');
-                $('#re-passwd-icono').removeClass('glyphicon-ok');
-                $('#re-passwd-icono').removeClass('glyphicon-warning-sign');
-                $('#re-passwd-group').addClass('has-error');
-                $('#re-passwd-icono').addClass('glyphicon-remove');
-            }
-        });
-    </script>
-    <script>
-        (cambiarTitulo = function (titulo) {
-            document.title = titulo;
-        });
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $.ajax({
-                url: "bienvenida.jsp",
-                beforeSend: function () {
-                    cambioFrameIcono("refresh");
-                    $("#frameContainer").load("cargando.html");
-                    $("#frameTitulo").html(" CARGANDO");
-                },
-                error: function () {
-                    cambioFrameIcono("alert");
-                    $("#frameContainer").html(" Error al cargar restaurante");
-                    $("#frameTitulo").html(" ERROR");
-                    n();
-                },
-                success: function (data) {
-                    cambioFrameIcono("cutlery");
-                    $("#frameContainer").html(data);
-                    $("#frameTitulo").html(" bienvenido");
-                    n();
-                }
+            });
+            $('#tabs').tab();
+            $('.form_date').datetimepicker({// codigo nocesario para el calendario
+                language: 'es',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0
             });
         });
-    </script>
-    <script type="text/javascript">
-        $.ajax({
-            url: "restaurantesPorCategoria.jsp",
-            beforeSend: function () {
-                $("#barraRestauranes").load("cargando.html");
-            },
-            error: function () {
-                $("#barraRestauranes").html("Error al cargar restaurante");
-                n();
-            },
-            success: function (data) {
-                $("#barraRestauranes").html(data);
-                n();
-            }
-        });
-    </script>
-    <script type="text/javascript">
-        cargarResaurante = function (r) {
-            $.ajax({
-                type: "POST",
-                url: "infoRestaurante.jsp",
-                data: "r=" + r,
-                dataType: "html",
-                beforeSend: function () {
-                    cambioFrameIcono("refresh");
-                    $("#frameContainer").load("cargando.html");
-                    $("#frameTitulo").html(" CARGANDO");
-                },
-                error: function () {
-                    cambioFrameIcono("alert");
-                    $("#frameContainer").html(" Error al cargar restaurante");
-                    $("#frameTitulo").html(" ERROR");
-                    n();
-                },
-                success: function (data) {
-                    cambioFrameIcono("cutlery");
-                    $("#frameContainer").html(data);
-                    $("#frameTitulo").html(" Restaurantes");
-                    n();
-                }
-            });            
-            // $("#frameContainer").load({url: "infoRestaurante.jsp", data: "r=" + r, type: "POST", dataType: "html"});
-        };
-    </script>
-    <script type="text/javascript">
-        verificarNick = function () {
-            var consulta = $("#nick").val();
-            $.ajax({
-                type: "POST",
-                url: "verificar",
-                data: "nick=" + consulta,
-                dataType: "html",
-                beforeSend: function () {
-                    $("#resultado").html('<img src="img/confirmarCarrito.gif" />');
-                },
-                error: function () {
-                    $("#resultado").html("Error en la peticion ajax");
-                    n();
-                },
-                success: function (data) {
-                    $("#resultado").html(data);
-                    n();
-                }
-            });
-        };
-        verificarEmail = function () {
-            var consulta = $("#email").val();
-            $.ajax({
-                type: "POST",
-                url: "verificar",
-                data: "email=" + consulta,
-                dataType: "html",
-                beforeSend: function () {
-                    $("#resultadoEmail").html('<img src="img/confirmarCarrito.gif" /> verificando');
-                },
-                error: function () {
-                    $("#resultadoEmail").html("Error en la peticion ajax");
-                    n();
-                },
-                success: function (data) {
-                    $("#resultadoEmail").html(data);
-                    n();
-                }
-            });
-        };
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $("#fecha").keydown(function (e) {
-                e.preventDefault();
-            });
-            //cargo la direccion de los links frameLink en el frameContainer
-            $(".frameLink").each(function () {
-                var href = $(this).attr("href");
-                var titulo = $(this).html();
-                if (href !== "#") {
-                    $(this).attr({href: "#"});
-                    $(this).click(function () {
-                        $.ajax({
-                            url: href,
-                            beforeSend: function () {
-                                cambioFrameIcono("refresh");
-                                $("#frameContainer").load("cargando.html");
-                                $("#frameTitulo").html(" CARGANDO");
-                            },
-                            error: function () {
-                                cambioFrameIcono("alert");
-                                $("#frameContainer").html(" Error al cargar restaurante");
-                                $("#frameTitulo").html(" ERROR");
-                                n();
-                            },
-                            success: function (data) {
-                                if (href === 'infoUsuario.jsp')
-                                    cambioFrameIcono("user");
-                                else if (href === 'carrito.jsp')
-                                    cambioFrameIcono("shopping-cart");
-                                else
-                                    cambioFrameIcono('cutlery');
-                                $("#frameContainer").html(data);
-                                $("#frameTitulo").html(" " + titulo);
-                                n();
-                            }
-                        });
-                        return false;
-                    });
-                }
-            });
-        });
-    </script>
-
-    <script type="text/javascript">
-        /* Este es el script para que se despliege el calendario*/
-        $('.form_date').datetimepicker({
-            language: 'es',
-            weekStart: 1,
-            todayBtn: 1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            minView: 2,
-            forceParse: 0
-        });
-        //mostrar mensajes
-        function mostrarRespuesta(mensaje, ok) {
-            $("#respuesta").removeClass('alert alert-success').removeClass('alert alert-danger').html("<p style='text-align: center'>" + mensaje + "</p>");
-            if (ok) {
-                $("#respuesta").addClass('alert alert-success');
-            } else {
-                $("#respuesta").addClass('alert alert-danger');
-            }
-            $('#respuesta').show().delay(3000).fadeOut("slow");
-        }
-    </script>
-    <script>
-        busquedaProducto = function (filtro) {
-            $.ajax({
-                type: "POST",
-                url: "busquedaProducto.jsp",
-                data: {filtro: filtro},
-                beforeSend: function () {
-                    cambioFrameIcono("refresh");
-                    $("#frameContainer").load("cargando.html");
-                    $("#frameTitulo").html(" Buscando...");
-                },
-                error: function () {
-                    cambioFrameIcono("alert");
-                    $("#frameContainer").html(" Error al cargar restaurante");
-                    $("#frameTitulo").html(" ERROR");
-                    n();
-                },
-                success: function (data) {
-                    cambioFrameIcono("search");
-                    $("#frameContainer").html(data);
-                    $("#frameTitulo").html(" Resultado de busqueda por: " + filtro);
-                    n();
-                }
-            });
-        };
-    </script>
-    <script>
-        cambioFrameIcono = function (icono) {
-            $("#frameIcono").removeClass('glyphicon-asterisk');
-            $("#frameIcono").removeClass('glyphicon-user');
-            $("#frameIcono").removeClass('glyphicon-refresh');
-            $("#frameIcono").removeClass('glyphicon-search');
-            $("#frameIcono").removeClass('glyphicon-cutlery');
-            $("#frameIcono").removeClass('glyphicon-alert');
-            $("#frameIcono").removeClass('glyphicon-shopping-cart');
-            $("#frameIcono").addClass('glyphicon-' + icono);
-        };
-    </script>
-    <script>
-        window.alert = function (message) {
-            mostrarRespuesta(message, false);
-        };
     </script>
 </body>
 </html>

@@ -34,7 +34,7 @@
 <!DOCTYPE html>
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h3 class="form-signin-heading text-muted" style="color:white;"><%=DP.getNombre()%></h3>
+    <h3 class="form-signin-heading text-muted"  style="color:white; text-align: center;"><%=DP.getNombre()%></h3>
 </div>
 <div class="modal-body"  style="color:black;">
     <p>Descuento: <%=DP.getDescuento()%>%</p>

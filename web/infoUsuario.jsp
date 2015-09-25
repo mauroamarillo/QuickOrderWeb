@@ -197,15 +197,22 @@
         cambiarTitulo('<%="Datos "+session.getAttribute("nombre")%>');
     });
 </script>
-<script>
-    $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();
+<script type="text/javascript">
+    $(".calificarPedido").each(function () {
+        var href = $(this).attr("href");
+        if (href !== "#") {
+            $(this).removeAttr("href");
+            $(this).click(function () {
+                calPed(href);
+            });
+        }
     });
-    $('[data-toggle="popover"').click(function () {
-        return false;
-    });
-</script>
-
+    calPed = function (x) {
+        $('#ModalPedido').removeData('bs.modal');
+        $('#ModalPedido').modal({remote: 'calificarPedido.jsp?pedido=' + x});
+        $('#ModalPedido').modal('show');
+    };
+</script>   
 <script type="text/javascript">
     /*operaciones para cambiar imagen*/
     document.getElementById('selectorArchivos').addEventListener('change', archivo, false);
@@ -238,35 +245,7 @@
             reader.readAsDataURL(f);
         }
     }
-</script>
-
-
-<script type="text/javascript">
-    jQuery(document).ready(function ($) {
-        $('#tabs').tab();
-    });
-    verPedido = function (x) {
-        $('#ModalPedido').removeData('bs.modal');
-        $('#ModalPedido').modal({remote: 'modalCarga.html'});
-        $('#ModalPedido').removeData('bs.modal');
-        $('#ModalPedido').modal({remote: 'verPedido.jsp?x=' + x});
-        $('#ModalPedido').modal('show');
-    };
-    $(".calificarPedido").each(function () {
-        var href = $(this).attr("href");
-        if (href !== "#") {
-            $(this).removeAttr("href");
-            $(this).click(function () {
-                calPed(href);
-            });
-        }
-    });
-    calPed = function (x) {
-        $('#ModalPedido').removeData('bs.modal');
-        $('#ModalPedido').modal({remote: 'calificarPedido.jsp?pedido=' + x});
-        $('#ModalPedido').modal('show');
-    };
-</script>    
+</script> 
 <script type="text/javascript">
     $(function () {
         $("#confirmarCambios").click(function (event) {
