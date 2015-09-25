@@ -581,3 +581,68 @@ body{
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,gray),color-stop(40%,silver),color-stop(60%,silver), color-stop(100%,gray)) ;
     background: -moz-linear-gradient(top, black 0%, gray 50%, black 100%);
 }
+/*Estilos Para busqueda Restaurantes*/
+.Busqueda .restaurante{   
+    cursor: pointer;
+    position:relative;
+    margin-bottom: 5px;
+    width: 100%;
+    height: 150px;
+    overflow:hidden;
+    border-radius: 5px;
+    border: 1px solid black;        
+    background: white;
+    box-shadow: inset 3px 3px 50px black;
+}
+.Busqueda .restaurante:hover img{
+    opacity: 0.8;
+}
+.Busqueda .restaurante img{
+    z-index:0; 
+    position:absolute;
+    top:50%;
+    left:50%;
+    opacity: 0.5;
+    transform: translate(-50%, -55%);
+    -webkit-transform: translate(-50%, -55%);
+    width:100%;
+    min-height: 100%;
+} 
+.Busqueda .restaurante .info{
+    margin-left: 5px;
+    margin-right: 5px;
+    
+    z-index:1;
+    float:left;
+    position:relative;
+    color: black;
+    text-shadow: 0 0 5px white,
+        0 0 2px  white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white!important;
+}
+.Busqueda .restaurante .info h1{
+    font-style: italic;
+    font-family: sans-serif;
+}
+.Busqueda .restaurante .info .Estrellas{
+    z-index:1;
+    text-shadow:0 0 2px white,
+        0 0 2px  white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white,
+        0 0 2px white!important;
+    font-size: 20px;
+}
+.Busqueda .restaurante .info .badge{
+    z-index:1;
+    font-size: 10px!important;
+    text-shadow: none;
+}

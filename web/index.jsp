@@ -75,7 +75,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-form">
                     <li>
-                        <input type="text" id="inputBusquedaRestaurante" placeholder="Busqueda Restaurante" class="form-control" onkeyup="busquedaProducto(document.getElementById('inputBusquedaRestaurante').value)"/>
+                        <input type="text" id="inputBusquedaRestaurante" placeholder="Busqueda Restaurante" class="form-control" onkeyup="busquedaRestaurante(document.getElementById('inputBusquedaRestaurante').value)"/>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

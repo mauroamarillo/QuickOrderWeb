@@ -114,6 +114,31 @@
         }
     });
 });
+(busquedaRestaurante = function (filtro) {
+    $.ajax({
+        type: "POST",
+        url: "busquedaRestaurante.jsp",
+        data: {filtro: filtro},
+        beforeSend: function () {
+            cambioFrameIcono("refresh");
+            $("#frameContainer").load("cargando.html");
+            $("#frameTitulo").html(" Buscando...");
+        },
+        error: function () {
+            cambioFrameIcono("alert");
+            $("#frameContainer").html(" Error al cargar informacion");
+            $("#frameTitulo").html(" ERROR");
+            n();
+        },
+        success: function (data) {
+            cambioFrameIcono("search");
+            $("#frameContainer").html(data);
+            $("#frameTitulo").html(" Resultado de busqueda por: " + filtro);
+            n();
+        }
+    });
+});
+
 (cambioFrameIcono = function (icono) {
     $("#frameIcono").removeClass('glyphicon-asterisk');
     $("#frameIcono").removeClass('glyphicon-user');
