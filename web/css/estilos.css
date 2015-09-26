@@ -455,6 +455,8 @@ body{
     opacity: 0.2;
     transform: translate(-50%, -55%);
     -webkit-transform: translate(-50%, -55%);
+    -webkit-transition: width 0.3s; 
+    transition: width 0.3s;
     width:100%;
     min-height: 100%;
 } 
@@ -510,6 +512,8 @@ body{
 }
 .Producto:hover .contenido img{
     opacity: 0.9;
+    width:120%;
+    min-height: 120%;
 }
 .Producto:hover .contenido .nombre, .Producto:hover .contenido .precio,.Producto:hover .contenido .restaurante{
     color: black;
@@ -596,6 +600,8 @@ body{
 }
 .Busqueda .restaurante:hover img{
     opacity: 0.8;
+    width:120%;
+    min-height: 120%;
 }
 .Busqueda .restaurante img{
     z-index:0; 
@@ -605,13 +611,15 @@ body{
     opacity: 0.5;
     transform: translate(-50%, -55%);
     -webkit-transform: translate(-50%, -55%);
+    -webkit-transition: width 0.3s; 
+    transition: width 0.3s;
     width:100%;
     min-height: 100%;
 } 
 .Busqueda .restaurante .info{
     margin-left: 5px;
     margin-right: 5px;
-    
+
     z-index:1;
     float:left;
     position:relative;
@@ -646,3 +654,4 @@ body{
     font-size: 10px!important;
     text-shadow: none;
 }
+
