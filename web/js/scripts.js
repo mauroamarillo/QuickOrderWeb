@@ -115,25 +115,22 @@
     });
 });
 (busquedaRestaurante = function (filtro) {
+    if (filtro === "") {
+        return cargarBarraRestaurantes();
+    }
     $.ajax({
         type: "POST",
         url: "busquedaRestaurante.jsp",
         data: {filtro: filtro},
         beforeSend: function () {
-            cambioFrameIcono("refresh");
-            $("#frameContainer").load("cargando.html");
-            $("#frameTitulo").html(" Buscando...");
+            $("#barraRestauranes").load("cargando.html");
         },
         error: function () {
-            cambioFrameIcono("alert");
-            $("#frameContainer").html(" Error al cargar informacion");
-            $("#frameTitulo").html(" ERROR");
+            $("#barraRestauranes").html(" Error al cargar informacion");
             n();
         },
         success: function (data) {
-            cambioFrameIcono("search");
-            $("#frameContainer").html(data);
-            $("#frameTitulo").html(" Resultado de busqueda por: " + filtro);
+            $("#barraRestauranes").html(data);
             n();
         }
     });

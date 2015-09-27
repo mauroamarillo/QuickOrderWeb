@@ -46,23 +46,19 @@
         <img alt="<%=DR.getNombre()%>" src="<%=img%>" />
         <div class="info">
             <h1><%=DR.getNombre()%></h1>
-            <p> 
-                <b>Direccion:</b> <%=DR.getDireccion()%><br/>
-                <b>Email:</b> <%=DR.getEmail()%><br/>                
                 <%
-                    out.print("<p class=\"Estrellas\">");
+                    out.print("<p class=\"Estrellas\" >");
                     out.print("<span class=\"badge alert-warning\">" + promedio + "</span> ");
                     int parteEntera = (int) promedio;
                     for (int i = 0; i < 5; i++) {
                         if (i < parteEntera) {
-                            out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:orange;\" />");
+                            out.print("<span class=\"glyphicon glyphicon-star activa\"/>");
                         } else {
-                            out.print("<span class=\"glyphicon glyphicon-star\" style=\"color:gray;\" />");
+                            out.print("<span class=\"glyphicon glyphicon-star inactiva\"/>");
                         }
                     }
                     out.print("</p>");
                 %>
-            </p>
         </div>
     </div>
     <%

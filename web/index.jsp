@@ -66,18 +66,13 @@
                     <li>
                         <a class="frameLink" href="busquedaProducto.jsp"> Listar Productos </a>
                     </li>
-                    <%--    <li><a class="frameLink" href="#"> Musica </a></li>--%>
                 </ul>
                 <ul class="nav navbar-nav navbar-form">
                     <li>
                         <input type="text" id="inputBusquedaProducto" placeholder="Busqueda Producto" class="form-control" onkeyup="busquedaProducto(document.getElementById('inputBusquedaProducto').value)"/>
                     </li>
                 </ul>
-                <ul class="nav navbar-nav navbar-form">
-                    <li>
-                        <input type="text" id="inputBusquedaRestaurante" placeholder="Busqueda Restaurante" class="form-control" onkeyup="busquedaRestaurante(document.getElementById('inputBusquedaRestaurante').value)"/>
-                    </li>
-                </ul>
+
                 <ul class="nav navbar-nav navbar-right">
                     <%
                         if (session.getAttribute("nick") == null) {
@@ -100,8 +95,8 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="panel panel-default panel-transparent ">
-                    <div class="panel-heading">
-                        <span  onclick="cargarBarraRestaurantes();" style="cursor: pointer;" class="glyphicon glyphicon-star-empty" aria-hidden="true"></span><span> Restaurantes</span>
+                    <div id="tituloBarraRestaurantes" class="panel-heading">       
+                        <input type="text" id="inputBusquedaRestaurante" placeholder="Busqueda Restaurantes" onkeyup="busquedaRestaurante(document.getElementById('inputBusquedaRestaurante').value)"/>
                     </div>
                     <div class="panel-body" id="barraRestauranes" >
                     </div>
@@ -113,7 +108,7 @@
                         <span id="frameIcono" class="glyphicon glyphicon-asterisk" aria-hidden="true"></span><span id="frameTitulo" > Quick<%-- 天 --%> Order</span>
                     </div>
                     <div class="panel-body" id ="frameContainer" >
-                        
+
                     </div>
                 </div>
             </div>
@@ -212,7 +207,7 @@
             cargarBienvenida();         // Frame bienvenida
             cargarBarraRestaurantes();  // Barra Restaurantes por categorias
             programarFrameLinks();      // hacer que los 'FrameLinks' carguen los datos en el contenedor principal
-            
+
             $('#tabs').tab();
             $('.form_date').datetimepicker({// codigo nocesario para el calendario
                 language: 'es',
