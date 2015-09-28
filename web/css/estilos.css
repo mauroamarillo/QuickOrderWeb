@@ -21,7 +21,79 @@ body{
 #tituloBarraRestaurantes{
     padding: 9px;
 }
+#inputBusquedaProducto{
+    text-shadow: 0 0 5px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black,
+        0 0 2px black!important;
+    padding-left: 20px;
+    border: solid #BABABA 1px;
+    border-radius: 2px;
+    width: 100%;
+    height:100%;
+    background: rgba(122, 130, 136, 0.4)!important;
+    color: white; 
+    font-weight :bold;
+}
+#inputBusquedaProducto::-webkit-input-placeholder { 
+    color: black !important;
+    text-shadow: 0 0 10px white,
+        0 0 5px  white,
+        0 0 5px white,
+        0 0 5px   white,
+        0 0 5px  white,
+        0 0 5px  white,
+        0 0 5px white,
+        0 0 5px white!important; }
+#inputBusquedaProducto::-moz-placeholder {
+    color: black !important;
+    text-shadow: 0 0 10px white,
+        0 0 5px  white,
+        0 0 5px white,
+        0 0 5px   white,
+        0 0 5px  white,
+        0 0 5px  white,
+        0 0 5px white,
+        0 0 5px white!important;}
+#inputBusquedaProducto::-moz-placeholder { 
+    color: black !important;
+    text-shadow: 0 0 10px white,
+        0 0 5px  white,
+        0 0 5px white,
+        0 0 5px   white,
+        0 0 5px  white,
+        0 0 5px  white,
+        0 0 5px white,
+        0 0 5px white!important;}
+#inputBusquedaProducto::-ms-input-placeholder { 
+    color: black !important;
+    text-shadow: 0 0 10px white,
+        0 0 5px  white,
+        0 0 5px white,
+        0 0 5px   white,
+        0 0 5px  white,
+        0 0 5px  white,
+        0 0 5px white,
+        0 0 5px white!important;}
+
+/*buscador restaurantes*/
+#tituloBarraRestaurantes{
+    height: 42px;
+    position: relative;
+}
+#tituloBarraRestaurantes .glyphicon{
+    color: #BABABA;
+    position: absolute;
+    padding-top:12px;
+    padding-left: 5px;
+    pointer-events: none;
+}
 #inputBusquedaRestaurante{
+    padding: 0px;
     padding-left: 20px;
     border: solid #BABABA 1px;
     border-radius: 2px;
@@ -31,10 +103,11 @@ body{
     color: #BABABA; 
     font-weight :bold;
 }
-#inputBusquedaRestaurante::-webkit-input-placeholder { color: #BABABA; font-weight :bold; }
-#inputBusquedaRestaurante:-moz-placeholder { color: #BABABA; font-weight: bold; }
-#inputBusquedaRestaurante::-moz-placeholder { color: #BABABA; font-weight: bold; }
-#inputBusquedaRestaurante::-ms-input-placeholder { color: #BABABA; font-weight: bold; }
+#inputBusquedaRestaurante::-webkit-input-placeholder { color: #BABABA; font-weight: normal; }
+#inputBusquedaRestaurante::-moz-placeholder { color: #BABABA; font-weight: normal; }
+#inputBusquedaRestaurante::-moz-placeholder { color: #BABABA; font-weight: normal; }
+#inputBusquedaRestaurante::-ms-input-placeholder { color: #BABABA; font-weight: normal;}
+
 .panel-transparent {
     background: none;
 }

@@ -59,7 +59,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand frameLink" href="bienvenida.jsp">Quick Order</a><%-- 天 --%>
+                <a class="navbar-brand frameLink" href="bienvenida.jsp">Quick天Order</a><%-- 天 --%>
             </div>
             <div id="BARRA-QUE-SE-OCULTA" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -80,7 +80,7 @@
                                     + "<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#ModalRegistro\"> Registro </a></li>");
                         } else {
                             out.print("<li><a href=\"infoUsuario.jsp\" class=\"frameLink\">" + session.getAttribute("nombre") + "</a></li> "
-                                    + "<li><a href=\"carrito.jsp\" class=\"frameLink\"> Ver Carrito </a></li>"
+                                    + "<li><a href=\"carrito.jsp\" class=\"frameLink\"> <span class=\"glyphicon glyphicon-shopping-cart\" aria-hidden=\"true\"></span> Ver Carrito </a></li>"
                                     + "<li><a href=\"logout\"> Cerrar Sesion </a></li>");
                         }
                     %>
@@ -95,8 +95,8 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="panel panel-default panel-transparent ">
-                    <div id="tituloBarraRestaurantes" class="panel-heading" style=" position: relative;">   
-                        <i class="glyphicon glyphicon-search" style="position: absolute;padding-top:17px; padding-left: 5px;pointer-events: none;"></i>
+                    <div id="tituloBarraRestaurantes" class="panel-heading">   
+                        <i class="glyphicon glyphicon-search"></i>
                         <input type="text" id="inputBusquedaRestaurante" class="form-control" placeholder="Busqueda Restaurantes" onkeyup="busquedaRestaurante(document.getElementById('inputBusquedaRestaurante').value)"/>
                     </div>
                     <div class="panel-body" id="barraRestauranes" >
