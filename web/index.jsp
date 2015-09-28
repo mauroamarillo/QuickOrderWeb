@@ -95,8 +95,9 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="panel panel-default panel-transparent ">
-                    <div id="tituloBarraRestaurantes" class="panel-heading">       
-                        <input type="text" id="inputBusquedaRestaurante" placeholder="Busqueda Restaurantes" onkeyup="busquedaRestaurante(document.getElementById('inputBusquedaRestaurante').value)"/>
+                    <div id="tituloBarraRestaurantes" class="panel-heading" style=" position: relative;">   
+                        <i class="glyphicon glyphicon-search" style="position: absolute;padding-top:17px; padding-left: 5px;pointer-events: none;"></i>
+                        <input type="text" id="inputBusquedaRestaurante" class="form-control" placeholder="Busqueda Restaurantes" onkeyup="busquedaRestaurante(document.getElementById('inputBusquedaRestaurante').value)"/>
                     </div>
                     <div class="panel-body" id="barraRestauranes" >
                     </div>
