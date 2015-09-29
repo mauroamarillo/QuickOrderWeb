@@ -59,7 +59,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand frameLink" href="bienvenida.jsp">Quick天Order</a><%-- 天 --%>
+                <a class="navbar-brand frameLink" href="bienvenida.jsp">Quick Order</a><%-- 天 --%>
             </div>
             <div id="BARRA-QUE-SE-OCULTA" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -197,13 +197,13 @@
     <script src="js/jquery.min.js" ></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/scripts.js" type="text/javascript"></script>
+    <script src="js/Navegador-Sistema.js" type="text/javascript"></script>
     <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
     <script type="text/javascript" src="js/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
     <script>
                                     !window.jQuery && document.write('<script src="js/jquery.min.js"><\/script>');
     </script>
     <script type="text/javascript">
-
         $(document).ready(function () {
             cargarBienvenida();         // Frame bienvenida
             cargarBarraRestaurantes();  // Barra Restaurantes por categorias

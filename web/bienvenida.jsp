@@ -52,6 +52,7 @@
         }
     }
 </style>
+
 <!--<embed src="borrar/mp3.mp3" width="240" height="160" style=" visibility: hidden; position: absolute;" /> -->
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
@@ -128,8 +129,9 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
+
 <script>
     $(document).ready(function () {
-        cambiarTitulo('Quick Order');
+        cambiarTitulo('Quick Order'); 
     });
 </script>

@@ -14,8 +14,8 @@
 <%@page import="Logica.DataTypes.DataPedido"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
-<%@page import= "Logica.DataTypes.DataCliente"%>
-<%@page import= "Logica.ControladorUsuario" %>
+<%@page import="Logica.DataTypes.DataCliente"%>
+<%@page import="Logica.ControladorUsuario" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     if (session.getAttribute("nick") == null) {

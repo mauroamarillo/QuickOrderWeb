@@ -35,7 +35,6 @@
     Iterator it;
 %>
 <!DOCTYPE html>
-
 <div id="content">
     <div class="DatosRestaurante">
         <%
@@ -261,6 +260,16 @@
             return false;
         });
         linksVerPedidos();
-        linksAgregarProducto();
+        linksAgregarProducto();        
+        var pagina = "<%=request.getRequestURI().toString()%>?restaurante=<%=DR.getNickname()%>";
+        var navegador = new NavegadorSistema();        
+        $.ajax({
+            url: "historialVisita",
+            data: {navegador: navegador.fullName,sistema: navegador.platform,pagina: pagina},
+            success: function (data) {
+                mostrarRespuesta(data, true);
+            }
+        });
+
     });
 </script>

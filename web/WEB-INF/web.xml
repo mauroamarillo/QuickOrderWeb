@@ -52,6 +52,10 @@
         <servlet-name>registro</servlet-name>
         <servlet-class>servlets.registro</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>historialVisita</servlet-name>
+        <servlet-class>servlets.historialVisita</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>control</servlet-name>
         <url-pattern>/control</url-pattern>
@@ -103,6 +107,10 @@
     <servlet-mapping>
         <servlet-name>registro</servlet-name>
         <url-pattern>/registro</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>historialVisita</servlet-name>
+        <url-pattern>/historialVisita</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
