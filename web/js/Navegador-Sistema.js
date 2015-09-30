@@ -59,6 +59,8 @@ function NavegadorSistema() {
             this.platform = 'Windows 7';
         if (agent.indexOf('NT 6.2') !== -1)
             this.platform = 'Windows 8';
+        if (agent.indexOf('NT 10.0') !== -1)
+            this.platform = 'Windows 10';
         if (agent.indexOf('Mac') !== -1)
             this.platform = 'Macintosh';
         if (agent.indexOf('Linux') !== -1)
