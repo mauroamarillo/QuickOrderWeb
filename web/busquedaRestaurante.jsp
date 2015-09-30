@@ -43,7 +43,7 @@
                     img = img.replace("127.0.0.1", request.getLocalAddr());
                 }
     %>
-    <div class="restaurante" onclick="cargarResaurante('<%=DR.getNickname()%>')">
+    <div class="restaurante" onclick="cargarResaurante('<%=DR.getNickname()%>')" title="Visitar <%=DR.getNombre()%>" >
         <img alt="<%=DR.getNombre()%>" src="<%=img%>" />
         <div class="info">
             <h1><%=DR.getNombre()%></h1>

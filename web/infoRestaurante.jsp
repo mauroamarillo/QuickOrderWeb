@@ -261,7 +261,7 @@
         });
         linksVerPedidos();
         linksAgregarProducto();        
-        var pagina = "<%=request.getRequestURI().toString()%>?restaurante=<%=DR.getNickname()%>";
+        var pagina = "<%=request.getRequestURI().toString()%>?r=<%=DR.getNickname()%>";
         var navegador = new NavegadorSistema();        
         $.ajax({
             url: "historialVisita",

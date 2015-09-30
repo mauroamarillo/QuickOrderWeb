@@ -22,6 +22,7 @@
     }
 
     String filtro = "";
+    boolean hayResultado = false;
     if (request.getParameter("filtro") != null) {
         filtro = request.getParameter("filtro");
     }
@@ -40,6 +41,7 @@
         while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
             if (((DataProducto) entry.getValue()).getNombre().toLowerCase().contains(filtro.toLowerCase())) {
+                hayResultado = true;
                 DataRestaurante DR = CU.buscarRestaurante(((DataProducto) entry.getValue()).getRestaurante());
                 if (entry.getValue() instanceof DataPromocion) {
                     DataPromocion DP = (DataPromocion) entry.getValue();
@@ -112,6 +114,9 @@
     <%
                 }
             }
+        }
+        if (!hayResultado) {
+            out.print("<div style=\"color: red; margin-left: 30px;\"><b><span class=\"glyphicon glyphicon-warning-sign \"></span> No hay resultados</b></div>");
         }
     %>
 </div>

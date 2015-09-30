@@ -5,9 +5,13 @@
  */
 package servlets;
 
+import Logica.Estadistica;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,15 +38,17 @@ public class historialVisita extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             InetAddress inetAddress = InetAddress.getLocalHost();
 
+            Estadistica E = new Estadistica();
             String sistema = request.getParameter("sistema");
             String navegador = request.getParameter("navegador");
             String ip = request.getRemoteAddr();
             String pagina = inetAddress.getHostAddress() + request.getParameter("pagina");
 
-            out.println("<p>Sistema: " + sistema + "</p>");
-            out.println("<p>Navegador: " + navegador + "</p>");
-            out.println("<p>IP: " + ip + "</p>");
-            out.println("<p>Pagina: " + pagina + "</p>");
+            E.registrarVisita(ip, pagina, navegador, sistema);
+        } catch (SQLException ex) {
+            Logger.getLogger(historialVisita.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(historialVisita.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -59,7 +59,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand frameLink" href="bienvenida.jsp">Quick Order</a><%-- 天 --%>
+                <a class="navbar-brand frameLink" href="bienvenida.jsp" title="Bienvenida">Quick Order</a><%-- 天 --%>
             </div>
             <div id="BARRA-QUE-SE-OCULTA" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -79,7 +79,7 @@
                             out.print("<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#ModalLogin\">  Iniciar Sesion </a></li> "
                                     + "<li><a href=\"#\" data-toggle=\"modal\" data-target=\"#ModalRegistro\"> Registro </a></li>");
                         } else {
-                            out.print("<li><a href=\"infoUsuario.jsp\" class=\"frameLink\">" + session.getAttribute("nombre") + "</a></li> "
+                            out.print("<li><a href=\"infoUsuario.jsp\" class=\"frameLink\" title=\"Perfil\">" + session.getAttribute("nombre") + "</a></li> "
                                     + "<li><a href=\"carrito.jsp\" class=\"frameLink\"> <span class=\"glyphicon glyphicon-shopping-cart\" aria-hidden=\"true\"></span> Ver Carrito </a></li>"
                                     + "<li><a href=\"logout\"> Cerrar Sesion </a></li>");
                         }
