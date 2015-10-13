@@ -40,8 +40,8 @@ public class login extends HttpServlet {
         String user = request.getParameter("nick");
         String pass = request.getParameter("passwd");
         HttpSession session = request.getSession();
-        if (CU.nickOcupado(user)) {
-            DataCliente DC = CU.buscarCliente(user);
+        if (nickOcupado(user)) {
+            ClienteWS.DataCliente DC = buscarCliente(user);
             if (DC != null) {
                 String passCorrecta = DC.getPwd();
                 if (passCorrecta != null && passCorrecta.equals(pass)) {
@@ -56,8 +56,8 @@ public class login extends HttpServlet {
                 response.sendRedirect("index.jsp?error=1"); // no se encontro el usuario
             }
         } else {
-            if (CU.emailOcupado(user)) {
-                DataCliente DC = CU.buscarClientePorEmail(user);
+            if (emailOcupado(user)) {
+                ClienteWS.DataCliente DC = buscarClientePorEmail(user);
                 if (DC != null) {
                     String passCorrecta = DC.getPwd();
                     if (passCorrecta != null && passCorrecta.equals(pass)) {
@@ -128,5 +128,29 @@ public class login extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private static Boolean nickOcupado(java.lang.String arg0) {
+        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+        return port.nickOcupado(arg0);
+    }
+
+    private static Boolean emailOcupado(java.lang.String arg0) {
+        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+        return port.emailOcupado(arg0);
+    }
+
+    private static ClienteWS.DataCliente buscarCliente(java.lang.String arg0) {
+        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+        return port.buscarCliente(arg0);
+    }
+
+    private static ClienteWS.DataCliente buscarClientePorEmail(java.lang.String arg0) {
+        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+        return port.buscarClientePorEmail(arg0);
+    }
 
 }

@@ -265,10 +265,11 @@
         var navegador = new NavegadorSistema();        
         $.ajax({
             url: "historialVisita",
-            data: {navegador: navegador.fullName,sistema: navegador.platform,pagina: pagina},
-            success: function (data) {
-                mostrarRespuesta(data, true);
-            }
+            data: {
+                navegador: navegador.fullName,
+                sistema: navegador.platform,
+                pagina: pagina
+            }            
         });
 
     });
