@@ -8,6 +8,7 @@
 <%@page import="java.util.Random"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    System.setProperty("java.net.preferIPv4Stack" , "true");
     ControladorUsuario CU = new ControladorUsuario();
     session.setAttribute("CU", CU);
     String error;

@@ -64,14 +64,10 @@ public class cambiarDatosCliente extends HttpServlet {
                 session.setAttribute("nick", nick);
                 session.setAttribute("nombre", nombre);
                 session.setAttribute("apellido", apellido);
-            } catch (SQLException ex) {
-                response.getWriter().print(ex);
-            } catch (ClassNotFoundException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 response.getWriter().print(ex);
             }
-        } catch (SQLException ex) {
-            response.getWriter().print(ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             response.getWriter().print(ex);
         }
     }

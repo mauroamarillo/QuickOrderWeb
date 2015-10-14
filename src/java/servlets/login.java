@@ -5,8 +5,7 @@ package servlets;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import Logica.ControladorUsuario;
-import Logica.DataTypes.DataCliente;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -36,7 +35,6 @@ public class login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ClassNotFoundException {
-        ControladorUsuario CU = new ControladorUsuario();
         String user = request.getParameter("nick");
         String pass = request.getParameter("passwd");
         HttpSession session = request.getSession();

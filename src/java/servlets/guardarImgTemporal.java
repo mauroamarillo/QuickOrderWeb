@@ -57,9 +57,7 @@ public class guardarImgTemporal extends HttpServlet {
                 fos.write(dearr);
                 fos.flush();
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(guardarImgTemporal.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(guardarImgTemporal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

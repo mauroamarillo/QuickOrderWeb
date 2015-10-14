@@ -181,6 +181,18 @@
 <xs:sequence />
 </xs:complexType>
 
+<xs:complexType name="nickOcupado">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="nickOcupadoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="getDataPedido">
 <xs:sequence>
 <xs:element name="arg0" type="xs:int" />
@@ -194,18 +206,29 @@
 </xs:complexType>
 
 <xs:complexType name="dataPedido">
-<xs:sequence />
-</xs:complexType>
-
-<xs:complexType name="nickOcupado">
 <xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0" />
+<xs:element name="calificacion" type="tns:dataCalificacion" minOccurs="0" />
+<xs:element name="cliente" type="xs:string" minOccurs="0" />
+<xs:element name="estado" type="tns:estado" minOccurs="0" />
+<xs:element name="fecha" type="tns:fecha" minOccurs="0" />
+<xs:element name="numero" type="xs:int" />
+<xs:element name="precio" type="xs:float" />
+<xs:element name="restaurante" type="xs:string" minOccurs="0" />
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="nickOcupadoResponse">
+<xs:complexType name="dataCalificacion">
 <xs:sequence>
-<xs:element name="return" type="xs:boolean" minOccurs="0" />
+<xs:element name="comentario" type="xs:string" minOccurs="0" />
+<xs:element name="puntaje" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="fecha">
+<xs:sequence>
+<xs:element name="agno" type="xs:int" />
+<xs:element name="dia" type="xs:int" />
+<xs:element name="mes" type="xs:int" />
 </xs:sequence>
 </xs:complexType>
 
@@ -229,7 +252,20 @@
 </xs:complexType>
 
 <xs:complexType name="dataProdPedido">
-<xs:sequence />
+<xs:sequence>
+<xs:element name="cantidad" type="xs:int" />
+<xs:element name="producto" type="tns:dataProducto" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataProducto">
+<xs:sequence>
+<xs:element name="descripcion" type="xs:string" minOccurs="0" />
+<xs:element name="imagen" type="xs:string" minOccurs="0" />
+<xs:element name="nombre" type="xs:string" minOccurs="0" />
+<xs:element name="precio" type="xs:float" />
+<xs:element name="restaurante" type="xs:string" minOccurs="0" />
+</xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="agregarACarritoResponse">
@@ -249,7 +285,13 @@
 </xs:complexType>
 
 <xs:complexType name="dataRestaurante">
-<xs:sequence />
+<xs:sequence>
+<xs:element name="direccion" type="xs:string" minOccurs="0" />
+<xs:element name="email" type="xs:string" minOccurs="0" />
+<xs:element name="nickname" type="xs:string" minOccurs="0" />
+<xs:element name="nombre" type="xs:string" minOccurs="0" />
+<xs:element name="pwd" type="xs:string" minOccurs="0" />
+</xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="cancelarPedido">
@@ -284,14 +326,6 @@
 <xs:element name="nickname" type="xs:string" minOccurs="0" />
 <xs:element name="nombre" type="xs:string" minOccurs="0" />
 <xs:element name="pwd" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="fecha">
-<xs:sequence>
-<xs:element name="agno" type="xs:int" />
-<xs:element name="dia" type="xs:int" />
-<xs:element name="mes" type="xs:int" />
 </xs:sequence>
 </xs:complexType>
 
@@ -367,16 +401,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="insertarCategoria">
-<xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="insertarCategoriaResponse">
-<xs:sequence />
-</xs:complexType>
-
 <xs:complexType name="calificarPedido">
 <xs:sequence>
 <xs:element name="arg0" type="xs:int" />
@@ -386,6 +410,16 @@
 </xs:complexType>
 
 <xs:complexType name="calificarPedidoResponse">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="insertarCategoria">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertarCategoriaResponse">
 <xs:sequence />
 </xs:complexType>
 
@@ -496,13 +530,6 @@
 <xs:complexType name="obtenerCalificacionPedidoResponse">
 <xs:sequence>
 <xs:element name="return" type="tns:dataCalificacion" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="dataCalificacion">
-<xs:sequence>
-<xs:element name="comentario" type="xs:string" minOccurs="0" />
-<xs:element name="puntaje" type="xs:int" />
 </xs:sequence>
 </xs:complexType>
 

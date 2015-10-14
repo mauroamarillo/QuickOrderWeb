@@ -254,6 +254,7 @@
     $(function () {
         $("#confirmarCambios").click(function (event) {
             if ($('#formCambiarDatos')[0].checkValidity())
+                var datos
                 $.ajax({
                     type: "POST",
                     url: "cambiarDatosCliente",
