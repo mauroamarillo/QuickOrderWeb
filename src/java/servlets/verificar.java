@@ -5,7 +5,6 @@
  */
 package servlets;
 
-import Logica.ControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -36,13 +35,7 @@ public class verificar extends HttpServlet {
             throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            ControladorUsuario CU = null;
-            if (session.getAttribute("CU") == null) {
-                CU = new ControladorUsuario();
-            } else {
-                CU = (ControladorUsuario) session.getAttribute("CU");
-            }
+
             String dato = null;
             if (request.getParameter("nick") != null) {
                 dato = request.getParameter("nick");
@@ -51,20 +44,14 @@ public class verificar extends HttpServlet {
                     return;
                 }
                 if (!dato.isEmpty()) {
-                    try {
-                        if (!CU.nickOcupado(dato)) {
-                            out.print("<span style='font-weight:bold;color:green;'>Disponible.</span>");
-                        } else {
-                            out.print("<span style='font-weight:bold;color:red;'>El nombre de usuario ya existe.</span>");
-                        }
-
-                    } catch (SQLException | ClassNotFoundException e) {
-                        out.print("<span style='font-weight:bold;color:red;'>Error: " + e + "</span>");
+                    if (nickOcupado(dato)) {
+                        out.print("<span style='font-weight:bold;color:green;'>Disponible.</span>");
+                    } else {
+                        out.print("<span style='font-weight:bold;color:red;'>El nombre de usuario ya existe.</span>");
                     }
                 } else {
                     out.print("<span style='font-weight:bold;color:white;'>Ingrese un nickname</span>");
                 }
-
             }
             if (request.getParameter("email") != null) {
                 dato = request.getParameter("email");
@@ -73,21 +60,15 @@ public class verificar extends HttpServlet {
                     return;
                 }
                 if (!dato.isEmpty()) {
-                    try {
-                        if (!CU.emailOcupado(dato)) {
-                            out.print("<span style='font-weight:bold;color:green;'>Disponible.</span>");
-                        } else {
-                            out.print("<span style='font-weight:bold;color:red;'>Ya existe este email en la base de datos.</span>");
-                        }
-
-                    } catch (SQLException | ClassNotFoundException e) {
-                        out.print("<span style='font-weight:bold;color:red;'>Error: " + e + "</span>");
+                    if (emailOcupado(dato)) {
+                        out.print("<span style='font-weight:bold;color:green;'>Disponible.</span>");
+                    } else {
+                        out.print("<span style='font-weight:bold;color:red;'>Ya existe este email en la base de datos.</span>");
                     }
                 } else {
                     out.print("<span style='font-weight:bold;color:white;'>Ingrese su email</span>");
                 }
             }
-
         }
     }
 
@@ -141,5 +122,17 @@ public class verificar extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private static Boolean emailOcupado(java.lang.String arg0) {
+        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+        return port.emailOcupado(arg0);
+    }
+
+    private static Boolean nickOcupado(java.lang.String arg0) {
+        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+        return port.nickOcupado(arg0);
+    }
 
 }

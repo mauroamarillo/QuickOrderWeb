@@ -5,7 +5,6 @@
  */
 package servlets;
 
-import Logica.ControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -36,15 +35,12 @@ public class cancelarPedido extends HttpServlet {
             throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-             HttpSession session = request.getSession();
-            ControladorUsuario CU = null;
-            if (session.getAttribute("CU") == null) {
-                CU = new ControladorUsuario();
-            } else {
-                CU = (ControladorUsuario) session.getAttribute("CU");
-            }
+            HttpSession session = request.getSession();
+
             int pedido = Integer.parseInt((String) request.getParameter("p"));
-            CU.cancelarPedido(pedido);
+            ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+            ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+            port.cancelarPedido(pedido);
             out.println("<p>Pedido Cancelado</p>");
         }
     }

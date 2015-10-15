@@ -5,7 +5,6 @@
  */
 package servlets;
 
-import Logica.ControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -38,18 +37,12 @@ public class eliminarLineaPedido extends HttpServlet {
             throws ServletException, IOException, SQLException, ClassNotFoundException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            ControladorUsuario CU = null;
-            if (session.getAttribute("CU") == null) {
-                CU = new ControladorUsuario();
-            } else {
-                CU = (ControladorUsuario) session.getAttribute("CU");
-            }
+
             int pedido = Integer.parseInt((String) request.getParameter("pedido"));
             String restaurante = (String) request.getParameter("restaurante");
             String producto = (String) request.getParameter("producto");
             try {
-                CU.quitarLineaPedido(pedido, restaurante, producto);
+                quitarLineaPedido(pedido, restaurante, producto);
                 out.println("<p>Producto removido</p>");
             } catch (Exception ex) {
                 out.println("<p>" + ex + "</p>");
@@ -107,5 +100,11 @@ public class eliminarLineaPedido extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private static void quitarLineaPedido(int arg0, java.lang.String arg1, java.lang.String arg2) {
+        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+        port.quitarLineaPedido(arg0, arg1, arg2);
+    }
 
 }

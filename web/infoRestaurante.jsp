@@ -4,51 +4,46 @@
     Author     : Jean
 --%>
 
-<%@page import="Logica.DataTypes.DataCliente"%>
-<%@page import="Logica.Fecha"%>
-<%@page import="Logica.DataTypes.DataPedido"%>
-<%@page import="Logica.DataTypes.DataPromocion"%>
-<%@page import="Logica.DataTypes.DataIndividual"%>
+<%@page import="ClienteWS.Fecha"%>
+<%@page import="ClienteWS.DataCliente"%>
+<%@page import="ClienteWS.DataPedido"%>
+<%@page import="ClienteWS.DataIndividual"%>
+<%@page import="ClienteWS.DataPromocion"%>
+<%@page import="java.util.List"%>
+<%@page import="ClienteWS.DataRestaurante"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="Logica.DataTypes.DataRestaurante"%>
-<%@page import="Logica.ControladorUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+    ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+
     if (request.getParameter("r") == null) {
         response.sendRedirect("index.jsp");
     }
     String nick = (String) request.getParameter("r");
-    ControladorUsuario CU = null;
-    if (session.getAttribute("CU") == null) {
-        CU = new ControladorUsuario();
-    } else {
-        CU = (ControladorUsuario) session.getAttribute("CU");
-    }
-    DataRestaurante DR = CU.buscarRestaurante(nick);
+    DataRestaurante DR = port.buscarRestaurante(nick);
     if (DR == null) {                                           // si no se encuentra el restaurante
         out.print("<h1>No se encontro este restaurante</h1>");  // muestro el mensaje
         return;                                                 // y me las tomo
     }
-    float promedio = CU.getPromedioCalificaciones(DR.getNickname());
+    float promedio = port.getPromedioCalificaciones(DR.getNickname());
     Iterator it;
 %>
 <!DOCTYPE html>
 <div id="content">
     <div class="DatosRestaurante">
         <%
-            HashMap IMGs = DR.getImagenes();
             String portada = "";
-            if (IMGs.size() > 0) {
-
-                it = IMGs.entrySet().iterator();
+            if (port.restauranteGetImagenes(DR.getNickname()).size() > 0) {
+                it = port.restauranteGetImagenes(DR.getNickname()).iterator();
                 int x = 0;
                 out.print("<div id=\"myCarousel\" class=\"carousel slide\" data-ride=\"carousel\">");
                 out.print("<div class=\"carousel-inner\" role=\"listbox\">");
                 while (it.hasNext()) {
-                    Map.Entry entry = (Map.Entry) it.next();
-                    String img = ((String) entry.getValue()).replace("127.0.0.1", request.getLocalAddr());
+                    Object entry = (Object) it.next();
+                    String img = ((String) entry);
                     portada = img;
                     if (x == 0) {
                         out.print("<div class=\"item active\">");
@@ -110,12 +105,12 @@
                 </br>
                 <div class="row"><%--Productos--%>
                     <%
-                        it = DR.getPromociones().entrySet().iterator();
+                        it = port.restauranteGetPromociones(DR.getNickname()).iterator();
                         while (it.hasNext()) {
-                            Map.Entry entry = (Map.Entry) it.next();
-                            DataPromocion DP = (DataPromocion) entry.getValue();
-                            String urlImg = DP.getImagen().replace("127.0.0.1", request.getLocalAddr());
-                            if (urlImg.equals("sin_imagen")) {
+                            Object entry = (Object) it.next();
+                            DataPromocion DP = (DataPromocion) entry;
+                            String urlImg = DP.getImagen();
+                            if (urlImg == null || urlImg.equals("sin_imagen")) {
                                 urlImg = "img/imagenrestaurante.jpg";
                             }
                     %>
@@ -153,12 +148,12 @@
                     </div>
                     <%
                         }
-                        it = DR.getIndividuales().entrySet().iterator();
+                        it = port.restauranteGetIndividuales(DR.getNickname()).iterator();
                         while (it.hasNext()) {
-                            Map.Entry entry = (Map.Entry) it.next();
-                            DataIndividual DI = (DataIndividual) entry.getValue();
-                            String urlImg = DI.getImagen().replace("127.0.0.1", request.getLocalAddr());
-                            if (urlImg.equals("sin_imagen")) {
+                            Object entry = (Object) it.next();
+                            DataIndividual DI = (DataIndividual) entry;
+                            String urlImg = DI.getImagen();
+                            if (urlImg == null || urlImg.equals("sin_imagen")) {
                                 urlImg = "img/imagenrestaurante.jpg";
                             }
                     %>
@@ -192,16 +187,15 @@
                 <br>
                 <%
                     boolean hay_cal = false;
-                    HashMap Pedidos = CU.getPedidosRestaurante(nick);
-                    it = Pedidos.entrySet().iterator();
+                    it = port.getPedidosRestaurante(DR.getNickname()).iterator();
                     while (it.hasNext()) {
-                        Map.Entry entry = (Map.Entry) it.next();
-                        DataPedido DP = (DataPedido) entry.getValue();
+                        Object entry = (Object) it.next();
+                        DataPedido DP = (DataPedido) entry;
                         if (DP.getCalificacion().getPuntaje() > 0) {
                             hay_cal = true;
-                            DataCliente DC = CU.buscarCliente(DP.getCliente());
+                            DataCliente DC = port.buscarCliente(DP.getCliente());
                             out.print(" <div class=\"row lineaCalificacionRestaurante\">");
-                            out.print("<div class=\"col-sm-4\">" + new Fecha(DP.getFecha()).toString() + "</div>");
+                            out.print("<div class=\"col-sm-4\">" + DP.getFecha() + "</div>");
                             out.print("<div class=\"col-sm-2\">" + DC.getNombre() + " " + DC.getApellido() + "</div>");
                             out.print("<div class=\"col-sm-4\">" + DP.getCalificacion().getComentario() + "</div>");
                             out.print("<div class=\"col-sm-2\">");
@@ -260,17 +254,17 @@
             return false;
         });
         linksVerPedidos();
-        linksAgregarProducto();        
+        linksAgregarProducto();
         var pagina = "<%=request.getRequestURI().toString()%>?r=<%=DR.getNickname()%>";
-        var navegador = new NavegadorSistema();        
-        $.ajax({
-            url: "historialVisita",
-            data: {
-                navegador: navegador.fullName,
-                sistema: navegador.platform,
-                pagina: pagina
-            }            
-        });
+                var navegador = new NavegadorSistema();
+                $.ajax({
+                    url: "historialVisita",
+                    data: {
+                        navegador: navegador.fullName,
+                        sistema: navegador.platform,
+                        pagina: pagina
+                    }
+                });
 
-    });
+            });
 </script>

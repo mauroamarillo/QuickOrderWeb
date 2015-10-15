@@ -4,33 +4,28 @@
     Author     : Jean
 --%>
 
+<%@page import="ClienteWS.DataRestaurante"%>
 <%@page import="java.util.Random"%>
 <%@page import="java.util.Set"%>
 <%@page import="java.util.Map.Entry"%>
-<%@page import="Logica.DataTypes.DataRestaurante"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
-<%@page import= "java.util.HashMap"%>
-<%@page import="Logica.ControladorUsuario"%>
+<%@page import="java.util.HashMap"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <%
-        ControladorUsuario CU = null;
-        if (session.getAttribute("CU") == null) {
-            CU = new ControladorUsuario();
-        } else {
-            CU = (ControladorUsuario) session.getAttribute("CU");
-        }
-        HashMap categorias = CU.getCategorias();
-        Iterator it = categorias.entrySet().iterator();
+        
+        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+        Iterator it = port.consultarCategorias().iterator();
         while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
+            Object entry = (Object) it.next();
             //Set<Entry> entries = categorias.entrySet();
             // for (Entry entry : entries) {
-            String cate = (String) entry.getValue();
+            String cate = (String) entry;
             String cat = cate.replace(' ', '_'); //si tiene espacios se me meya todo, por eso los saco F
-            int cantidad = CU.cantidadPorCategoria(cate);
+            int cantidad = port.cantidadPorCategoria(cate);
             if (cantidad > 0) {
     %>
     <div class="panel panel-transparent  panel-default">
@@ -43,29 +38,24 @@
         </div>
         <div id="collapse<%=cat%>" class="panel-collapse collapse " role="tabpanel" aria-labelledby="<%=cat%>" style=" margin-top: 5px; padding-right: 5px; padding-left: 5px;">
             <%
-                HashMap restaurantes = CU.consultarRestaurantesPorCategoria(cate);
-                Iterator it2 = restaurantes.entrySet().iterator();
+                Iterator it2 = port.consultarRestaurantesPorCategoria(cate).iterator();
                 while (it2.hasNext()) {
-                    Map.Entry entry2 = (Map.Entry) it2.next();
-                    DataRestaurante DR = (DataRestaurante) entry2.getValue();
+                    Object entry2 = it2.next();
+                    DataRestaurante DR = (DataRestaurante) entry2;
                     /*agregado*/
                     String img = "img/imagenrestaurante.jpg";
-                    float promedio = CU.getPromedioCalificaciones(DR.getNickname());
-                    int cantFotos = DR.getImagenes().size();
+                    float promedio = port.getPromedioCalificaciones(DR.getNickname());
+                    int cantFotos = port.restauranteGetImagenes(DR.getNickname()).size();
                     int seleccionada = 0;
                     if (cantFotos > 0) {
                         Random r = new Random();
                         seleccionada = r.nextInt(cantFotos);
-                        img = (String) DR.getImagenes().get(seleccionada + 1);
-                        img = img.replace("127.0.0.1", request.getLocalAddr());
+                        img = (String) port.restauranteGetImagenes(DR.getNickname()).get(seleccionada);
+                        img = img;
                     }
                     /*---*/
             %>
-            <div class="row">
-                <!-- ** Esto era lo que tenia antes **
-                <input type="button" onclick="cargarResaurante('<%=DR.getNickname()%>')" hidden="true" class="col-xs-1 btn-xs " id="<%=DR.getNickname()%>"/>
-                <label class="col-xs-12 listaRestaurante" for="<%=DR.getNickname()%>" > <%=DR.getNombre()%> </label> 
-                -->
+            <div class="row">                
                 <div class="Busqueda col-xs-12">
                     <div class="restaurante" onclick="cargarResaurante('<%=DR.getNickname()%>')">
                         <img alt="<%=DR.getNombre()%>" src="<%=img%>" />

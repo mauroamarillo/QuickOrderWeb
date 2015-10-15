@@ -4,31 +4,26 @@
     Author     : Jean
 --%>
 
-<%@page import="Logica.DataTypes.DataCalificacion"%>
-<%@page import="Logica.Fecha"%>
-<%@page import="Logica.DataTypes.DataIndividual"%>
-<%@page import="Logica.DataTypes.DataPromocion"%>
-<%@page import="Logica.DataTypes.DataProdPedido"%>
+<%@page import="ClienteWS.DataIndividual"%>
+<%@page import="ClienteWS.DataPromocion"%>
+<%@page import="ClienteWS.DataProdPedido"%>
+<%@page import="ClienteWS.DataCalificacion"%>
+<%@page import="ClienteWS.Estado"%>
+<%@page import="ClienteWS.DataPedido"%>
+<%@page import="ClienteWS.DataCliente"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="Logica.Estado"%>
-<%@page import="Logica.DataTypes.DataPedido"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
-<%@page import="Logica.DataTypes.DataCliente"%>
-<%@page import="Logica.ControladorUsuario" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
+    ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+    ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
     if (session.getAttribute("nick") == null) {
         response.sendRedirect("index.jsp");
     }
     String nick = (String) session.getAttribute("nick");
-    ControladorUsuario CU = null;
-    if (session.getAttribute("CU") == null) {
-        CU = new ControladorUsuario();
-    } else {
-        CU = (ControladorUsuario) session.getAttribute("CU");
-    }
-    DataCliente DC = CU.buscarCliente(nick);
+
+    DataCliente DC = port.buscarCliente(nick);
 %>
 <!DOCTYPE HTML>
 <div id="content">
@@ -41,8 +36,8 @@
         <div class="tab-pane active" id="Datos" style="color:white;">
             <br/>
             <div class="col-lg-3 ">
-                <img src="<%String urlImg = DC.getImagen().replace("127.0.0.1", request.getLocalAddr());
-                    if (urlImg.equals("sin_imagen")) {
+                <img src="<%String urlImg = DC.getImagen();
+                    if (urlImg == null || urlImg.equals("sin_imagen")) {
                         urlImg = "img/sin_img.jpg";
                     }
                     out.print(urlImg);%> " class="img-thumbnail" style=" width:190px; height:190px;" />
@@ -53,7 +48,7 @@
                 <p> 
                     <b>Nombre:</b> <%=DC.getNombre()%></br> 
                     <b>Apellido:</b> <%=DC.getApellido()%></br> 
-                    <b>Fecha de Nacimiento:</b> <%=DC.getFechaNac()%></br>
+                    <b>Fecha de Nacimiento:</b> <%=DC.getFechaNac().toString()%></br>
                     <b>Direccion:</b> <%=DC.getDireccion()%></br>
                     <b>Email:</b> <%=DC.getEmail()%></br>
                 </p>
@@ -63,22 +58,22 @@
         <div class="tab-pane" id="Pedidos">            
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 <%
-                    Iterator it = CU.getDataPedidos(nick).entrySet().iterator();
+                    Iterator it = port.getDataPedidos(nick).iterator();
                     while (it.hasNext()) {
-                        Map.Entry entry = (Map.Entry) it.next();
-                        DataPedido DP = (DataPedido) entry.getValue();
-                        if (!DP.getEstado().equals(Estado.aconfirmar)) {
+                        Object entry = (Object) it.next();
+                        DataPedido DP = (DataPedido) entry;
+                        if (!DP.getEstado().equals(Estado.ACONFIRMAR)) {
                 %>
                 <div class="panel panel-pedido  panel-default">
                     <div class="panel-heading" role="tab" id="<%=DP.getNumero()%>">
                         <div class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=DP.getNumero()%>" aria-expanded="true" aria-controls="collapseOne">
-                                <b>Fecha:</b> <%=new Fecha(DP.getFecha()).toString()%>  |  <b>Restaurante:</b> <%=CU.buscarRestaurante(DP.getRestaurante()).getNombre()%> | <b>Total:</b> $<%=DP.getPrecio()%>
+                                <b>Fecha:</b> <%=DP.getFecha().toString()%>  |  <b>Restaurante:</b> <%=port.buscarRestaurante(DP.getRestaurante()).getNombre()%> | <b>Total:</b> $<%=DP.getPrecio()%>
                             </a>
                             <%
-                                DataCalificacion calificacion = CU.obtenerCalificacionPedido(DP.getNumero());
+                                DataCalificacion calificacion = port.obtenerCalificacionPedido(DP.getNumero());
                                 if (calificacion.getPuntaje() == 0) {// <-- hay que poner esto porque solo deberian poder puntuarse pedidos recibidos
-                                    if (DP.getEstado().equals(Estado.recibido)) {
+                                    if (DP.getEstado().equals(Estado.RECIBIDO)) {
                             %>
                             <a href="<%=DP.getNumero()%>" style="float: right;" class="calificarPedido"><span class="glyphicon glyphicon-pencil"></span></a>
                                 <%
@@ -101,15 +96,14 @@
                         <div class="row" style="padding: 10px; " >
                             <ul class="media-list col-lg-12" style="padding-left: 10px; ">
                                 <%
-                                    HashMap DataProdPedido = DP.getProdPedidos();
-                                    Iterator it2 = DataProdPedido.entrySet().iterator();
+                                    Iterator it2 = port.pedidoGetProdPedidos(DP.getNumero()).iterator();
                                     while (it2.hasNext()) {
-                                        Map.Entry entry2 = (Map.Entry) it2.next();
-                                        DataProdPedido DPP = (DataProdPedido) entry2.getValue();
+                                        Object entry2 = it2.next();
+                                        DataProdPedido DPP = (DataProdPedido) entry2;
                                 %>
                                 <li class="media" id="<%=DP.getNumero()%>_<%=DP.getRestaurante()%>_<%=DPP.getProducto().getNombre()%>">
                                     <div class="media-left">
-                                        <img class="media-object img-thumbnail" src="<%=DPP.getProducto().getImagen().replace("127.0.0.1", request.getLocalAddr())%>" alt="<%=DPP.getProducto().getNombre()%>"  class="img img-thumbnail" style=" width:105px; height:105px;">
+                                        <img class="media-object img-thumbnail" src="<%=DPP.getProducto().getImagen()%>" alt="<%=DPP.getProducto().getNombre()%>"  class="img img-thumbnail" style=" width:105px; height:105px;">
                                     </div>
                                     <div class="media-body">
                                         <h4 class="media-heading" ><%=DPP.getProducto().getNombre()%></h4>
@@ -194,11 +188,11 @@
 </div>
 <script>
     $(document).ready(function () {
-        cambiarTitulo('<%="Datos "+session.getAttribute("nombre")%>');
+        cambiarTitulo('<%="Datos " + session.getAttribute("nombre")%>');
         $('[data-toggle="popover"]').popover();
-            $('[data-toggle="popover"').click(function () {
-                return false;
-            });
+        $('[data-toggle="popover"').click(function () {
+            return false;
+        });
     });
 </script>
 <script type="text/javascript">
@@ -254,16 +248,27 @@
     $(function () {
         $("#confirmarCambios").click(function (event) {
             if ($('#formCambiarDatos')[0].checkValidity())
-                var datos
-                $.ajax({
-                    type: "POST",
-                    url: "cambiarDatosCliente",
-                    data: $('#formCambiarDatos').serialize(),
-                    success: function (data) {
-                        mostrarRespuesta(data, true);
-                        $("#frameContainer").load("infoUsuario.jsp");
-                    }
-                });
+              //  var datos = $('#formCambiarDatos').serialize() + "&img=" + $('#imagenPerfilNueva').attr('src');
+            
+             var datos = {
+             nombre: document.getElementById('nombre').value,
+             apellido: document.getElementById('apellido').value,
+             cambioImagen: document.getElementById('cambioImagen').value,
+             email: document.getElementById('email').value,
+             passwd: document.getElementById('passwd').value,
+             direccion: document.getElementById('direccion').value,
+             img: document.getElementById('imagenPerfilNueva').src
+             }; 
+             
+            $.ajax({
+                type: "POST",
+                url: "cambiarDatosCliente",
+                data: datos,
+                success: function (data) {
+                    mostrarRespuesta(data, true);
+                    $("#frameContainer").load("infoUsuario.jsp");
+                }
+            });
         });
     });
 </script>

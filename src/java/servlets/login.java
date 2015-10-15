@@ -6,6 +6,7 @@ package servlets;
  * and open the template in the editor.
  */
 
+import ClienteWS.DataCliente;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -39,7 +40,7 @@ public class login extends HttpServlet {
         String pass = request.getParameter("passwd");
         HttpSession session = request.getSession();
         if (nickOcupado(user)) {
-            ClienteWS.DataCliente DC = buscarCliente(user);
+            DataCliente DC = buscarCliente(user);
             if (DC != null) {
                 String passCorrecta = DC.getPwd();
                 if (passCorrecta != null && passCorrecta.equals(pass)) {
@@ -55,7 +56,7 @@ public class login extends HttpServlet {
             }
         } else {
             if (emailOcupado(user)) {
-                ClienteWS.DataCliente DC = buscarClientePorEmail(user);
+                DataCliente DC = buscarClientePorEmail(user);
                 if (DC != null) {
                     String passCorrecta = DC.getPwd();
                     if (passCorrecta != null && passCorrecta.equals(pass)) {

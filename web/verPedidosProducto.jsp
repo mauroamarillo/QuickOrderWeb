@@ -4,40 +4,31 @@
     Author     : Jean
 --%>
 
-<%@page import="Logica.DataTypes.DataCliente"%>
-<%@page import="Logica.Fecha"%>
-<%@page import="Logica.DataTypes.DataCalificacion"%>
-<%@page import="Logica.DataTypes.DataPedido"%>
+<%@page import="ClienteWS.DataCliente"%>
+<%@page import="ClienteWS.DataPedido"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="Logica.ControladorUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     String r = request.getParameter("r");
     String p = request.getParameter("p");
-    ControladorUsuario CU = null;
-    if (session.getAttribute("CU") == null) {
-        CU = new ControladorUsuario();
-        session.setAttribute("CU", CU);
-    } else {
-        CU = (ControladorUsuario) session.getAttribute("CU");
-    }
-    HashMap pedidos = CU.getDataPedidosProducto(r, p);
+    ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+    ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
 
-    if (pedidos.size() < 1) {
+    if (port.getDataPedidosProducto(r, p).size() < 1) {
         out.print("<p style=\"text-align: center;\">No hay pedidos para este producto</p>");
         return;
     }
-    Iterator it = pedidos.entrySet().iterator();
+    Iterator it = port.getDataPedidosProducto(r, p).iterator();
     while (it.hasNext()) {
-        Map.Entry entry = (Map.Entry) it.next();
-        DataPedido DP = (DataPedido) entry.getValue();
-        DataCliente DC = CU.buscarCliente(DP.getCliente());
+        Object entry = it.next();
+        DataPedido DP = (DataPedido) entry;
+        DataCliente DC = port.buscarCliente(DP.getCliente());
 %>
 <!DOCTYPE html >
 <div class="row">
-    <label class="col-lg-5"><%=new Fecha(DP.getFecha()).toString()%></label>
+    <label class="col-lg-5"><%=DP.getFecha()%></label>
     <label class="col-lg-3"><%=DC.getNombre()%> <%=DC.getApellido()%></label>
     <label class="col-lg-2" style="text-align: right;">$ <%=DP.getPrecio()%></label>
     <label class="col-lg-2"><%
@@ -61,7 +52,7 @@
 %>
 <script>
     $('[data-toggle="popover"]').popover();
-            $('[data-toggle="popover"').click(function () {
-                return false;
-            });
+    $('[data-toggle="popover"').click(function () {
+        return false;
+    });
 </script>

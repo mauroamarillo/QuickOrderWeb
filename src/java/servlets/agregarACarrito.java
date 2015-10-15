@@ -5,10 +5,11 @@
  */
 package servlets;
 
-import Logica.ControladorUsuario;
-import Logica.DataTypes.DataIndividual;
-import Logica.DataTypes.DataProdPedido;
-import Logica.DataTypes.DataPromocion;
+import ClienteWS.DataIndividual;
+import ClienteWS.DataProdPedido;
+import ClienteWS.DataProducto;
+import ClienteWS.DataPromocion;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -42,30 +43,32 @@ public class agregarACarrito extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            ControladorUsuario CU = null;
-            if (session.getAttribute("CU") == null) {
-                CU = new ControladorUsuario();
-            } else {
-                CU = (ControladorUsuario) session.getAttribute("CU");
-            }
 
             String prod = (String) request.getParameter("P");
             int cant = Integer.parseInt((String) request.getParameter("C"));
             String nick = (String) session.getAttribute("nick");
-            if (CU.getCP().BuscarDataXRestaurante_Producto(prod) == null) {
+            if (BuscarDataXRestaurante_Producto(prod) == null) {
                 out.print("<p>Error al buscar producto</p>");
             } else {
-                if (CU.getCP().BuscarDataXRestaurante_Producto(prod) instanceof DataIndividual) {
-                    DataIndividual P = (DataIndividual) CU.getCP().BuscarDataXRestaurante_Producto(prod);
-                    DataProdPedido DP = new DataProdPedido(cant, P);
-                    CU.agregarACarrito(DP, nick);
+                ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+                ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+
+                if (BuscarDataXRestaurante_Producto(prod) instanceof DataIndividual) {
+                    DataIndividual P = (DataIndividual) BuscarDataXRestaurante_Producto(prod);
+                    DataProdPedido DP = new DataProdPedido();
+                    DP.setProducto(P);
+                    DP.setCantidad(cant);
+                    port.agregarACarrito(DP, nick);
+
                     out.print("<p>Exito</p>");
                     out.print("<p>" + cant + " " + DP.getProducto().getNombre() + "</p>");
                     out.print("<p>Agregado al carrito</p>");
                 } else {
-                    DataPromocion P = (DataPromocion) CU.getCP().BuscarDataXRestaurante_Producto(prod);
-                    DataProdPedido DP = new DataProdPedido(cant, P);
-                    CU.agregarACarrito(DP, nick);
+                    DataPromocion P = (DataPromocion) BuscarDataXRestaurante_Producto(prod);
+                    DataProdPedido DP = new DataProdPedido();
+                    DP.setProducto(P);
+                    DP.setCantidad(cant);
+                    port.agregarACarrito(DP, nick);
                     out.print("<p>Exito</p>");
                     out.print("<p>" + cant + " " + DP.getProducto().getNombre() + "</p>");
                     out.print("<p>Agregado al carrito</p>");
@@ -131,5 +134,11 @@ public class agregarACarrito extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private static DataProducto BuscarDataXRestaurante_Producto(java.lang.String arg0) {
+        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+        return port.buscarDataXRestauranteProducto(arg0);
+    }
 
 }

@@ -5,7 +5,6 @@
  */
 package servlets;
 
-import Logica.ControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -39,12 +38,7 @@ public class calificarPedido extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            ControladorUsuario CU = null;
-            if (session.getAttribute("CU") == null) {
-                CU = new ControladorUsuario();
-            } else {
-                CU = (ControladorUsuario) session.getAttribute("CU");
-            }
+
             int pedido = Integer.parseInt((String) request.getParameter("pedido"));
             int estrellas = 1;
             if (request.getParameter("estrellas") != null) {
@@ -53,7 +47,9 @@ public class calificarPedido extends HttpServlet {
             String comentario = (String) request.getParameter("comentario");
 
             try {
-                CU.calificarPedido(pedido, estrellas, comentario);
+                ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+                ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+                port.calificarPedido(pedido, estrellas, comentario);
                 out.print("Pedido Calificado");
             } catch (Exception e) {
                 out.print("Error");

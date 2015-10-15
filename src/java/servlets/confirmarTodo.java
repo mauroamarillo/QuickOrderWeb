@@ -5,14 +5,12 @@
  */
 package servlets;
 
-import Logica.ControladorUsuario;
-import Logica.DataTypes.DataPedido;
+
+import ClienteWS.DataPedido;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -43,20 +41,13 @@ public class confirmarTodo extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            ControladorUsuario CU = null;
-            if (session.getAttribute("CU") == null) {
-                CU = new ControladorUsuario();
-            } else {
-                CU = (ControladorUsuario) session.getAttribute("CU");
-            }
+            
             String nick = (String) session.getAttribute("nick");
-            HashMap aConfirmar = CU.getPedidosCarrito(nick);
-            Iterator it = aConfirmar.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry entry = (Map.Entry) it.next();
-                int numero = ((DataPedido) entry.getValue()).getNumero();
-                CU.cambiarEstadoPedido(numero, 0);
-            }
+            List<Object> aConfirmar = getPedidosCarrito(nick);
+            for(Object Pedido: aConfirmar){
+                int numero = ((DataPedido) Pedido).getNumero();
+                cambiarEstadoPedido(numero, 0);
+            }           
             out.println("<p>Todos Los Pedidos</p>");
             out.println("<p>Fueron Confirmados</p>");
         }
@@ -112,5 +103,17 @@ public class confirmarTodo extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private static java.util.List<java.lang.Object> getPedidosCarrito(java.lang.String arg0) {
+        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+        return port.getPedidosCarrito(arg0);
+    }
+
+    private static void cambiarEstadoPedido(int arg0, int arg1) {
+        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+        port.cambiarEstadoPedido(arg0, arg1);
+    }
 
 }

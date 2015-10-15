@@ -4,26 +4,20 @@
     Author     : Jean
 --%>
 
-<%@page import="Logica.DataTypes.DataProdPromo"%>
+<%@page import="ClienteWS.DataProdPromo"%>
+<%@page import="ClienteWS.DataPromocion"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
-<%@page import="Logica.DataTypes.DataPromocion"%>
-<%@page import="Logica.ControladorUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-
-    ControladorUsuario CU = null;
-    if (session.getAttribute("CU") == null) {
-        CU = new ControladorUsuario();
-    } else {
-        CU = (ControladorUsuario) session.getAttribute("CU");
-    }
+    ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+    ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
     DataPromocion DP = null;
     if (request.getParameter("x") == null) {
         out.print("ERROR AL CARGAR DETALLE DEL PEDIDO");
         return;
     } else {
-        DP = (DataPromocion) CU.getCP().BuscarDataXRestaurante_Producto(request.getParameter("x"));
+        DP = (DataPromocion) port.buscarDataXRestauranteProducto(request.getParameter("x"));
         if (DP == null) {
             out.print("ERROR AL CARGAR DETALLE DEL PEDIDO");
             return;
@@ -44,12 +38,12 @@
         <label class="col-xs-2 lista-num" > Cantidad </label>
     </div>
     <%
-        Iterator it = DP.getDataProdPromo().entrySet().iterator();
+        Iterator it = port.promocionGetProdPromo(DP.getRestaurante() + "_" + DP.getNombre()).iterator();
         int x = 1;
         String ultimo = "";
         while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            DataProdPromo DPP = (DataProdPromo) entry.getValue();
+            Object entry = it.next();
+            DataProdPromo DPP = (DataProdPromo) entry;
             if (!it.hasNext()) {
                 ultimo = "lista-ultimo";
             }

@@ -5,7 +5,6 @@
  */
 package servlets;
 
-import Logica.ControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -37,12 +36,7 @@ public class registro extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            ControladorUsuario CU = null;
-            if (session.getAttribute("CU") == null) {
-                CU = new ControladorUsuario();
-            } else {
-                CU = (ControladorUsuario) session.getAttribute("CU");
-            }
+
             String nick = request.getParameter("nick");
             String pwd = request.getParameter("passwd");
             String nombre = request.getParameter("nombre");
@@ -54,7 +48,9 @@ public class registro extends HttpServlet {
             String[] temp;
             temp = fecha.split(separador); // reparo la fecha en 3
             try {
-                CU.insertarCliente(nick, email, direccion, nombre, apellido, temp[0], temp[1].toLowerCase(), temp[2], null, pwd);
+                ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+                ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+                port.insertarCliente(nick, email, direccion, nombre, apellido, temp[0], temp[1].toLowerCase(), temp[2], pwd);
                 session.setAttribute("nick", nick);
                 session.setAttribute("nombre", nombre);
                 session.setAttribute("apellido", apellido);
@@ -63,10 +59,6 @@ public class registro extends HttpServlet {
                 out.print("<span style='font-weight:bold;color:red;'>" + e.getMessage() + "</span>");
                 out.print("</br><a href=\"index.jsp\">volver</a>");
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(registro.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(registro.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

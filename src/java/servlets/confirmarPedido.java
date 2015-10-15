@@ -5,7 +5,6 @@
  */
 package servlets;
 
-import Logica.ControladorUsuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -37,14 +36,9 @@ public class confirmarPedido extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            ControladorUsuario CU = null;
-            if (session.getAttribute("CU") == null) {
-                CU = new ControladorUsuario();
-            } else {
-                CU = (ControladorUsuario) session.getAttribute("CU");
-            }
+
             int pedido = Integer.parseInt((String) request.getParameter("p"));
-            CU.cambiarEstadoPedido(pedido, 0);
+            cambiarEstadoPedido(pedido, 0);
             out.println("<p>Pedido Confirmado</p>");
         }
     }
@@ -99,5 +93,11 @@ public class confirmarPedido extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private static void cambiarEstadoPedido(int arg0, int arg1) {
+        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+        port.cambiarEstadoPedido(arg0, arg1);
+    }
 
 }

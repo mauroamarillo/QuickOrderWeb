@@ -4,27 +4,22 @@
     Author     : Jean
 --%>
 
-<%@page import="Logica.DataTypes.DataPromocion"%>
-<%@page import= "Logica.DataTypes.DataProdPedido"%>
+<%@page import="ClienteWS.DataProdPedido"%>
+<%@page import="ClienteWS.DataProdPedido"%>
+<%@page import="ClienteWS.DataPedido"%>
 <%@page import= "java.util.Map"%>
 <%@page import= "java.util.Iterator"%>
-<%@page import= "Logica.DataTypes.DataPedido"%>
-<%@page import= "Logica.ControladorUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 
-    ControladorUsuario CU = null;
-    if (session.getAttribute("CU") == null) {
-        CU = new ControladorUsuario();
-    } else {
-        CU = (ControladorUsuario) session.getAttribute("CU");
-    }
+    ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+    ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
     DataPedido DP = null;
     if (request.getParameter("x") == null) {
         out.print("ERROR AL CARGAR DETALLE DEL PEDIDO");
         return;
     } else {
-        DP = CU.getDataPedido(Integer.valueOf(request.getParameter("x")));
+        DP = port.getDataPedido(Integer.valueOf(request.getParameter("x")));
         if (DP == null) {
             out.print("ERROR AL CARGAR DETALLE DEL PEDIDO");
             return;

@@ -4,8 +4,6 @@
     Author     : Jean
 --%>
 
-<%@page import="Logica.DataTypes.DataPedido"%>
-<%@page import="Logica.ControladorUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     int pedido = Integer.parseInt((String) request.getParameter("pedido"));

@@ -4,22 +4,19 @@
     Author     : Jean
 --%>
 
-<%@page import="Logica.DataTypes.DataRestaurante"%>
-<%@page import="Logica.DataTypes.DataProducto"%>
-<%@page import="Logica.DataTypes.DataIndividual"%>
-<%@page import="Logica.DataTypes.DataPromocion"%>
+<%@page import="java.util.List"%>
+<%@page import="ClienteWS.DataRestaurante"%>
+<%@page import="ClienteWS.DataProducto"%>
+<%@page import="ClienteWS.DataPromocion"%>
+<%@page import="ClienteWS.DataIndividual"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="Logica.ControladorUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%-- start web service invocation --%><hr/>
 <%
-    ControladorUsuario CU = null;
-    if (session.getAttribute("CU") == null) {
-        CU = new ControladorUsuario();
-    } else {
-        CU = (ControladorUsuario) session.getAttribute("CU");
-    }
+    ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+    ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
 
     String filtro = "";
     boolean hayResultado = false;
@@ -27,8 +24,16 @@
         filtro = request.getParameter("filtro");
     }
     HashMap ListaProductos = new HashMap();
-    ListaProductos.putAll(CU.getCP().getDataIndividuales());
-    ListaProductos.putAll(CU.getCP().getDataPromociones());
+    List<Object> result = port.getDataIndividuales();
+    for (Object O : result) {
+        DataIndividual P = (DataIndividual) O;
+        ListaProductos.put(P.getRestaurante() + "_" + P.getNombre(), P);
+    }
+    result = port.getDataPromociones();
+    for (Object O : result) {
+        DataPromocion P = (DataPromocion) O;
+        ListaProductos.put(P.getRestaurante() + "_" + P.getNombre(), P);
+    }
 %>
 <!DOCTYPE html>
 <style>
@@ -42,11 +47,11 @@
             Map.Entry entry = (Map.Entry) it.next();
             if (((DataProducto) entry.getValue()).getNombre().toLowerCase().contains(filtro.toLowerCase())) {
                 hayResultado = true;
-                DataRestaurante DR = CU.buscarRestaurante(((DataProducto) entry.getValue()).getRestaurante());
+                DataRestaurante DR = port.buscarRestaurante(((DataProducto) entry.getValue()).getRestaurante());
                 if (entry.getValue() instanceof DataPromocion) {
                     DataPromocion DP = (DataPromocion) entry.getValue();
-                    String urlImg = DP.getImagen().replace("127.0.0.1", request.getLocalAddr());
-                    if (urlImg.equals("sin_imagen")) {
+                    String urlImg = DP.getImagen();
+                    if (urlImg == null ||  urlImg.equals("sin_imagen")) {
                         urlImg = "img/imagenrestaurante.jpg";
                     }
     %>
@@ -56,7 +61,7 @@
                 <img src="<%=urlImg%>" alt="<%=DP.getNombre()%>" /> 
                 <p class="precio">Precio $<%=DP.getPrecio()%></p>
                 <h3 class="nombre"><%=DP.getNombre()%></h3>
-                <p class="restaurante"><b><%=CU.buscarRestaurante(DP.getRestaurante()).getNombre()%></b></p>
+                <p class="restaurante"><b><%=port.buscarRestaurante(DP.getRestaurante()).getNombre()%></b></p>
                 <p class="descripcion"><%=DP.getDescripcion()%></p>
                 <p class="activa">
                     <%
@@ -84,8 +89,8 @@
     </div>
     <%                } else {
         DataIndividual DI = (DataIndividual) entry.getValue();
-        String urlImg = DI.getImagen().replace("127.0.0.1", request.getLocalAddr());
-        if (urlImg.equals("sin_imagen")) {
+        String urlImg = DI.getImagen();
+        if (urlImg == null || urlImg.equals("sin_imagen")) {
             urlImg = "img/imagenrestaurante.jpg";
         }
     %>
@@ -95,7 +100,7 @@
                 <img src="<%=urlImg%>" alt="<%=DI.getNombre()%>" /> 
                 <p class="precio">Precio $<%=DI.getPrecio()%></p>
                 <h3 class="nombre"><%=DI.getNombre()%></h3>
-                <p class="restaurante"><b><%=CU.buscarRestaurante(DI.getRestaurante()).getNombre()%></b></p>
+                <p class="restaurante"><b><%=port.buscarRestaurante(DI.getRestaurante()).getNombre()%></b></p>
                 <p class="descripcion"><%=DI.getDescripcion()%> </p>
             </div>
             <div class=" col-sm-2 controles">

@@ -5,7 +5,6 @@
  */
 package servlets;
 
-import Logica.ControladorUsuario;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,26 +38,24 @@ public class guardarImgTemporal extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            ControladorUsuario CU = null;
-            if (session.getAttribute("CU") == null) {
-                CU = new ControladorUsuario();
-            } else {
-                CU = (ControladorUsuario) session.getAttribute("CU");
-            }
-            String nick = (String) session.getAttribute("nick");
+            /* HttpSession session = request.getSession();
+             ControladorUsuario CU = null;
+             if (session.getAttribute("CU") == null) {
+             CU = new ControladorUsuario();
+             } else {
+             CU = (ControladorUsuario) session.getAttribute("CU");
+             }
+             String nick = (String) session.getAttribute("nick");
 
-            String imagenBase64 = request.getParameter("img");
-            String header = imagenBase64.split(",")[0];//"data:image/jpg;base64,";
-            String encodedImage = imagenBase64.substring(header.length() + 1);
-            File destino = new File("C:\\imagenes\\__temp\\nuevo_" + nick + ".jpg");
-            byte dearr[] = Base64.decodeBase64(encodedImage);
-            try (FileOutputStream fos = new FileOutputStream(destino)) {
-                fos.write(dearr);
-                fos.flush();
-            }
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(guardarImgTemporal.class.getName()).log(Level.SEVERE, null, ex);
+             String imagenBase64 = request.getParameter("img");
+             String header = imagenBase64.split(",")[0];//"data:image/jpg;base64,";
+             String encodedImage = imagenBase64.substring(header.length() + 1);
+             File destino = new File("C:\\imagenes\\__temp\\nuevo_" + nick + ".jpg");
+             byte dearr[] = Base64.decodeBase64(encodedImage);
+             try (FileOutputStream fos = new FileOutputStream(destino)) {
+             fos.write(dearr);
+             fos.flush();
+             }*/
         }
     }
 

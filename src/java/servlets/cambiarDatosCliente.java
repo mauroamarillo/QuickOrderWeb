@@ -5,13 +5,8 @@
  */
 package servlets;
 
-import Logica.ControladorUsuario;
-import Logica.HerramientaArchivos;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,12 +33,7 @@ public class cambiarDatosCliente extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             HttpSession session = request.getSession();
-            ControladorUsuario CU = null;
-            if (session.getAttribute("CU") == null) {
-                CU = new ControladorUsuario();
-            } else {
-                CU = (ControladorUsuario) session.getAttribute("CU");
-            }
+
             String nombre = request.getParameter("nombre");
             String apellido = request.getParameter("apellido");
             String cambioImagen = request.getParameter("cambioImagen");
@@ -51,24 +41,19 @@ public class cambiarDatosCliente extends HttpServlet {
             String passwd = request.getParameter("passwd");
             String nick = (String) session.getAttribute("nick");
             String direccion = request.getParameter("direccion");
-            String imagen = "";
+            String imagen = "NO";
             if (cambioImagen.equals("1")) {
-                HerramientaArchivos.copyFile("C:\\imagenes\\__temp\\nuevo_" + nick + ".jpg", "C:\\imagenes\\" + nick + ".jpg");
+                imagen = request.getParameter("img");
+               // out.print("<img src='" + imagen + "' width='190px' height='190px' >");
             }
-            try {
-                CU.modificarCliente(nick, nombre, email, direccion, apellido, "ftp://127.0.0.1/" + nick + ".jpg", passwd);
-                out.print("<p>Cambios Aplicados</p>");
-                session.removeAttribute("nick");
-                session.removeAttribute("nombre");
-                session.removeAttribute("apellido");
-                session.setAttribute("nick", nick);
-                session.setAttribute("nombre", nombre);
-                session.setAttribute("apellido", apellido);
-            } catch (SQLException | ClassNotFoundException ex) {
-                response.getWriter().print(ex);
-            }
-        } catch (SQLException | ClassNotFoundException ex) {
-            response.getWriter().print(ex);
+
+            modificarCliente(nick, nombre, email, direccion, apellido, imagen, passwd);
+            out.print("<p>Cambios Aplicados</p>");
+            session.removeAttribute("nombre");
+            session.removeAttribute("apellido");
+            session.setAttribute("nombre", nombre);
+            session.setAttribute("apellido", apellido);
+
         }
     }
 
@@ -110,5 +95,11 @@ public class cambiarDatosCliente extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private static void modificarCliente(java.lang.String arg0, java.lang.String arg1, java.lang.String arg2, java.lang.String arg3, java.lang.String arg4, java.lang.String arg5, java.lang.String arg6) {
+        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+        port.modificarCliente(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+    }
 
 }
