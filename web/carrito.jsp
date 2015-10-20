@@ -18,7 +18,18 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-    ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+    ClienteWS.WSQuickOrder_Service service = null;
+    String rutaWS = configuracion.configuracion.URLWS();
+    try {
+        if (rutaWS == null) {
+            service = new ClienteWS.WSQuickOrder_Service();
+        } else {
+            service = new ClienteWS.WSQuickOrder_Service(new java.net.URL(rutaWS));
+        }
+    } catch (javax.xml.ws.WebServiceException e) {
+        out.print("<div class=\"Exception\"> " + e.getMessage() + "</div>");
+        return;
+    }
     ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
 
     if (session.getAttribute("nick") == null) {
@@ -29,7 +40,7 @@
     List<Object> result = port.getPedidosCarrito(nick);
     HashMap pedidos = new HashMap();
     for (Object O : result) {
-        pedidos.put(((DataPedido)O).getNumero(), (DataPedido) O);
+        pedidos.put(((DataPedido) O).getNumero(), (DataPedido) O);
     }
     if (pedidos.size() < 1) {
         out.print("<p>No hay pedidos a confirmar</p>");
@@ -52,7 +63,7 @@
         <div class="panel-heading" role="tab" id="<%=DP.getNumero()%>">
             <div class="panel-title">
                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=DP.getNumero()%>" aria-expanded="true" aria-controls="collapseOne">
-                    <b>Fecha:</b> <%=DP.getFecha().toString() %>  |  <b>Restaurante:</b> <%=port.buscarRestaurante(DP.getRestaurante()).getNombre()%> | <b>Total:</b> $<%=DP.getPrecio()%>
+                    <b>Fecha:</b> <%=DP.getFecha().toString()%>  |  <b>Restaurante:</b> <%=port.buscarRestaurante(DP.getRestaurante()).getNombre()%> | <b>Total:</b> $<%=DP.getPrecio()%>
                 </a>
 
                 <a href="<%=DP.getNumero()%>" style="float: right; font-size:20px;" class="confirmarPedido"><span class="glyphicon glyphicon-ok-sign"></span></a>

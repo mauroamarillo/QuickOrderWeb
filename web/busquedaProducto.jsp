@@ -15,7 +15,18 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%-- start web service invocation --%><hr/>
 <%
-    ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+    ClienteWS.WSQuickOrder_Service service = null;
+    String rutaWS = configuracion.configuracion.URLWS();
+    try {
+        if (rutaWS == null) {
+            service = new ClienteWS.WSQuickOrder_Service();
+        } else {
+            service = new ClienteWS.WSQuickOrder_Service(new java.net.URL(rutaWS));
+        }
+    } catch (javax.xml.ws.WebServiceException e) {
+        out.print("<div class=\"Exception\"> "+e.getMessage()+"</div>");
+        return;
+    }
     ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
 
     String filtro = "";

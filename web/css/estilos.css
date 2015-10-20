@@ -753,4 +753,16 @@ body{
 .Busqueda .restaurante .info .Estrellas .glyphicon-star.inactiva{
     color: black;
 }
+.Exception{
+    width: 65%;
+    margin:auto;
+    border: 1px solid;
+    background: black;
+    -moz-box-shadow: 2px 2px 2px gray;
+    -webkit-box-shadow: 2px 2px 2px gray;
 
+    color:red;
+    text-shadow: 1px 1px 0px gray;    
+    text-align: center;
+
+}
