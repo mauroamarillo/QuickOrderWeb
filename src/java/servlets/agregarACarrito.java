@@ -41,18 +41,33 @@ public class agregarACarrito extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ClassNotFoundException, Exception {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
 
+        try (PrintWriter out = response.getWriter()) {
+
+            /*Este codigo es igual siempre para crear los puertos a el WS*/
+            ClienteWS.WSQuickOrder_Service service = null;
+            String rutaWS = configuracion.configuracion.URLWS();
+            try {
+                if (rutaWS == null) {
+                    service = new ClienteWS.WSQuickOrder_Service();
+                } else {
+                    service = new ClienteWS.WSQuickOrder_Service(new java.net.URL(rutaWS));
+                }
+            } catch (javax.xml.ws.WebServiceException e) {
+
+                out.print("<link href =\"css/estilos.css\" rel=\"stylesheet\" />"
+                        + "<div class=\"Exception\"> " + e.getMessage() + "</div>");
+                return;
+            }
+            ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+            /*aca termina*/
+            HttpSession session = request.getSession();
             String prod = (String) request.getParameter("P");
             int cant = Integer.parseInt((String) request.getParameter("C"));
             String nick = (String) session.getAttribute("nick");
             if (BuscarDataXRestaurante_Producto(prod) == null) {
                 out.print("<p>Error al buscar producto</p>");
             } else {
-                ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
-                ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
-
                 if (BuscarDataXRestaurante_Producto(prod) instanceof DataIndividual) {
                     DataIndividual P = (DataIndividual) BuscarDataXRestaurante_Producto(prod);
                     DataProdPedido DP = new DataProdPedido();

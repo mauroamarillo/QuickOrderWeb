@@ -32,8 +32,24 @@ public class cambiarDatosCliente extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
+             /*Este codigo es igual siempre para crear los puertos a el WS*/
+            ClienteWS.WSQuickOrder_Service service = null;
+            String rutaWS = configuracion.configuracion.URLWS();
+            try {
+                if (rutaWS == null) {
+                    service = new ClienteWS.WSQuickOrder_Service();
+                } else {
+                    service = new ClienteWS.WSQuickOrder_Service(new java.net.URL(rutaWS));
+                }
+            } catch (javax.xml.ws.WebServiceException e) {
 
+                out.print("<link href =\"css/estilos.css\" rel=\"stylesheet\" />"
+                        + "<div class=\"Exception\"> " + e.getMessage() + "</div>");
+                return;
+            }
+            ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+            /*aca termina*/
+            HttpSession session = request.getSession();
             String nombre = request.getParameter("nombre");
             String apellido = request.getParameter("apellido");
             String cambioImagen = request.getParameter("cambioImagen");
@@ -47,7 +63,7 @@ public class cambiarDatosCliente extends HttpServlet {
                // out.print("<img src='" + imagen + "' width='190px' height='190px' >");
             }
 
-            modificarCliente(nick, nombre, email, direccion, apellido, imagen, passwd);
+            port.modificarCliente(nick, nombre, email, direccion, apellido, imagen, passwd);
             out.print("<p>Cambios Aplicados</p>");
             session.removeAttribute("nombre");
             session.removeAttribute("apellido");
@@ -95,11 +111,5 @@ public class cambiarDatosCliente extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private static void modificarCliente(java.lang.String arg0, java.lang.String arg1, java.lang.String arg2, java.lang.String arg3, java.lang.String arg4, java.lang.String arg5, java.lang.String arg6) {
-        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
-        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
-        port.modificarCliente(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
-    }
 
 }

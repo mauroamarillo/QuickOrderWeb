@@ -40,13 +40,29 @@ public class confirmarTodo extends HttpServlet {
             throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
-            
+             /*Este codigo es igual siempre para crear los puertos a el WS*/
+            ClienteWS.WSQuickOrder_Service service = null;
+            String rutaWS = configuracion.configuracion.URLWS();
+            try {
+                if (rutaWS == null) {
+                    service = new ClienteWS.WSQuickOrder_Service();
+                } else {
+                    service = new ClienteWS.WSQuickOrder_Service(new java.net.URL(rutaWS));
+                }
+            } catch (javax.xml.ws.WebServiceException e) {
+
+                out.print("<link href =\"css/estilos.css\" rel=\"stylesheet\" />"
+                        + "<div class=\"Exception\"> " + e.getMessage() + "</div>");
+                return;
+            }
+            ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+            /*aca termina*/
+            HttpSession session = request.getSession();            
             String nick = (String) session.getAttribute("nick");
-            List<Object> aConfirmar = getPedidosCarrito(nick);
+            List<Object> aConfirmar = port.getPedidosCarrito(nick);
             for(Object Pedido: aConfirmar){
                 int numero = ((DataPedido) Pedido).getNumero();
-                cambiarEstadoPedido(numero, 0);
+               port.cambiarEstadoPedido(numero, 0);
             }           
             out.println("<p>Todos Los Pedidos</p>");
             out.println("<p>Fueron Confirmados</p>");
@@ -103,17 +119,5 @@ public class confirmarTodo extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private static java.util.List<java.lang.Object> getPedidosCarrito(java.lang.String arg0) {
-        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
-        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
-        return port.getPedidosCarrito(arg0);
-    }
-
-    private static void cambiarEstadoPedido(int arg0, int arg1) {
-        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
-        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
-        port.cambiarEstadoPedido(arg0, arg1);
-    }
 
 }

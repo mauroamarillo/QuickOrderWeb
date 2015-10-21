@@ -35,7 +35,23 @@ public class verificar extends HttpServlet {
             throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /*Este codigo es igual siempre para crear los puertos a el WS*/
+            ClienteWS.WSQuickOrder_Service service = null;
+            String rutaWS = configuracion.configuracion.URLWS();
+            try {
+                if (rutaWS == null) {
+                    service = new ClienteWS.WSQuickOrder_Service();
+                } else {
+                    service = new ClienteWS.WSQuickOrder_Service(new java.net.URL(rutaWS));
+                }
+            } catch (javax.xml.ws.WebServiceException e) {
 
+                out.print("<link href =\"css/estilos.css\" rel=\"stylesheet\" />"
+                        + "<div class=\"Exception\"> " + e.getMessage() + "</div>");
+                return;
+            }
+            ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+            /*aca termina*/
             String dato = null;
             if (request.getParameter("nick") != null) {
                 dato = request.getParameter("nick");
@@ -44,7 +60,7 @@ public class verificar extends HttpServlet {
                     return;
                 }
                 if (!dato.isEmpty()) {
-                    if (nickOcupado(dato)) {
+                    if (!port.nickOcupado(dato)) {
                         out.print("<span style='font-weight:bold;color:green;'>Disponible.</span>");
                     } else {
                         out.print("<span style='font-weight:bold;color:red;'>El nombre de usuario ya existe.</span>");
@@ -60,7 +76,7 @@ public class verificar extends HttpServlet {
                     return;
                 }
                 if (!dato.isEmpty()) {
-                    if (emailOcupado(dato)) {
+                    if (!port.emailOcupado(dato)) {
                         out.print("<span style='font-weight:bold;color:green;'>Disponible.</span>");
                     } else {
                         out.print("<span style='font-weight:bold;color:red;'>Ya existe este email en la base de datos.</span>");
@@ -122,17 +138,5 @@ public class verificar extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private static Boolean emailOcupado(java.lang.String arg0) {
-        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
-        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
-        return port.emailOcupado(arg0);
-    }
-
-    private static Boolean nickOcupado(java.lang.String arg0) {
-        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
-        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
-        return port.nickOcupado(arg0);
-    }
 
 }

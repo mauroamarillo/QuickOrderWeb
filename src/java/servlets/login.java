@@ -36,11 +36,28 @@ public class login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ClassNotFoundException {
+         /*Este codigo es igual siempre para crear los puertos a el WS*/
+            ClienteWS.WSQuickOrder_Service service = null;
+            String rutaWS = configuracion.configuracion.URLWS();
+            try {
+                if (rutaWS == null) {
+                    service = new ClienteWS.WSQuickOrder_Service();
+                } else {
+                    service = new ClienteWS.WSQuickOrder_Service(new java.net.URL(rutaWS));
+                }
+            } catch (javax.xml.ws.WebServiceException e) {
+
+                response.getOutputStream().print("<link href =\"css/estilos.css\" rel=\"stylesheet\" />"
+                        + "<div class=\"Exception\"> " + e.getMessage() + "</div>");
+                return;
+            }
+            ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+            /*aca termina*/
         String user = request.getParameter("nick");
         String pass = request.getParameter("passwd");
         HttpSession session = request.getSession();
-        if (nickOcupado(user)) {
-            DataCliente DC = buscarCliente(user);
+        if (port.nickOcupado(user)) {
+            DataCliente DC = port.buscarCliente(user);
             if (DC != null) {
                 String passCorrecta = DC.getPwd();
                 if (passCorrecta != null && passCorrecta.equals(pass)) {
@@ -55,8 +72,8 @@ public class login extends HttpServlet {
                 response.sendRedirect("index.jsp?error=1"); // no se encontro el usuario
             }
         } else {
-            if (emailOcupado(user)) {
-                DataCliente DC = buscarClientePorEmail(user);
+            if (port.emailOcupado(user)) {
+                DataCliente DC = port.buscarClientePorEmail(user);
                 if (DC != null) {
                     String passCorrecta = DC.getPwd();
                     if (passCorrecta != null && passCorrecta.equals(pass)) {
@@ -128,28 +145,5 @@ public class login extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private static Boolean nickOcupado(java.lang.String arg0) {
-        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
-        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
-        return port.nickOcupado(arg0);
-    }
-
-    private static Boolean emailOcupado(java.lang.String arg0) {
-        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
-        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
-        return port.emailOcupado(arg0);
-    }
-
-    private static ClienteWS.DataCliente buscarCliente(java.lang.String arg0) {
-        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
-        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
-        return port.buscarCliente(arg0);
-    }
-
-    private static ClienteWS.DataCliente buscarClientePorEmail(java.lang.String arg0) {
-        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
-        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
-        return port.buscarClientePorEmail(arg0);
-    }
 
 }

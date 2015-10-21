@@ -16,7 +16,6 @@
 <%
     ClienteWS.WSQuickOrder_Service service = null;
     String rutaWS = configuracion.configuracion.URLWS();
-
     try {
         if (rutaWS == null) {
             service = new ClienteWS.WSQuickOrder_Service();

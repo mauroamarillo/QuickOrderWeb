@@ -35,10 +35,26 @@ public class confirmarPedido extends HttpServlet {
             throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
+            /*Este codigo es igual siempre para crear los puertos a el WS*/
+            ClienteWS.WSQuickOrder_Service service = null;
+            String rutaWS = configuracion.configuracion.URLWS();
+            try {
+                if (rutaWS == null) {
+                    service = new ClienteWS.WSQuickOrder_Service();
+                } else {
+                    service = new ClienteWS.WSQuickOrder_Service(new java.net.URL(rutaWS));
+                }
+            } catch (javax.xml.ws.WebServiceException e) {
 
+                out.print("<link href =\"css/estilos.css\" rel=\"stylesheet\" />"
+                        + "<div class=\"Exception\"> " + e.getMessage() + "</div>");
+                return;
+            }
+            ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+            /*aca termina*/
+            HttpSession session = request.getSession();
             int pedido = Integer.parseInt((String) request.getParameter("p"));
-            cambiarEstadoPedido(pedido, 0);
+            port.cambiarEstadoPedido(pedido, 0);
             out.println("<p>Pedido Confirmado</p>");
         }
     }
@@ -93,11 +109,5 @@ public class confirmarPedido extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private static void cambiarEstadoPedido(int arg0, int arg1) {
-        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
-        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
-        port.cambiarEstadoPedido(arg0, arg1);
-    }
 
 }

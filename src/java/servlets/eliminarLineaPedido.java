@@ -37,12 +37,28 @@ public class eliminarLineaPedido extends HttpServlet {
             throws ServletException, IOException, SQLException, ClassNotFoundException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /*Este codigo es igual siempre para crear los puertos a el WS*/
+            ClienteWS.WSQuickOrder_Service service = null;
+            String rutaWS = configuracion.configuracion.URLWS();
+            try {
+                if (rutaWS == null) {
+                    service = new ClienteWS.WSQuickOrder_Service();
+                } else {
+                    service = new ClienteWS.WSQuickOrder_Service(new java.net.URL(rutaWS));
+                }
+            } catch (javax.xml.ws.WebServiceException e) {
 
+                out.print("<link href =\"css/estilos.css\" rel=\"stylesheet\" />"
+                        + "<div class=\"Exception\"> " + e.getMessage() + "</div>");
+                return;
+            }
+            ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+            /*aca termina*/
             int pedido = Integer.parseInt((String) request.getParameter("pedido"));
             String restaurante = (String) request.getParameter("restaurante");
             String producto = (String) request.getParameter("producto");
             try {
-                quitarLineaPedido(pedido, restaurante, producto);
+                port.quitarLineaPedido(pedido, restaurante, producto);
                 out.println("<p>Producto removido</p>");
             } catch (Exception ex) {
                 out.println("<p>" + ex + "</p>");
@@ -100,11 +116,5 @@ public class eliminarLineaPedido extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private static void quitarLineaPedido(int arg0, java.lang.String arg1, java.lang.String arg2) {
-        ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
-        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
-        port.quitarLineaPedido(arg0, arg1, arg2);
-    }
 
 }

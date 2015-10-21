@@ -35,11 +35,25 @@ public class cancelarPedido extends HttpServlet {
             throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
+             /*Este codigo es igual siempre para crear los puertos a el WS*/
+            ClienteWS.WSQuickOrder_Service service = null;
+            String rutaWS = configuracion.configuracion.URLWS();
+            try {
+                if (rutaWS == null) {
+                    service = new ClienteWS.WSQuickOrder_Service();
+                } else {
+                    service = new ClienteWS.WSQuickOrder_Service(new java.net.URL(rutaWS));
+                }
+            } catch (javax.xml.ws.WebServiceException e) {
 
-            int pedido = Integer.parseInt((String) request.getParameter("p"));
-            ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
+                out.print("<link href =\"css/estilos.css\" rel=\"stylesheet\" />"
+                        + "<div class=\"Exception\"> " + e.getMessage() + "</div>");
+                return;
+            }
             ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+            /*aca termina*/
+            HttpSession session = request.getSession();
+            int pedido = Integer.parseInt((String) request.getParameter("p"));
             port.cancelarPedido(pedido);
             out.println("<p>Pedido Cancelado</p>");
         }

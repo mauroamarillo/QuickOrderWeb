@@ -37,8 +37,24 @@ public class calificarPedido extends HttpServlet {
             throws ServletException, IOException, ClassNotFoundException, SQLException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
+             /*Este codigo es igual siempre para crear los puertos a el WS*/
+            ClienteWS.WSQuickOrder_Service service = null;
+            String rutaWS = configuracion.configuracion.URLWS();
+            try {
+                if (rutaWS == null) {
+                    service = new ClienteWS.WSQuickOrder_Service();
+                } else {
+                    service = new ClienteWS.WSQuickOrder_Service(new java.net.URL(rutaWS));
+                }
+            } catch (javax.xml.ws.WebServiceException e) {
 
+                out.print("<link href =\"css/estilos.css\" rel=\"stylesheet\" />"
+                        + "<div class=\"Exception\"> " + e.getMessage() + "</div>");
+                return;
+            }
+            ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+            /*aca termina*/            
+            HttpSession session = request.getSession();
             int pedido = Integer.parseInt((String) request.getParameter("pedido"));
             int estrellas = 1;
             if (request.getParameter("estrellas") != null) {
@@ -47,8 +63,6 @@ public class calificarPedido extends HttpServlet {
             String comentario = (String) request.getParameter("comentario");
 
             try {
-                ClienteWS.WSQuickOrder_Service service = new ClienteWS.WSQuickOrder_Service();
-                ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
                 port.calificarPedido(pedido, estrellas, comentario);
                 out.print("Pedido Calificado");
             } catch (Exception e) {
