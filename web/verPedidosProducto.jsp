@@ -40,7 +40,7 @@
 %>
 <!DOCTYPE html >
 <div class="row">
-    <label class="col-lg-5"><%=DP.getFecha()%></label>
+    <label class="col-lg-5"><%=(new DataTypes.Fecha(DP.getFecha())).toString()%></label>
     <label class="col-lg-3"><%=DC.getNombre()%> <%=DC.getApellido()%></label>
     <label class="col-lg-2" style="text-align: right;">$ <%=DP.getPrecio()%></label>
     <label class="col-lg-2"><%

@@ -64,7 +64,7 @@
                         if (href === 'infoUsuario.jsp')
                             cambioFrameIcono("user");
                         else if (href === 'carrito.jsp')
-                            cambioFrameIcono("shopping-cart");
+                            cambioFrameIcono("shopping-cat");//esta mal para que no se repita el carrito
                         else
                             cambioFrameIcono('cutlery');
                         $("#frameContainer").html(data);
@@ -143,7 +143,7 @@
     $("#frameIcono").removeClass('glyphicon-search');
     $("#frameIcono").removeClass('glyphicon-cutlery');
     $("#frameIcono").removeClass('glyphicon-alert');
-    $("#frameIcono").removeClass('glyphicon-shopping-cart');
+    $("#frameIcono").removeClass('glyphicon-shopping-cat');//esta mal para que no se repita el carrito
     $("#frameIcono").addClass('glyphicon-' + icono);
 });
 (window.alert = function (message) {

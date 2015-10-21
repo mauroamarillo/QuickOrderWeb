@@ -2,6 +2,7 @@
     -webkit-transition: text-shadow 0.3s, color 0.3s; 
     transition:text-shadow 0.3s, color 0.3s;  
 }
+
 body{      
     background: url(img/car1.jpg) no-repeat center center fixed !important; 
     -webkit-background-size: cover !important;
