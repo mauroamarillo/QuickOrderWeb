@@ -547,7 +547,7 @@ body{
     position:absolute;
     top:50%;
     left:50%;
-    opacity: 0.2;
+    opacity: 0.4;
     transform: translate(-50%, -55%);
     -webkit-transform: translate(-50%, -55%);
     -webkit-transition: width 0.3s,opacity 0.6s; 

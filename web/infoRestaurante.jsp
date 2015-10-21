@@ -206,7 +206,7 @@
                             hay_cal = true;
                             DataCliente DC = port.buscarCliente(DP.getCliente());
                             out.print(" <div class=\"row lineaCalificacionRestaurante\">");
-                            out.print("<div class=\"col-sm-4\">" + DP.getFecha() + "</div>");
+                            out.print("<div class=\"col-sm-4\">" + (new DataTypes.Fecha(DP.getFecha())).toString() + "</div>");
                             out.print("<div class=\"col-sm-2\">" + DC.getNombre() + " " + DC.getApellido() + "</div>");
                             out.print("<div class=\"col-sm-4\">" + DP.getCalificacion().getComentario() + "</div>");
                             out.print("<div class=\"col-sm-2\">");
