@@ -59,7 +59,7 @@
                 <p> 
                     <b>Nombre:</b> <%=DC.getNombre()%></br> 
                     <b>Apellido:</b> <%=DC.getApellido()%></br> 
-                    <b>Fecha de Nacimiento:</b> <%=DC.getFechaNac().toString()%></br>
+                    <b>Fecha de Nacimiento:</b> <%=(new DataTypes.Fecha(DC.getFechaNac())).toString()%></br>
                     <b>Direccion:</b> <%=DC.getDireccion()%></br>
                     <b>Email:</b> <%=DC.getEmail()%></br>
                 </p>
@@ -79,7 +79,7 @@
                     <div class="panel-heading" role="tab" id="<%=DP.getNumero()%>">
                         <div class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<%=DP.getNumero()%>" aria-expanded="true" aria-controls="collapseOne">
-                                <b>Fecha:</b> <%=DP.getFecha().toString()%>  |  <b>Restaurante:</b> <%=port.buscarRestaurante(DP.getRestaurante()).getNombre()%> | <b>Total:</b> $<%=DP.getPrecio()%>
+                                <b>Fecha:</b> <%=(new DataTypes.Fecha(DP.getFecha())).toString()%>  |  <b>Restaurante:</b> <%=port.buscarRestaurante(DP.getRestaurante()).getNombre()%> | <b>Total:</b> $<%=DP.getPrecio()%>
                             </a>
                             <%
                                 DataCalificacion calificacion = port.obtenerCalificacionPedido(DP.getNumero());

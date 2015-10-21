@@ -13,7 +13,6 @@
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.HashMap"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%-- start web service invocation --%><hr/>
 <%
     ClienteWS.WSQuickOrder_Service service = null;
     String rutaWS = configuracion.configuracion.URLWS();

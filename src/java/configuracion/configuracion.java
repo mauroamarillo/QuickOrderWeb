@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,7 +20,9 @@ import java.util.logging.Logger;
  */
 public abstract class configuracion {
 
-    private final static String RUTA = System.getProperty("user.home") + "\\QuickOrderWeb\\propiedades.properties";
+    private final static String CARPETA = System.getProperty("user.home") + "\\QuickOrderWeb\\";
+    private final static String ARCHIVO = "propiedades.properties";
+    private final static String RUTA = CARPETA + ARCHIVO;
 
     private static boolean existe() {
         return (new java.io.File(RUTA)).exists();
@@ -30,21 +31,23 @@ public abstract class configuracion {
     private static String configurar() {
         try {
             File archivo = new File(RUTA);
+            new File(CARPETA).mkdirs();
+            archivo.createNewFile();
             BufferedWriter bw;
             bw = new BufferedWriter(new FileWriter(archivo));
-            bw.write("rutaWS=\"http://localhost:8080/WSUsuario/WSQuickOrder?wsdl\"");
+            bw.write("rutaWS=http://localhost:8080/WSUsuario/WSQuickOrder?wsdl");
             bw.close();
             return "http://localhost:8080/WSUsuario/WSQuickOrder?wsdl";
         } catch (IOException ex) {
             Logger.getLogger(configuracion.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return ex.getMessage();
         }
     }
 
     public static String URLWS() {
-        if(!existe()){
+        if (!existe()) {
             return configurar();
-        }        
+        }
         try {
             Properties propiedades = new Properties();
             propiedades.load(new FileInputStream(RUTA));
