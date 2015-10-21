@@ -52,6 +52,10 @@
 
 <xs:element name="cantidadPorCategoriaResponse" type="tns:cantidadPorCategoriaResponse" />
 
+<xs:element name="clienteGetPedidos" type="tns:clienteGetPedidos" />
+
+<xs:element name="clienteGetPedidosResponse" type="tns:clienteGetPedidosResponse" />
+
 <xs:element name="consultarCategorias" type="tns:consultarCategorias" />
 
 <xs:element name="consultarCategoriasResponse" type="tns:consultarCategoriasResponse" />
@@ -59,6 +63,10 @@
 <xs:element name="consultarRestaurantesPorCategoria" type="tns:consultarRestaurantesPorCategoria" />
 
 <xs:element name="consultarRestaurantesPorCategoriaResponse" type="tns:consultarRestaurantesPorCategoriaResponse" />
+
+<xs:element name="dhp" type="tns:dhp" />
+
+<xs:element name="dhpResponse" type="tns:dhpResponse" />
 
 <xs:element name="emailOcupado" type="tns:emailOcupado" />
 
@@ -99,6 +107,10 @@
 <xs:element name="getDataRestaurantes" type="tns:getDataRestaurantes" />
 
 <xs:element name="getDataRestaurantesResponse" type="tns:getDataRestaurantesResponse" />
+
+<xs:element name="getInfoPedidos" type="tns:getInfoPedidos" />
+
+<xs:element name="getInfoPedidosResponse" type="tns:getInfoPedidosResponse" />
 
 <xs:element name="getPedidosCarrito" type="tns:getPedidosCarrito" />
 
@@ -192,18 +204,6 @@
 
 <xs:element name="retornarCategoriasRestaurantesResponse" type="tns:retornarCategoriasRestaurantesResponse" />
 
-<xs:complexType name="consultarRestaurantesPorCategoria">
-<xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="consultarRestaurantesPorCategoriaResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="insertarIndividual">
 <xs:sequence>
 <xs:element name="arg0" type="xs:string" minOccurs="0" />
@@ -216,6 +216,325 @@
 
 <xs:complexType name="insertarIndividualResponse">
 <xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="insertarPromocion">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+<xs:element name="arg1" type="xs:string" minOccurs="0" />
+<xs:element name="arg2" type="xs:string" minOccurs="0" />
+<xs:element name="arg3" type="xs:boolean" />
+<xs:element name="arg4" type="xs:float" />
+<xs:element name="arg5" type="xs:string" minOccurs="0" />
+<xs:element name="arg6" type="tns:dataIndividual" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataIndividual">
+<xs:complexContent>
+<xs:extension base="tns:dataProducto">
+<xs:sequence />
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+
+<xs:complexType name="dataProducto">
+<xs:sequence>
+<xs:element name="descripcion" type="xs:string" minOccurs="0" />
+<xs:element name="imagen" type="xs:string" minOccurs="0" />
+<xs:element name="nombre" type="xs:string" minOccurs="0" />
+<xs:element name="precio" type="xs:float" />
+<xs:element name="restaurante" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertarPromocionResponse">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="getPromedioCalificaciones">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getPromedioCalificacionesResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:float" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="agregarACarrito">
+<xs:sequence>
+<xs:element name="arg0" type="tns:dataProdPedido" minOccurs="0" />
+<xs:element name="arg1" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataProdPedido">
+<xs:sequence>
+<xs:element name="cantidad" type="xs:int" />
+<xs:element name="producto" type="tns:dataProducto" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="agregarACarritoResponse">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="pedidoGetProdPedidos">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="pedidoGetProdPedidosResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="buscarCliente">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="buscarClienteResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:dataCliente" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataCliente">
+<xs:sequence>
+<xs:element name="apellido" type="xs:string" minOccurs="0" />
+<xs:element name="direccion" type="xs:string" minOccurs="0" />
+<xs:element name="email" type="xs:string" minOccurs="0" />
+<xs:element name="fechaNac" type="tns:fecha" minOccurs="0" />
+<xs:element name="imagen" type="xs:string" minOccurs="0" />
+<xs:element name="nickname" type="xs:string" minOccurs="0" />
+<xs:element name="nombre" type="xs:string" minOccurs="0" />
+<xs:element name="pwd" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="fecha">
+<xs:sequence>
+<xs:element name="agno" type="xs:int" />
+<xs:element name="dia" type="xs:int" />
+<xs:element name="mes" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="promocionGetProdPromo">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="promocionGetProdPromoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getDataRestaurantes">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="getDataRestaurantesResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="BuscarDataXRestaurante_Producto">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="BuscarDataXRestaurante_ProductoResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:dataProducto" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="consultarCategorias">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="consultarCategoriasResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertarRestaurante">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+<xs:element name="arg1" type="xs:string" minOccurs="0" />
+<xs:element name="arg2" type="xs:string" minOccurs="0" />
+<xs:element name="arg3" type="xs:string" minOccurs="0" />
+<xs:element name="arg4" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+<xs:element name="arg5" type="xs:int" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+<xs:element name="arg6" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertarRestauranteResponse">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="getDataPromociones">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="getDataPromocionesResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getDataIndividuales">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="getDataIndividualesResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retornarCambiosEstado">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="retornarCambiosEstadoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getDataPedidosTodos">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="getDataPedidosTodosResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="quitarLineaPedido">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int" />
+<xs:element name="arg1" type="xs:string" minOccurs="0" />
+<xs:element name="arg2" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="quitarLineaPedidoResponse">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="clienteGetPedidos">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="clienteGetPedidosResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertarPedido">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+<xs:element name="arg1" type="xs:string" minOccurs="0" />
+<xs:element name="arg2" type="xs:string" minOccurs="0" />
+<xs:element name="arg3" type="tns:estado" minOccurs="0" />
+<xs:element name="arg4" type="xs:string" minOccurs="0" />
+<xs:element name="arg5" type="xs:string" minOccurs="0" />
+<xs:element name="arg6" type="tns:dataProdPedido" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertarPedidoResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenerCalificacionPedido">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenerCalificacionPedidoResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:dataCalificacion" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="dataCalificacion">
+<xs:sequence>
+<xs:element name="comentario" type="xs:string" minOccurs="0" />
+<xs:element name="puntaje" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="getInfoPedidos">
+<xs:sequence />
+</xs:complexType>
+
+<xs:complexType name="getInfoPedidosResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="buscarDataIndividual">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+<xs:element name="arg1" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="buscarDataIndividualResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:dataIndividual" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="buscarProductos">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="buscarProductosResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="consultarRestaurantesPorCategoria">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="consultarRestaurantesPorCategoriaResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
+</xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="cambiarEstadoPedido">
@@ -240,6 +559,7 @@
 <xs:element name="arg6" type="xs:string" minOccurs="0" />
 <xs:element name="arg7" type="xs:string" minOccurs="0" />
 <xs:element name="arg8" type="xs:string" minOccurs="0" />
+<xs:element name="arg9" type="xs:string" minOccurs="0" />
 </xs:sequence>
 </xs:complexType>
 
@@ -284,16 +604,6 @@
 </xs:complexContent>
 </xs:complexType>
 
-<xs:complexType name="dataProducto">
-<xs:sequence>
-<xs:element name="descripcion" type="xs:string" minOccurs="0" />
-<xs:element name="imagen" type="xs:string" minOccurs="0" />
-<xs:element name="nombre" type="xs:string" minOccurs="0" />
-<xs:element name="precio" type="xs:float" />
-<xs:element name="restaurante" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="nickOcupado">
 <xs:sequence>
 <xs:element name="arg0" type="xs:string" minOccurs="0" />
@@ -330,73 +640,21 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="dataCalificacion">
-<xs:sequence>
-<xs:element name="comentario" type="xs:string" minOccurs="0" />
-<xs:element name="puntaje" type="xs:int" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="fecha">
-<xs:sequence>
-<xs:element name="agno" type="xs:int" />
-<xs:element name="dia" type="xs:int" />
-<xs:element name="mes" type="xs:int" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="insertarPromocion">
-<xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0" />
-<xs:element name="arg1" type="xs:string" minOccurs="0" />
-<xs:element name="arg2" type="xs:string" minOccurs="0" />
-<xs:element name="arg3" type="xs:boolean" />
-<xs:element name="arg4" type="xs:float" />
-<xs:element name="arg5" type="xs:string" minOccurs="0" />
-<xs:element name="arg6" type="tns:dataIndividual" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="dataIndividual">
-<xs:complexContent>
-<xs:extension base="tns:dataProducto">
-<xs:sequence />
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-
-<xs:complexType name="insertarPromocionResponse">
+<xs:complexType name="dhp">
 <xs:sequence />
 </xs:complexType>
 
-<xs:complexType name="getPromedioCalificaciones">
+<xs:complexType name="dhpResponse">
 <xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0" />
+<xs:element name="return" type="tns:dataHistorialPedido" minOccurs="0" />
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getPromedioCalificacionesResponse">
+<xs:complexType name="dataHistorialPedido">
 <xs:sequence>
-<xs:element name="return" type="xs:float" />
+<xs:element name="estado" type="xs:int" />
+<xs:element name="fechaHora" type="xs:string" minOccurs="0" />
 </xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="agregarACarrito">
-<xs:sequence>
-<xs:element name="arg0" type="tns:dataProdPedido" minOccurs="0" />
-<xs:element name="arg1" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="dataProdPedido">
-<xs:sequence>
-<xs:element name="cantidad" type="xs:int" />
-<xs:element name="producto" type="tns:dataProducto" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="agregarACarritoResponse">
-<xs:sequence />
 </xs:complexType>
 
 <xs:complexType name="buscarProductosI">
@@ -425,18 +683,6 @@
 <xs:sequence>
 <xs:element name="cantidad" type="xs:int" />
 <xs:element name="individual" type="tns:dataIndividual" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="pedidoGetProdPedidos">
-<xs:sequence>
-<xs:element name="arg0" type="xs:int" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="pedidoGetProdPedidosResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
 </xs:sequence>
 </xs:complexType>
 
@@ -484,53 +730,6 @@
 <xs:sequence />
 </xs:complexType>
 
-<xs:complexType name="promocionGetProdPromo">
-<xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="promocionGetProdPromoResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="buscarCliente">
-<xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="buscarClienteResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:dataCliente" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="dataCliente">
-<xs:sequence>
-<xs:element name="apellido" type="xs:string" minOccurs="0" />
-<xs:element name="direccion" type="xs:string" minOccurs="0" />
-<xs:element name="email" type="xs:string" minOccurs="0" />
-<xs:element name="fechaNac" type="tns:fecha" minOccurs="0" />
-<xs:element name="imagen" type="xs:string" minOccurs="0" />
-<xs:element name="nickname" type="xs:string" minOccurs="0" />
-<xs:element name="nombre" type="xs:string" minOccurs="0" />
-<xs:element name="pwd" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="getDataRestaurantes">
-<xs:sequence />
-</xs:complexType>
-
-<xs:complexType name="getDataRestaurantesResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="buscarProductosP">
 <xs:sequence>
 <xs:element name="arg0" type="xs:string" minOccurs="0" />
@@ -538,54 +737,6 @@
 </xs:complexType>
 
 <xs:complexType name="buscarProductosPResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="consultarCategorias">
-<xs:sequence />
-</xs:complexType>
-
-<xs:complexType name="consultarCategoriasResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="BuscarDataXRestaurante_Producto">
-<xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="BuscarDataXRestaurante_ProductoResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:dataProducto" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="insertarRestaurante">
-<xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0" />
-<xs:element name="arg1" type="xs:string" minOccurs="0" />
-<xs:element name="arg2" type="xs:string" minOccurs="0" />
-<xs:element name="arg3" type="xs:string" minOccurs="0" />
-<xs:element name="arg4" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-<xs:element name="arg5" type="xs:int" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-<xs:element name="arg6" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="insertarRestauranteResponse">
-<xs:sequence />
-</xs:complexType>
-
-<xs:complexType name="getDataPromociones">
-<xs:sequence />
-</xs:complexType>
-
-<xs:complexType name="getDataPromocionesResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
 </xs:sequence>
@@ -615,28 +766,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getDataIndividuales">
-<xs:sequence />
-</xs:complexType>
-
-<xs:complexType name="getDataIndividualesResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="retornarCambiosEstado">
-<xs:sequence>
-<xs:element name="arg0" type="xs:int" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="retornarCambiosEstadoResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="buscarClientePorEmail">
 <xs:sequence>
 <xs:element name="arg0" type="xs:string" minOccurs="0" />
@@ -647,16 +776,6 @@
 <xs:sequence>
 <xs:element name="return" type="tns:dataCliente" minOccurs="0" />
 </xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="insertarCategoria">
-<xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="insertarCategoriaResponse">
-<xs:sequence />
 </xs:complexType>
 
 <xs:complexType name="calificarPedido">
@@ -671,14 +790,14 @@
 <xs:sequence />
 </xs:complexType>
 
-<xs:complexType name="getDataPedidosTodos">
-<xs:sequence />
+<xs:complexType name="insertarCategoria">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0" />
+</xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="getDataPedidosTodosResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
+<xs:complexType name="insertarCategoriaResponse">
+<xs:sequence />
 </xs:complexType>
 
 <xs:complexType name="getDataClientes">
@@ -689,18 +808,6 @@
 <xs:sequence>
 <xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
 </xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="quitarLineaPedido">
-<xs:sequence>
-<xs:element name="arg0" type="xs:int" />
-<xs:element name="arg1" type="xs:string" minOccurs="0" />
-<xs:element name="arg2" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="quitarLineaPedidoResponse">
-<xs:sequence />
 </xs:complexType>
 
 <xs:complexType name="retornarCategoriasRestaurantes">
@@ -739,24 +846,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="insertarPedido">
-<xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0" />
-<xs:element name="arg1" type="xs:string" minOccurs="0" />
-<xs:element name="arg2" type="xs:string" minOccurs="0" />
-<xs:element name="arg3" type="tns:estado" minOccurs="0" />
-<xs:element name="arg4" type="xs:string" minOccurs="0" />
-<xs:element name="arg5" type="xs:string" minOccurs="0" />
-<xs:element name="arg6" type="tns:dataProdPedido" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="insertarPedidoResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:int" />
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="filtrarRestaurantes">
 <xs:sequence>
 <xs:element name="arg0" type="xs:string" minOccurs="0" />
@@ -766,18 +855,6 @@
 <xs:complexType name="filtrarRestaurantesResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="obtenerCalificacionPedido">
-<xs:sequence>
-<xs:element name="arg0" type="xs:int" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="obtenerCalificacionPedidoResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:dataCalificacion" minOccurs="0" />
 </xs:sequence>
 </xs:complexType>
 
@@ -806,19 +883,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="buscarDataIndividual">
-<xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0" />
-<xs:element name="arg1" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="buscarDataIndividualResponse">
-<xs:sequence>
-<xs:element name="return" type="tns:dataIndividual" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="getDataPedidos">
 <xs:sequence>
 <xs:element name="arg0" type="xs:string" minOccurs="0" />
@@ -826,18 +890,6 @@
 </xs:complexType>
 
 <xs:complexType name="getDataPedidosResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="restauranteGetIndividuales">
-<xs:sequence>
-<xs:element name="arg0" type="xs:string" minOccurs="0" />
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="restauranteGetIndividualesResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
 </xs:sequence>
@@ -855,13 +907,13 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="buscarProductos">
+<xs:complexType name="restauranteGetIndividuales">
 <xs:sequence>
 <xs:element name="arg0" type="xs:string" minOccurs="0" />
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="buscarProductosResponse">
+<xs:complexType name="restauranteGetIndividualesResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded" />
 </xs:sequence>

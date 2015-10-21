@@ -7,9 +7,6 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -64,7 +61,7 @@ public class registro extends HttpServlet {
             String[] temp;
             temp = fecha.split(separador); // reparo la fecha en 3
             try {
-                port.insertarCliente(nick, email, direccion, nombre, apellido, temp[0], temp[1].toLowerCase(), temp[2], pwd);
+                port.insertarCliente(nick, email, direccion, nombre, apellido, temp[0], temp[1].toLowerCase(), temp[2],"NO", pwd);
                 session.setAttribute("nick", nick);
                 session.setAttribute("nombre", nombre);
                 session.setAttribute("apellido", apellido);
