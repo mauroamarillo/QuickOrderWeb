@@ -60,9 +60,8 @@ public class cambiarDatosCliente extends HttpServlet {
             String imagen = "NO";
             if (cambioImagen.equals("1")) {
                 imagen = request.getParameter("img");
-               // out.print("<img src='" + imagen + "' width='190px' height='190px' >");
+               //out.print("<img src='" + imagen + "' width='190px' height='190px' >");
             }
-
             port.modificarCliente(nick, nombre, email, direccion, apellido, imagen, passwd);
             out.print("<p>Cambios Aplicados</p>");
             session.removeAttribute("nombre");

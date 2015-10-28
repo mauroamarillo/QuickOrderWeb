@@ -41,10 +41,6 @@
         <servlet-class>servlets.cancelarPedido</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>guardarImgTemporal</servlet-name>
-        <servlet-class>servlets.guardarImgTemporal</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>cambiarDatosCliente</servlet-name>
         <servlet-class>servlets.cambiarDatosCliente</servlet-class>
     </servlet>
@@ -95,10 +91,6 @@
     <servlet-mapping>
         <servlet-name>cancelarPedido</servlet-name>
         <url-pattern>/cancelarPedido</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>guardarImgTemporal</servlet-name>
-        <url-pattern>/guardarImgTemporal</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>cambiarDatosCliente</servlet-name>

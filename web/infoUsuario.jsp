@@ -244,10 +244,7 @@
             var reader = new FileReader();
             reader.onload = (function () {
                 return function (e) {
-                    $('#imagenPerfilNueva').attr('src', e.target.result);
-                    $.post("guardarImgTemporal",
-                            {img: e.target.result}
-                    );
+                    $('#imagenPerfilNueva').attr('src', e.target.result);                    
                     $('#cambioImagen').attr('value', '1');
                 };
             })(f);
@@ -278,6 +275,9 @@
                 success: function (data) {
                     mostrarRespuesta(data, true);
                     $("#frameContainer").load("infoUsuario.jsp");
+                },
+                error: function(data){
+                    mostrarRespuesta(data, false);
                 }
             });
         });
