@@ -66,18 +66,7 @@
 </head>
 <!--<embed src="borrar/mp3.mp3" width="240" height="160" style=" visibility: hidden; position: absolute;" /> -->
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <%
-            for (int x = 0; x < port.getDataRestaurantes().size(); x++) {
-                if (x == 0) {
-                    out.print("<li data-target=\"#myCarousel\" data-slide-to=\"" + x + "\" class=\"active\"></li>");
-                } else {
-                    out.print("<li data-target=\"#myCarousel\" data-slide-to=\"" + x + "\"></li>");
-                }
-            }
-        %>
-    </ol>
+   
     <div class="carousel-inner" role="listbox">
         <%
             Iterator it = port.getDataRestaurantes().iterator();
@@ -86,21 +75,23 @@
                 Object entry = (Object) it.next();
                 DataRestaurante DR = (DataRestaurante) entry;
                 List<Object> aux = port.restauranteGetIndividuales(DR.getNickname());
-                Random r = new Random();
-                int seleccionado = r.nextInt(aux.size());
-                DataIndividual DI = ((DataIndividual) aux.get(seleccionado));
-                out.print("<div class=\"item " + activo + "\">");
-                out.print(" <img class=\"" + DR.getNombre() + "-slide imagenCarrusel\" src=\"" + DI.getImagen() + "\" alt=\"" + DR.getNombre() + "\"/>");
-                out.print("<div class=\"container\">");
-                out.print("<div class=\"carousel-caption\">");
-                out.print("<h1><b>" + DR.getNombre() + "</b></h1>");
-                out.print("<h1>" + DI.getNombre() + "</h1>");
-                out.print("<p>" + DI.getDescripcion() + "</p>");
-                out.print(" <p><a class=\"btn btn-lg btn-primary\" href=\"#\" onclick=\"cargarResaurante('" + DR.getNickname() + "');return false;\" role=\"button\">Visitar Restaurante</a></p>");
-                out.print("</div>");
-                out.print("</div>");
-                out.print("</div>");
-                activo = "";
+                if (aux.size() > 0) {
+                    Random r = new Random();
+                    int seleccionado = r.nextInt(aux.size());
+                    DataIndividual DI = ((DataIndividual) aux.get(seleccionado));
+                    out.print("<div class=\"item " + activo + "\">");
+                    out.print(" <img class=\"" + DR.getNombre() + "-slide imagenCarrusel\" src=\"" + DI.getImagen() + "\" alt=\"" + DR.getNombre() + "\"/>");
+                    out.print("<div class=\"container\">");
+                    out.print("<div class=\"carousel-caption\">");
+                    out.print("<h1><b>" + DR.getNombre() + "</b></h1>");
+                    out.print("<h1>" + DI.getNombre() + "</h1>");
+                    out.print("<p>" + DI.getDescripcion() + "</p>");
+                    out.print(" <p><a class=\"btn btn-lg btn-primary\" href=\"#\" onclick=\"cargarResaurante('" + DR.getNickname() + "');return false;\" role=\"button\">Visitar Restaurante</a></p>");
+                    out.print("</div>");
+                    out.print("</div>");
+                    out.print("</div>");
+                    activo = "";
+                }
             }
         %>
     </div>
