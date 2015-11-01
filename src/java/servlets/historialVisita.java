@@ -33,17 +33,28 @@ public class historialVisita extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        /*try {
-         InetAddress inetAddress = InetAddress.getLocalHost();
-         Estadistica E = new Estadistica();
-         String sistema = request.getParameter("sistema");
-         String navegador = request.getParameter("navegador");
-         String ip = request.getRemoteAddr();
-         String pagina = inetAddress.getHostAddress() + request.getParameter("pagina");
-         E.registrarVisita(ip, pagina, navegador, sistema);
-         } catch (SQLException | ClassNotFoundException ex) {
-         Logger.getLogger(historialVisita.class.getName()).log(Level.SEVERE, null, ex);
-         }*/
+        ClienteWS.WSQuickOrder_Service service = null;
+        String rutaWS = configuracion.configuracion.URLWS();
+        try {
+            if (rutaWS == null) {
+                service = new ClienteWS.WSQuickOrder_Service();
+            } else {
+                service = new ClienteWS.WSQuickOrder_Service(new java.net.URL(rutaWS));
+            }
+        } catch (javax.xml.ws.WebServiceException e) {
+
+            response.getOutputStream().print("<link href =\"css/estilos.css\" rel=\"stylesheet\" />"
+                    + "<div class=\"Exception\"> " + e.getMessage() + "</div>");
+            return;
+        }
+        ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
+
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        String sistema = request.getParameter("sistema");
+        String navegador = request.getParameter("navegador");
+        String ip = request.getRemoteAddr();
+        String pagina = inetAddress.getHostAddress() + request.getParameter("pagina");
+        port.registroVisitas(ip, pagina, navegador, sistema);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

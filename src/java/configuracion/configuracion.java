@@ -20,8 +20,8 @@ import java.util.logging.Logger;
  */
 public abstract class configuracion {
 
-    private final static String CARPETA = System.getProperty("user.home") + "\\QuickOrderWeb\\";
-    private final static String ARCHIVO = "propiedades.properties";
+    private final static String CARPETA = System.getProperty("user.home") + "\\QuickOrder\\";
+    private final static String ARCHIVO = "QuickOrderWeb.properties";
     private final static String RUTA = CARPETA + ARCHIVO;
 
     private static boolean existe() {
