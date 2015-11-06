@@ -62,7 +62,8 @@ public class confirmarTodo extends HttpServlet {
             List<Object> aConfirmar = port.getPedidosCarrito(nick);
             for(Object Pedido: aConfirmar){
                 int numero = ((DataPedido) Pedido).getNumero();
-               port.cambiarEstadoPedido(numero, 0);
+               //port.cambiarEstadoPedido(numero, 0);
+                port.confirmarPedido(numero);
             }           
             out.println("<p>Todos Los Pedidos</p>");
             out.println("<p>Fueron Confirmados</p>");

@@ -52,9 +52,9 @@ public class confirmarPedido extends HttpServlet {
             }
             ClienteWS.WSQuickOrder port = service.getWSQuickOrderPort();
             /*aca termina*/
-            HttpSession session = request.getSession();
             int pedido = Integer.parseInt((String) request.getParameter("p"));
-            port.cambiarEstadoPedido(pedido, 0);
+            //port.cambiarEstadoPedido(pedido, 0);
+            port.confirmarPedido(pedido);
             out.println("<p>Pedido Confirmado</p>");
         }
     }
